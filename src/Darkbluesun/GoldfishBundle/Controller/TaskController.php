@@ -36,6 +36,24 @@ class TaskController extends Controller
             'entities' => $entities,
         );
     }
+
+    /**
+     * Lists all Task entities.
+     *
+     * @Route("/", name="tasks")
+     * @Method("GET")
+     * @Template()
+     */
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Task')->findAll();
+
+        return array(
+            'entities' => $entities,
+        );
+    }
     /**
      * Creates a new Task entity.
      *

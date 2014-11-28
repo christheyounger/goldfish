@@ -16,5 +16,8 @@
     <li>{{ form(delete_form) }}</li>
 </ul>
 </div>
+<div class="col-md-8">
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:list',{'limit':3}))}}
+</div>
 </div>
 {% endblock %}
