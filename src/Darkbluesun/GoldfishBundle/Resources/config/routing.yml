@@ -1,0 +1,7 @@
+goldfish_homepage:
+    path:     /
+    defaults: { _controller: DarkbluesunGoldfishBundle:Default:index }
+
+_goldfish_projects:
+    resource: "@DarkbluesunGoldfishBundle/Controller/ProjectController.php"
+    type:     annotation

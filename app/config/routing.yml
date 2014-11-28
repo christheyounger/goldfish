@@ -1,0 +1,3 @@
+darkbluesun_goldfish:
+    resource: "@DarkbluesunGoldfishBundle/Resources/config/routing.yml"
+    prefix:   /
