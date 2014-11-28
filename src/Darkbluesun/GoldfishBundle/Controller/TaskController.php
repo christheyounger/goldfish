@@ -40,7 +40,7 @@ class TaskController extends Controller
     /**
      * Lists all Task entities.
      *
-     * @Route("/", name="tasks")
+     * @Route("/list", name="tasks_list")
      * @Method("GET")
      * @Template()
      */

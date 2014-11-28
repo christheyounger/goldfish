@@ -39,7 +39,7 @@ class ProjectController extends Controller
     /**
      * Lists all Project entities.
      *
-     * @Route("/list", name="project")
+     * @Route("/list", name="project_list")
      * @Method("GET")
      * @Template()
      */
