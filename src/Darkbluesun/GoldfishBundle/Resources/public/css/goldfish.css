@@ -1,0 +1,6 @@
+  body { margin-top: 50px;}
+	/** Lists */
+    table.records_list tbody tr { cursor: pointer; }
+    /** Edit forms **/
+  form.edit input { border: none; background: none; }
+  form.edit input.form-control { background: #FFF }
