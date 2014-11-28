@@ -1,9 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
     <h1>Client list</h1>
 
-    <table class="records_list">
+    <table class="records_list table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -12,8 +12,6 @@
                 <th>Phone</th>
                 <th>Email</th>
                 <th>Contactname</th>
-                <th>Address</th>
-                <th>Description</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,15 +24,10 @@
                 <td>{{ entity.phone }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.contactName }}</td>
-                <td>{{ entity.address }}</td>
-                <td>{{ entity.description }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('clients_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('clients_edit', { 'id': entity.id }) }}">edit</a>
+                        <a class="edit" href="{{ path('clients_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>

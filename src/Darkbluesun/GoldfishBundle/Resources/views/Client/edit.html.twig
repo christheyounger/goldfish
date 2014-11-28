@@ -1,9 +1,13 @@
-{% extends '::base.html.twig' %}
+{% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
+<div class="row">
+<div class="col-md-4">
+<div class="page-header">
     <h1>Client edit</h1>
+    </div>
 
-    {{ form(edit_form) }}
+    {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
 
         <ul class="record_actions">
     <li>
@@ -13,4 +17,6 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+</div>
+</div>
 {% endblock %}

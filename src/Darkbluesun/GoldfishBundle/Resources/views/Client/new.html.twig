@@ -1,9 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
     <h1>Client creation</h1>
 
-    {{ form(form) }}
+    {{ form(edit_form,{'attr':{'class':'table table-striped'}}) }}
 
         <ul class="record_actions">
     <li>
