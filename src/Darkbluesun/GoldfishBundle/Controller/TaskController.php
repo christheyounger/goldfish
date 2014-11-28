@@ -72,7 +72,7 @@ class TaskController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tasks_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tasks_edit', array('id' => $entity->getId())));
         }
 
         return array(
@@ -119,34 +119,9 @@ class TaskController extends Controller
     }
 
     /**
-     * Finds and displays a Task entity.
-     *
-     * @Route("/{id}", name="tasks_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Displays a form to edit an existing Task entity.
      *
-     * @Route("/{id}/edit", name="tasks_edit")
+     * @Route("/{id}", name="tasks_edit")
      * @Method("GET")
      * @Template()
      */

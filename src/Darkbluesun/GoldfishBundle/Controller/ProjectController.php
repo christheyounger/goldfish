@@ -71,7 +71,7 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('project_edit', array('id' => $entity->getId())));
         }
 
         return array(
@@ -118,34 +118,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds and displays a Project entity.
-     *
-     * @Route("/{id}", name="project_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
      * Displays a form to edit an existing Project entity.
      *
-     * @Route("/{id}/edit", name="project_edit")
+     * @Route("/{id}", name="project_edit")
      * @Method("GET")
      * @Template()
      */

@@ -54,7 +54,7 @@ class ClientController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('clients_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('clients_edit', array('id' => $entity->getId())));
         }
 
         return array(
@@ -100,35 +100,11 @@ class ClientController extends Controller
         );
     }
 
-    /**
-     * Finds and displays a Client entity.
-     *
-     * @Route("/{id}", name="clients_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Client entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
 
     /**
      * Displays a form to edit an existing Client entity.
      *
-     * @Route("/{id}/edit", name="clients_edit")
+     * @Route("/{id}", name="clients_edit")
      * @Method("GET")
      * @Template()
      */

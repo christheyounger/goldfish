@@ -7,30 +7,21 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Companyname</th>
+                <th>Company name</th>
                 <th>Website</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Contactname</th>
-                <th>Actions</th>
-            </tr>
+                <th>Contact name</th>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('clients_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a class='edit' href="{{ path('clients_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.companyName }}</td>
                 <td>{{ entity.website }}</td>
                 <td>{{ entity.phone }}</td>
                 <td>{{ entity.email }}</td>
                 <td>{{ entity.contactName }}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a class="edit" href="{{ path('clients_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
             </tr>
         {% endfor %}
         </tbody>
