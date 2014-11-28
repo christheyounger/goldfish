@@ -113,7 +113,7 @@ class ProjectController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'edit_form'   => $form->createView(),
         );
     }
 
