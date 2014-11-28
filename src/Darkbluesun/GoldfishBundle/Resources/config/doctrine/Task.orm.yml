@@ -1,0 +1,19 @@
+Darkbluesun\GoldfishBundle\Entity\Task:
+    type: entity
+    table: null
+    repositoryClass: Darkbluesun\GoldfishBundle\Entity\TaskRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        due:
+            type: datetime
+        description:
+            type: text
+    lifecycleCallbacks: {  }

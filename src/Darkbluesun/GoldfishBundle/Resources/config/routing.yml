@@ -5,3 +5,6 @@ goldfish_homepage:
 _goldfish_projects:
     resource: "@DarkbluesunGoldfishBundle/Controller/ProjectController.php"
     type:     annotation
+_goldfish_tasks:
+    resource: "@DarkbluesunGoldfishBundle/Controller/TaskController.php"
+    type:     annotation
