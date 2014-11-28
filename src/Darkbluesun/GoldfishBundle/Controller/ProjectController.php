@@ -37,6 +37,23 @@ class ProjectController extends Controller
         );
     }
     /**
+     * Lists all Project entities.
+     *
+     * @Route("/list", name="project")
+     * @Method("GET")
+     * @Template()
+     */
+    public function listAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Project')->findAll();
+
+        return array(
+            'entities' => $entities,
+        );
+    }
+    /**
      * Creates a new Project entity.
      *
      * @Route("/", name="project_create")
