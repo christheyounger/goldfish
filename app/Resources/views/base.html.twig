@@ -13,7 +13,8 @@
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
-    <body>
+    <body role="document">
+        {% block nav %}{% endblock %}
         <div class="container" role="main">
         {% block body %}{% endblock %}
         </div>
@@ -23,6 +24,9 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+        <!-- hinclude used for asynchronous modules -->
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/hinclude/0.9.5/hinclude.min.js"></script>
         
         {% block javascripts %}{% endblock %}
     </body>

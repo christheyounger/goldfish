@@ -1,7 +1,9 @@
-{% extends '::base.html.twig' %}
+{% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Project list</h1>
+    <div class="page-header">
+        <h1>Project list</h1>
+    </div>
 
     <table class="table table-striped records_list">
         <thead>
@@ -23,10 +25,7 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('project_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a>
+                        <a class='edit' href="{{ path('project_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
