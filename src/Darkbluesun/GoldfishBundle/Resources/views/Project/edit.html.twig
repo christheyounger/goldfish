@@ -1,10 +1,12 @@
 {% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
+<div class="row">
+<div class="col-md-4">
+<div class="page-header">
     <h1>Project edit</h1>
-
-    {{ form(edit_form,{'attr':{'class':'edit'}}) }}
-
+    </div>
+    {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
         <ul class="record_actions">
     <li>
         <a href="{{ path('project') }}">
@@ -13,4 +15,6 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+</div>
+</div>
 {% endblock %}
