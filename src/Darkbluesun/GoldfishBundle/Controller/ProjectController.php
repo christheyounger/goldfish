@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -165,8 +166,6 @@ class ProjectController extends Controller
             'method' => 'PUT',
         ));
 
-        //$form->add('submit', 'submit', array('label' => 'Update'));
-
         return $form;
     }
     /**
@@ -174,7 +173,6 @@ class ProjectController extends Controller
      *
      * @Route("/{id}", name="project_update")
      * @Method("PUT")
-     * @Template("DarkbluesunGoldfishBundle:Project:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -192,15 +190,11 @@ class ProjectController extends Controller
 
         if ($editForm->isValid()) {
             $em->flush();
-
+            return new JsonResponse(['success'=>true]);
             return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
         }
 
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        return new JsonResponse(['success'=>false]);
     }
     /**
      * Deletes a Project entity.

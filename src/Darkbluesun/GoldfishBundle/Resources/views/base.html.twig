@@ -37,22 +37,51 @@
 
 {% block stylesheets %}
 <style type="text/css">
-	form input { border: none; }
+	/** Lists */
     table.records_list tbody tr { cursor: pointer; }
+    /** Edit forms **/
+	form.edit input { border: none; }
 </style>
 {% endblock %}
 
 {% block javascripts %}
 <script type="text/javascript">
 	$(function() {
+		/**
+		 * Lists
+		 */
+		
+		/** Click on a row to edit it **/
         $('table.records_list tbody tr').click(function() {
             window.location.href = $(this).find('a.edit').attr('href');
-        })
-		$('form input').focus(function() {
+        });
+
+        /**
+         * Edit Forms
+         */ 
+		// Style an input when focused
+		$('form.edit input').focus(function() {
 			$(this).addClass('form-control');
 		}).blur(function() {
 			$(this).removeClass('form-control');
+			// Save the form data
+			saveForm($(this.form));
 		});
+
 	});
+
+	function saveForm(form) {
+		$.ajax({
+			type: form.attr('method'),
+			url: form.attr('action'),
+			data: form.serialize(),
+			datatype: 'json',
+			success: saveSuccess
+		});
+	}
+
+	function saveSuccess(data) {
+		console.log(data);
+	}
 </script>
 {% endblock %}
