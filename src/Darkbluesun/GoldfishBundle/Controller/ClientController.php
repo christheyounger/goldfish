@@ -149,6 +149,26 @@ class ClientController extends Controller
     }
 
     /**
+     * Lists all Comments belonging to this thing.
+     *
+     * @Route("/{id}/comments", name="client_comment_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function commentsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
+
+        $comments = $client->getComments();
+
+        return array(
+            'comments' => $comments,
+        );
+    }
+
+    /**
      * Lists all Tasks belonging to this thing.
      *
      * @Route("/{id}/tasks", name="client_task_list")

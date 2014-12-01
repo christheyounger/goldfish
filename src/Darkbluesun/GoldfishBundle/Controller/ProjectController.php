@@ -165,6 +165,26 @@ class ProjectController extends Controller
     }
 
     /**
+     * Lists all Comments belonging to this thing.
+     *
+     * @Route("/{id}/comments", name="project_comments_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function commentsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $project = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($id);
+
+        $comments = $project->getComments();
+
+        return array(
+            'comments' => $comments,
+        );
+    }
+
+    /**
     * Creates a form to edit a Project entity.
     *
     * @param Project $entity The entity

@@ -5,7 +5,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity */
-class ProjectComment extends ClientComment
+class ProjectComment extends Comment
 {
     /**
      * @var string

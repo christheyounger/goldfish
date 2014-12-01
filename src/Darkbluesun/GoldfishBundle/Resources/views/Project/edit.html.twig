@@ -2,10 +2,14 @@
 
 {% block body -%}
 <div class="row">
-<div class="col-md-4">
+<div class='col-md-4'>
 <div class="page-header">
-    <h1>Project edit</h1>
+    <h2>Activity</h2>
     </div>
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}))}}
+</div>
+<div class="col-md-4">
+<p></p>
     {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
         <ul class="record_actions">
     <li>
@@ -16,7 +20,7 @@
     <li>{{ form(delete_form) }}</li>
 </ul>
 </div>
-<div class="col-md-8">
+<div class="col-md-4">
 <div class="page-header">
 <h2>Tasks</h2>
 </div>

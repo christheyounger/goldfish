@@ -1,7 +1,15 @@
 {% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Task edit</h1>
+<div class='row'>
+<div class='col-md-4'>
+<div class="page-header">
+    <h2>Activity</h2>
+    </div>
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:comments',{'id':entity.id,'limit':3}))}}
+</div>
+<div class="col-md-4">
+<p></p>
 
     {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
 
@@ -13,4 +21,6 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+</div>
+</div>
 {% endblock %}

@@ -146,6 +146,26 @@ class TaskController extends Controller
     }
 
     /**
+     * Lists all Comments belonging to this thing.
+     *
+     * @Route("/{id}/comments", name="task_comment_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function commentsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $task = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
+
+        $comments = $task->getComments();
+
+        return array(
+            'comments' => $comments,
+        );
+    }
+
+    /**
     * Creates a form to edit a Task entity.
     *
     * @param Task $entity The entity

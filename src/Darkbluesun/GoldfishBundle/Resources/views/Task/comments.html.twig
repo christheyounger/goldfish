@@ -1,0 +1,16 @@
+    <table class="table table-striped records_list">
+        <thead>
+            <tr>
+                <th>Comment</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.text }}</td>
+                <td>{{ comment.datetime.format('d/m/y h:i:s') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
