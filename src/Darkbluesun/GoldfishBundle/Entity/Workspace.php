@@ -58,6 +58,13 @@ class Workspace
     protected $tasks;
 
     /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="workspace")
+     */
+    protected $comments;
+
+    /**
      * Constructor function. Needed to initialise arrays of child objects
      */
     public function __construct()
@@ -65,6 +72,7 @@ class Workspace
         $this->clients = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**

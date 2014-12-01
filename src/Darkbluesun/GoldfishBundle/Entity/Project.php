@@ -67,11 +67,19 @@ class Project
     protected $tasks;
 
     /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="ProjectComment", mappedBy="project")
+     */
+    protected $comments;
+
+    /**
      * Constructor function. Needed to initialise arrays of child objects
      */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -230,5 +238,38 @@ class Project
     public function getTasks()
     {
         return $this->tasks;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments
+     * @return Project
+     */
+    public function addComment(\Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments
+     */
+    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

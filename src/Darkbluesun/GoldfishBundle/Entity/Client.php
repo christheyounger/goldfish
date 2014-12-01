@@ -96,12 +96,20 @@ class Client
     protected $tasks;
 
     /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client")
+     */
+    protected $comments;
+
+    /**
      * Constructor function. Needed to initialise arrays of child objects
      */
     public function __construct()
     {
         $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -367,5 +375,38 @@ class Client
         $criteria = Criteria::create()
             ->where(Criteria::expr()->eq('project', NULL));
         return $this->tasks->matching($criteria);
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\ClientComment $comments
+     * @return Client
+     */
+    public function addComment(\Darkbluesun\GoldfishBundle\Entity\ClientComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\ClientComment $comments
+     */
+    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\ClientComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

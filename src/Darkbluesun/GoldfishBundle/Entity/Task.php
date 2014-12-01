@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Task
@@ -65,6 +66,21 @@ class Task
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id")
      */
     protected $project;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task")
+     */
+    protected $comments;
+
+    /**
+     * Constructor function. Needed to initialise arrays of child objects
+     */
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
 
     /**
@@ -213,5 +229,38 @@ class Task
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TaskComment $comments
+     * @return Task
+     */
+    public function addComment(\Darkbluesun\GoldfishBundle\Entity\TaskComment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TaskComment $comments
+     */
+    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\TaskComment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
