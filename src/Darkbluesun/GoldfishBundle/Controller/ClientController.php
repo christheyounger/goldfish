@@ -149,6 +149,26 @@ class ClientController extends Controller
     }
 
     /**
+     * Lists all Tasks belonging to this thing.
+     *
+     * @Route("/{id}/tasks", name="client_task_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function tasksAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
+
+        $tasks = $client->getTasks();
+
+        return array(
+            'tasks' => $tasks,
+        );
+    }
+
+    /**
     * Creates a form to edit a Client entity.
     *
     * @param Client $entity The entity

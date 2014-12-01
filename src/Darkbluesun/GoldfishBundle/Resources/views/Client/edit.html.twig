@@ -23,6 +23,10 @@
     <h2>Projects</h2>
     </div>
 {{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:projects',{'id':entity.id,'limit':3}))}}
+<div class="page-header">
+    <h2>Tasks</h2>
+    </div>
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:tasks',{'id':entity.id,'limit':3}))}}
 </div>
 </div>
 {% endblock %}

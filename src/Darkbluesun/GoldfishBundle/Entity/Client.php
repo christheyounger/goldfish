@@ -3,6 +3,9 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Client
@@ -356,8 +359,13 @@ class Client
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getTasks()
+    public function getTasks($local=true)
     {
-        return $this->tasks;
+        if (!$local) return $this->tasks;
+
+        // Get only the tasks that aren't part of a project
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('project', NULL));
+        return $this->tasks->matching($criteria);
     }
 }
