@@ -11,14 +11,8 @@
 <div class="col-md-4">
 <p></p>
     {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('project') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {{ form(delete_form) }}
+
 </div>
 <div class="col-md-4">
 <div class="page-header">

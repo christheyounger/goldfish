@@ -13,14 +13,7 @@
 
     {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('tasks') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {{ form(delete_form) }}
 </div>
 </div>
 {% endblock %}
