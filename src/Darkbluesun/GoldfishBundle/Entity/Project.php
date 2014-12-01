@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Project
@@ -45,7 +46,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="project")
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="projects")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
@@ -53,7 +54,7 @@ class Project
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Client",inversedBy="project")
+     * @ORM\ManyToOne(targetEntity="Client",inversedBy="projects")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id")
      */
     protected $client;

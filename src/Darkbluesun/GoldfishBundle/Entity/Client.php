@@ -76,7 +76,7 @@ class Client
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="client")
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="clients")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;

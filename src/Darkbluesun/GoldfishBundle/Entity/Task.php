@@ -45,7 +45,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="task")
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="tasks")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
@@ -53,7 +53,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Client",inversedBy="task")
+     * @ORM\ManyToOne(targetEntity="Client",inversedBy="tasks")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id")
      */
     protected $client;
@@ -61,7 +61,7 @@ class Task
     /**
      * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Project",inversedBy="task")
+     * @ORM\ManyToOne(targetEntity="Project",inversedBy="tasks")
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id")
      */
     protected $project;
