@@ -22,7 +22,7 @@
 <div class="page-header">
     <h2>Projects</h2>
     </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:list',{'limit':3}))}}
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:projects',{'id':entity.id,'limit':3}))}}
 </div>
 </div>
 {% endblock %}

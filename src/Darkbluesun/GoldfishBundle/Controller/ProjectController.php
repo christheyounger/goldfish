@@ -145,6 +145,26 @@ class ProjectController extends Controller
     }
 
     /**
+     * Lists all Tasks belonging to this thing.
+     *
+     * @Route("/{id}/tasks", name="project_task_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function tasksAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $project = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($id);
+
+        $tasks = $project->getTasks();
+
+        return array(
+            'tasks' => $tasks,
+        );
+    }
+
+    /**
     * Creates a form to edit a Project entity.
     *
     * @param Project $entity The entity

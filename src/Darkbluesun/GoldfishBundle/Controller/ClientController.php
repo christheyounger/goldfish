@@ -129,6 +129,26 @@ class ClientController extends Controller
     }
 
     /**
+     * Lists all Projects belonging to this thing.
+     *
+     * @Route("/{id}/projects", name="client_project_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function projectsAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
+
+        $projects = $client->getProjects();
+
+        return array(
+            'projects' => $projects,
+        );
+    }
+
+    /**
     * Creates a form to edit a Client entity.
     *
     * @param Client $entity The entity
