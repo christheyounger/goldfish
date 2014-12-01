@@ -2,6 +2,16 @@ goldfish_homepage:
     path:     /
     defaults: { _controller: DarkbluesunGoldfishBundle:Default:index }
 
+goldfish_login:
+    path:     /login
+    defaults: { _controller: DarkbluesunGoldfishBundle:Default:login }
+
+login_check:
+    path:     /login_check
+
+logout:
+    path:     /logout
+    
 _goldfish_clients:
     resource: "@DarkbluesunGoldfishBundle/Controller/ClientController.php"
     type:     annotation

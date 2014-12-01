@@ -4,27 +4,7 @@
 {% endif %}
 {% set route = app.request.attributes.get('_route') %}
 {% block nav %}
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Goldfish</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li{% if route == 'home' %} class="active"{% endif %}><a href="#">Home</a></li>
-            <li{% if route == 'clients' %} class="active"{% endif %}><a href="{{ path('clients') }}">Clients</a></li>
-            <li{% if route == 'project' %} class="active"{% endif %}><a href="{{ path('project') }}">Projects</a></li>
-            <li{% if route == 'tasks' %} class="active"{% endif %}><a href="{{ path('tasks') }}">Tasks</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+{% include "DarkbluesunGoldfishBundle::nav.html.twig" %}
 {% endblock %}
 
 {% block stylesheets %}
