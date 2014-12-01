@@ -42,6 +42,14 @@ class Task
      */
     private $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="task")
+     * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     */
+    protected $workspace;
+
 
     /**
      * Get id

@@ -42,6 +42,14 @@ class Project
      */
     private $budget;
 
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="project")
+     * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     */
+    protected $workspace;
+
 
     /**
      * Get id

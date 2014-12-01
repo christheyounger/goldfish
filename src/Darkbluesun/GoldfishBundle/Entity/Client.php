@@ -70,6 +70,13 @@ class Client
      */
     private $description;
 
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="client")
+     * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     */
+    protected $workspace;
 
     /**
      * Get id
