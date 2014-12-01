@@ -79,6 +79,29 @@ class Client
     protected $workspace;
 
     /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
+     */
+    protected $projects;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="client")
+     */
+    protected $tasks;
+
+    /**
+     * Constructor function. Needed to initialise arrays of child objects
+     */
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -247,5 +270,94 @@ class Client
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set workspace
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @return Client
+     */
+    public function setWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace = null)
+    {
+        $this->workspace = $workspace;
+
+        return $this;
+    }
+
+    /**
+     * Get workspace
+     *
+     * @return \Darkbluesun\GoldfishBundle\Entity\Workspace 
+     */
+    public function getWorkspace()
+    {
+        return $this->workspace;
+    }
+
+    /**
+     * Add projects
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Project $projects
+     * @return Client
+     */
+    public function addProject(\Darkbluesun\GoldfishBundle\Entity\Project $projects)
+    {
+        $this->projects[] = $projects;
+
+        return $this;
+    }
+
+    /**
+     * Remove projects
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Project $projects
+     */
+    public function removeProject(\Darkbluesun\GoldfishBundle\Entity\Project $projects)
+    {
+        $this->projects->removeElement($projects);
+    }
+
+    /**
+     * Get projects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * Add tasks
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Task $tasks
+     * @return Client
+     */
+    public function addTask(\Darkbluesun\GoldfishBundle\Entity\Task $tasks)
+    {
+        $this->tasks[] = $tasks;
+
+        return $this;
+    }
+
+    /**
+     * Remove tasks
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Task $tasks
+     */
+    public function removeTask(\Darkbluesun\GoldfishBundle\Entity\Task $tasks)
+    {
+        $this->tasks->removeElement($tasks);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }

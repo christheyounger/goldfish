@@ -50,6 +50,22 @@ class Task
      */
     protected $workspace;
 
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Client",inversedBy="task")
+     * @ORM\JoinColumn(name="client_id",referencedColumnName="id")
+     */
+    protected $client;
+
+    /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="Project",inversedBy="task")
+     * @ORM\JoinColumn(name="project_id",referencedColumnName="id")
+     */
+    protected $project;
+
 
     /**
      * Get id
@@ -128,5 +144,74 @@ class Task
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set workspace
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @return Task
+     */
+    public function setWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace = null)
+    {
+        $this->workspace = $workspace;
+
+        return $this;
+    }
+
+    /**
+     * Get workspace
+     *
+     * @return \Darkbluesun\GoldfishBundle\Entity\Workspace 
+     */
+    public function getWorkspace()
+    {
+        return $this->workspace;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Client $client
+     * @return Task
+     */
+    public function setClient(\Darkbluesun\GoldfishBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \Darkbluesun\GoldfishBundle\Entity\Client 
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Project $project
+     * @return Task
+     */
+    public function setProject(\Darkbluesun\GoldfishBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Darkbluesun\GoldfishBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
     }
 }
