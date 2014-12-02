@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -43,9 +44,15 @@ class User implements UserInterface, \Serializable
      */
     private $isActive;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     */
+    private $roles;
+
     public function __construct()
     {
         $this->isActive = true;
+        $this->roles = new ArrayCollection();
     }
 
     /**
@@ -119,7 +126,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return $this->roles->toArray();
     }
 
     /**
@@ -201,5 +208,28 @@ class User implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Add roles
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Role $roles
+     * @return User
+     */
+    public function addRole(\Darkbluesun\GoldfishBundle\Entity\Role $roles)
+    {
+        $this->roles[] = $roles;
+
+        return $this;
+    }
+
+    /**
+     * Remove roles
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Role $roles
+     */
+    public function removeRole(\Darkbluesun\GoldfishBundle\Entity\Role $roles)
+    {
+        $this->roles->removeElement($roles);
     }
 }
