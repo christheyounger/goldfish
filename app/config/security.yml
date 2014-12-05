@@ -27,14 +27,17 @@ security:
             security: false
         # the login page has to be accessible for everybody
         login:
-            pattern:  ^/login$
+            pattern:  ^/app/(login|register|register/create)$
             security: false
 
         # secures part of the application
-        secured_area:
-            pattern:    ^/
-            form_login: ~
-            logout: ~
+        main:
+            pattern:    ^/app
+            form_login: 
+                login_path: /app/login
+                check_path: /app/login_check
+            logout:
+                path: /app/logout
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"

@@ -1,0 +1,73 @@
+{% extends "::base.html.twig" %}
+{% form_theme form 'DarkbluesunGoldfishBundle:Form:bootstrap_3_horizontal_layout.html.twig' %}
+{% block body %}
+<br><br>
+    <div class="container">
+		
+		{{form_start(form,{'attr':{'class':'form-register'}})}}
+		{{form_widget(form._token)}}
+        <h2 class="form-register-heading">New account</h2>
+        {{ form_errors(form) }}
+        <label for="inputEmail" class="sr-only">Email address</label>
+        {{ form_widget(form.user.email) }}
+        <label for="inputPassword" class="sr-only">Password</label>
+        {{ form_widget(form.user.plainPassword.password,{'attr':{'placeholder':'Password'}}) }}
+        <label for="inputPassword" class="sr-only">Repeat Password</label>
+        {{ form_widget(form.user.plainPassword.confirm,{'attr':{'placeholder':'Repeat Password'}}) }}
+        <div class="checkbox">
+          <label>
+            <input name="registration[terms]" type="checkbox" value="1" required> I accept the terms and conditions
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        </form>
+      <div id="login">
+        <a href="{{path('login')}}" class="btn btn-lg btn-primary btn-block">Sign in</a>
+      </div>
+{% endblock %}
+{% block stylesheets %}
+{{parent()}}
+<style>
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-register, .error, #login {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-register .form-register-heading,
+.form-register .checkbox {
+  margin-bottom: 10px;
+}
+.form-register .checkbox {
+  font-weight: normal;
+}
+.form-register .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-register .form-control:focus {
+  z-index: 2;
+}
+.form-register input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-register #inputPassword2 {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+</style>
+{% endblock %}

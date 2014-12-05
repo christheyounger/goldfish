@@ -2,7 +2,7 @@ goldfish_homepage:
     path:     /
     defaults: { _controller: DarkbluesunGoldfishBundle:Default:index }
 
-goldfish_login:
+login:
     path:     /login
     defaults: { _controller: DarkbluesunGoldfishBundle:Default:login }
 
@@ -11,7 +11,15 @@ login_check:
 
 logout:
     path:     /logout
-    
+
+register:
+    defaults: { _controller: DarkbluesunGoldfishBundle:Account:register }
+    path:     /register
+
+account_create:
+    defaults: { _controller: DarkbluesunGoldfishBundle:Account:create }
+    path:     /register/create
+
 _goldfish_clients:
     resource: "@DarkbluesunGoldfishBundle/Controller/ClientController.php"
     type:     annotation

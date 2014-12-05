@@ -31,6 +31,11 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * Plain password - don't save to database, just use for rego
+     */
+    private $plainPassword;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=60)
@@ -119,6 +124,27 @@ class User implements UserInterface, \Serializable
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     */
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+        $this->password = password_hash($this->plainPassword, PASSWORD_BCRYPT, array('cost' => 12));
     }
 
     /**
