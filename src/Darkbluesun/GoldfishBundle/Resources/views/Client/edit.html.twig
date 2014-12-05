@@ -6,6 +6,7 @@
 <div class="page-header">
     <h2>Activity</h2>
     </div>
+    {{form(comment_form,{'attr':{'id':'comment_form'}})}}
 {{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:comments',{'id':entity.id,'limit':3}))}}
 </div>
 <div class="col-md-4">

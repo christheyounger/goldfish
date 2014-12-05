@@ -8,8 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Darkbluesun\GoldfishBundle\Entity\Workspace;
 use Darkbluesun\GoldfishBundle\Entity\Client;
+use Darkbluesun\GoldfishBundle\Entity\ClientComment;
 use Darkbluesun\GoldfishBundle\Form\ClientType;
+use Darkbluesun\GoldfishBundle\Form\CommentType;
 
 /**
  * Client controller.
@@ -30,6 +33,16 @@ class ClientController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $workspace = $user->getWorkspace();
+
+        if (!$workspace) {
+            $em = $this->getDoctrine()->getManager();
+            $workspace = new Workspace();
+            $workspace->addUser($user);
+            $workspace->setPrivate(true);
+            $workspace->setName($user->getEmail()."'s workspace");
+            $em->persist($workspace);
+            $em->flush();
+        }
         $entities = $workspace->getClients();
 
         return array(
@@ -122,11 +135,14 @@ class ClientController extends Controller
 
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
+        $comment = new ClientComment;
+        $commentForm = $this->createCommentForm($entity,$comment);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'comment_form' => $commentForm->createView(),
         );
     }
 
@@ -165,9 +181,59 @@ class ClientController extends Controller
 
         $comments = $client->getComments();
 
+
         return array(
             'comments' => $comments,
         );
+    }
+
+    /**
+     * Adds a comment to a client
+     *
+     * @Route("/{id}/comment", name="clients_comment")
+     * @Method("POST")
+     */
+    public function commentAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
+
+        if (!$client) {
+            throw $this->createNotFoundException('Unable to find Client.');
+        }
+
+        $comment = new ClientComment;
+        $form = $this->createCommentForm($client,$comment);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $comment->setClient($client);
+            $em->persist($comment);
+            $em->flush();
+
+            return new JsonResponse(['status'=>'ok']);
+        }
+
+        return new JsonResponse(['status'=>'fail','error','form not valid']);
+    }
+
+    /**
+     * Creates a form to comment on a Client.
+     *
+     * @param Client $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createCommentForm($client,$comment) {
+
+        $form = $this->createForm(new CommentType(), $comment, array(
+            'action' => $this->generateUrl('clients_comment',['id'=>$client->getId()]),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Comment'));
+
+        return $form;
     }
 
     /**

@@ -21,6 +21,25 @@ $(function() {
 	});
 	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
 
+	$('#comment_form').submit(function() {
+		var form = $(this);
+		var data = form.serialize();
+		var url = form.attr('action');
+		var textarea = form.find('textarea');
+
+		$.ajax({
+			data: data,
+			type: "POST",
+			url: url,
+			success: function(data) {
+				if (data.status=='ok') {
+					textarea.val('');
+				}
+			}
+		});
+		return false;
+	});
+
 });
 
 /**

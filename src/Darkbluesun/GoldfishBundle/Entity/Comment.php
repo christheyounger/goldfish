@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"client" = "ClientComment", "project" = "ProjectComment", "task" = "TaskComment"})
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -99,6 +100,14 @@ class Comment
     public function getDatetime()
     {
         return $this->datetime;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue()
+    {
+        $this->datetime = new \DateTime();
     }
 
     /**
