@@ -65,6 +65,11 @@ class Workspace
     protected $comments;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="workspaces")
+     */
+    private $users;
+
+    /**
      * Constructor function. Needed to initialise arrays of child objects
      */
     public function __construct()
@@ -73,6 +78,7 @@ class Workspace
         $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -228,5 +234,71 @@ class Workspace
     public function getTasks()
     {
         return $this->tasks;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Comment $comments
+     * @return Workspace
+     */
+    public function addComment(\Darkbluesun\GoldfishBundle\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
+
+        return $this;
+    }
+
+    /**
+     * Remove comments
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Comment $comments
+     */
+    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\Comment $comments)
+    {
+        $this->comments->removeElement($comments);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\User $users
+     * @return Workspace
+     */
+    public function addUser(\Darkbluesun\GoldfishBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\User $users
+     */
+    public function removeUser(\Darkbluesun\GoldfishBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
     }
 }

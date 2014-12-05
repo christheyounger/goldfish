@@ -28,9 +28,9 @@ class TaskController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Task')->findAll();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $workspace = $user->getWorkspace();
+        $entities = $workspace->getTasks();
 
         return array(
             'entities' => $entities,
@@ -68,6 +68,8 @@ class TaskController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $entity->setWorkspace($user->getWorkspace());
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

@@ -12,6 +12,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher,
 
 use Darkbluesun\GoldfishBundle\Form\Type\RegistrationType;
 use Darkbluesun\GoldfishBundle\Form\Model\Registration;
+use Darkbluesun\GoldfishBundle\Entity\Workspace;
 
 class AccountController extends Controller
 {
@@ -41,6 +42,14 @@ class AccountController extends Controller
             $user = $registration->getUser();
             $user->addRole($em->getRepository('DarkbluesunGoldfishBundle:Role')->findOneByRole('ROLE_USER'));
             $em->persist($user);
+
+            // Create a new private workspace for the new user
+            $workspace = new Workspace();
+            $workspace->setName($user->getEmail()."'s Workspace");
+            $workspace->addUser($user);
+            $workspace->setPrivate(true);
+            $em->persist($workspace);
+
             $em->flush();
 
             $this->authenticateUser($user);

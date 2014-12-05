@@ -10,7 +10,8 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('DarkbluesunGoldfishBundle:Default:index.html.twig', array('name' => 'borris'));
+        $usr= $this->get('security.context')->getToken()->getUser();
+        return $this->render('DarkbluesunGoldfishBundle:Default:index.html.twig', array('name' => $usr->getEmail(), 'workspaces'=>$usr->getWorkspaces()));
     }
 
     public function loginAction(Request $request)

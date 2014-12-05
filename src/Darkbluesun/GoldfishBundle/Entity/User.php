@@ -54,10 +54,16 @@ class User implements UserInterface, \Serializable
      */
     private $roles;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Workspace", mappedBy="users")
+     */
+    private $workspaces;
+
     public function __construct()
     {
         $this->isActive = true;
         $this->roles = new ArrayCollection();
+        $this->workspaces = new ArrayCollection();
     }
 
     /**
@@ -257,5 +263,42 @@ class User implements UserInterface, \Serializable
     public function removeRole(\Darkbluesun\GoldfishBundle\Entity\Role $roles)
     {
         $this->roles->removeElement($roles);
+    }
+
+    /**
+     * Add workspaces
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspaces
+     * @return User
+     */
+    public function addWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspaces)
+    {
+        $this->workspaces[] = $workspaces;
+
+        return $this;
+    }
+
+    /**
+     * Remove workspaces
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspaces
+     */
+    public function removeWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspaces)
+    {
+        $this->workspaces->removeElement($workspaces);
+    }
+
+    /**
+     * Get workspaces
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWorkspaces()
+    {
+        return $this->workspaces;
+    }
+
+    public function getWorkspace() {
+        return $this->workspaces[0];
     }
 }

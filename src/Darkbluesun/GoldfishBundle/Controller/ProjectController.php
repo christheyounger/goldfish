@@ -28,9 +28,9 @@ class ProjectController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Project')->findAll();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $workspace = $user->getWorkspace();
+        $entities = $workspace->getProjects();
 
         return array(
             'entities' => $entities,
@@ -67,6 +67,8 @@ class ProjectController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $entity->setWorkspace($user->getWorkspace());
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();

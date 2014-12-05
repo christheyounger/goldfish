@@ -28,9 +28,9 @@ class ClientController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Client')->findAll();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $workspace = $user->getWorkspace();
+        $entities = $workspace->getClients();
 
         return array(
             'entities' => $entities,
@@ -50,6 +50,8 @@ class ClientController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $user = $this->get('security.context')->getToken()->getUser();
+            $entity->setWorkspace($user->getWorkspace());
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
