@@ -76,11 +76,14 @@ class ClientController extends Controller
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView(
+                        'DarkbluesunGoldfishBundle:Client:email.html.twig',
+                        array('name' => $entity->getCompanyName())
+                    ),'text/html')
+                ->addPart(
+                    $this->renderView(
                         'DarkbluesunGoldfishBundle:Client:email.txt.twig',
                         array('name' => $entity->getCompanyName())
-                    )
-                )
-            ;
+                    ),'text/plain');
 
             $mailgun = $this->container->get("mailgun.swift_transport.transport");
 
