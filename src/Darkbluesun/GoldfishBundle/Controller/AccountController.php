@@ -4,6 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Symfony\Component\EventDispatcher\EventDispatcher,
     Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken,
@@ -13,6 +14,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher,
 use Darkbluesun\GoldfishBundle\Form\Type\RegistrationType;
 use Darkbluesun\GoldfishBundle\Form\Model\Registration;
 use Darkbluesun\GoldfishBundle\Entity\Workspace;
+use Darkbluesun\GoldfishBundle\Entity\User;
+use Darkbluesun\GoldfishBundle\Form\UserType;
 
 class AccountController extends Controller
 {
@@ -98,5 +101,62 @@ class AccountController extends Controller
                 'error'         => $error,
             )
         );
+    }
+   /**
+     * Displays a form to edit an existing Client entity.
+     *
+     * @Template()
+     */
+    public function editAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $editForm = $this->createEditForm($user);
+
+        return array(
+            'user'      => $user,
+            'edit_form'   => $editForm->createView(),
+        );
+    }
+    /**
+    * Creates a form to edit a User.
+    *
+    * @param User $user The user
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(User $user)
+    {
+        $form = $this->createForm(new UserType(), $user, array(
+            'action' => $this->generateUrl('account_update'),
+            'method' => 'PUT',
+        ));
+
+        return $form;
+    }
+    /**
+     * Edits an existing User.
+     *
+     * @Template("DarkbluesunGoldfishBundle:Account:edit.html.twig")
+     */
+    public function updateAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $deleteForm = $this->createDeleteForm($id);
+        $editForm = $this->createEditForm($user);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $em->flush();
+
+            return new JsonResponse(['success'=>true]);
+        }
+
+        return new JsonResponse(['success'=>false]);
     }
 }

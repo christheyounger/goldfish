@@ -20,6 +20,14 @@ account_create:
     defaults: { _controller: DarkbluesunGoldfishBundle:Account:create }
     path:     /register/create
 
+account_edit:
+    defaults: { _controller: DarkbluesunGoldfishBundle:Account:edit }
+    path:     /account/edit
+account_update:
+    defaults: { _controller: DarkbluesunGoldfishBundle:Account:update }
+    methods:   PUT
+    path:     /account/edit
+
 _goldfish_clients:
     resource: "@DarkbluesunGoldfishBundle/Controller/ClientController.php"
     type:     annotation
