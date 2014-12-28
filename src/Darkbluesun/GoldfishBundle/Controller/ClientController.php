@@ -69,6 +69,23 @@ class ClientController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $user = $this->get('security.context')->getToken()->getUser();
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Hello Email')
+                ->setFrom($user->getEmail())
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'DarkbluesunGoldfishBundle:Client:email.txt.twig',
+                        array('name' => $entity->getCompanyName())
+                    )
+                )
+            ;
+
+            $mailgun = $this->container->get("mailgun.swift_transport.transport");
+
+            $mailgun->send($message);
+
             return $this->redirect($this->generateUrl('clients_edit', array('id' => $entity->getId())));
         }
 
