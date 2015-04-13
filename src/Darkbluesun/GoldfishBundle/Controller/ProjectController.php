@@ -162,6 +162,7 @@ class ProjectController extends Controller
         $tasks = $project->getTasks();
 
         return array(
+            'project'=>$project,
             'tasks' => $tasks,
         );
     }

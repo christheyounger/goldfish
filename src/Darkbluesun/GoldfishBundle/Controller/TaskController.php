@@ -109,9 +109,17 @@ class TaskController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Task();
+        $project_id = $request->query->get('project_id');
+        if (!empty($project_id)) {
+            $em = $this->getDoctrine()->getManager();
+            $project = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($project_id);
+            if ($project) {
+                $entity->setProject($project);
+            }
+        }
         $form   = $this->createCreateForm($entity);
 
         return array(
