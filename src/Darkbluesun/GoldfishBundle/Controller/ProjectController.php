@@ -108,9 +108,17 @@ class ProjectController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Project();
+        $client_id = $request->query->get('client_id');
+        if (!empty($client_id)) {
+            $em = $this->getDoctrine()->getManager();
+            $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($client_id);
+            if ($client) {
+                $entity->setClient($client);
+            }
+        }
         $form   = $this->createCreateForm($entity);
 
         return array(

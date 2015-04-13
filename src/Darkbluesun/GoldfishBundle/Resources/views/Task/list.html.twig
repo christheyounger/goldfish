@@ -2,6 +2,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Client</th>
+                <th>Project</th>
                 <th>Name</th>
                 <th>Due</th>
             </tr>
@@ -10,6 +12,8 @@
         {% for entity in entities %}
             <tr>
                 <td><a class='edit' href="{{ path('tasks_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.client ? entity.client.companyName }}</td>
+                <td>{{ entity.project ? entity.project.name }}</td>
                 <td>{{ entity.name }}</td>
                 <td>{% if entity.due %}{{ entity.due|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>

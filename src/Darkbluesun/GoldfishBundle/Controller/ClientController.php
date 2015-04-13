@@ -173,16 +173,30 @@ class ClientController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function projectsAction($id)
+    public function projectsAction(Client $client)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
         $projects = $client->getProjects();
 
         return array(
+            'client'=>$client,
             'projects' => $projects,
+        );
+    }
+
+    /**
+     * Lists all Tasks belonging to this thing.
+     *
+     * @Route("/{id}/tasks", name="client_task_list")
+     * @Method("GET")
+     * @Template()
+     */
+    public function tasksAction(Client $client)
+    {
+        $tasks = $client->getTasks();
+
+        return array(
+            'client'=>$client,
+            'tasks' => $tasks,
         );
     }
 
@@ -193,16 +207,13 @@ class ClientController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function commentsAction($id)
+    public function commentsAction(Client $client)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
         $comments = $client->getComments();
 
 
         return array(
+            'client'=>$client,
             'comments' => $comments,
         );
     }
@@ -254,26 +265,6 @@ class ClientController extends Controller
         $form->add('submit', 'submit', array('label' => 'Comment'));
 
         return $form;
-    }
-
-    /**
-     * Lists all Tasks belonging to this thing.
-     *
-     * @Route("/{id}/tasks", name="client_task_list")
-     * @Method("GET")
-     * @Template()
-     */
-    public function tasksAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
-        $tasks = $client->getTasks();
-
-        return array(
-            'tasks' => $tasks,
-        );
     }
 
     /**

@@ -409,4 +409,8 @@ class Client
     {
         return $this->comments;
     }
+
+    public function __toString() {
+        return $this->companyName;
+    }
 }

@@ -113,11 +113,21 @@ class TaskController extends Controller
     {
         $entity = new Task();
         $project_id = $request->query->get('project_id');
+        $client_id = $request->query->get('client_id');
         if (!empty($project_id)) {
             $em = $this->getDoctrine()->getManager();
             $project = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($project_id);
             if ($project) {
                 $entity->setProject($project);
+                if ($client = $project->getClient()) {
+                    $entity->setClient($client);
+                }
+            }
+        } else if (!empty($client_id)) {
+            $em = $this->getDoctrine()->getManager();
+            $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($client_id);
+            if ($client) {
+                $entity->setClient($client);
             }
         }
         $form   = $this->createCreateForm($entity);

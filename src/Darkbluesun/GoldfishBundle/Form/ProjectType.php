@@ -15,6 +15,7 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('client',null,['required'=>false])
             ->add('name')
             ->add('dueDate','datetime',array('widget'=>'single_text','format'=>'dd/MM/yyyy HH:mm','attr'=>array('class'=>'datetimepicker')))
             ->add('budget')
