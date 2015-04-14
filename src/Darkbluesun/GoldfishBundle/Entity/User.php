@@ -301,4 +301,8 @@ class User implements UserInterface, \Serializable
     public function getWorkspace() {
         return $this->workspaces[0];
     }
+
+    public function __toString() {
+        return $this->email;
+    }
 }

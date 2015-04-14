@@ -17,8 +17,9 @@ class TaskType extends AbstractType
         $builder
             ->add('client',null,['required'=>false])
             ->add('project',null,['required'=>false])
+            ->add('assignee',null,['required'=>false])
             ->add('name')
-            ->add('due')
+            ->add('due','datetime',array('widget'=>'single_text','format'=>'dd/MM/yyyy HH:mm','attr'=>array('class'=>'datetimepicker')))
             ->add('description')
         ;
     }

@@ -1,19 +1,26 @@
     <table class="records_list table table striped">
         <thead>
             <tr>
-                <th>Id</th>
+                <th><i class="fa fa-user"></i></th>
                 <th>Name</th>
                 <th>Due</th>
             </tr>
         </thead>
         <tbody>
         {% for task in tasks %}
-            <tr>
-                <td><a class='edit' href="{{ path('tasks_edit', { 'id': task.id }) }}">{{ task.id }}</a></td>
-                <td>{{ task.name }}</td>
+            <tr data-id="{{ task.id }}">
+                <td>{{ task.assignee ? task.assignee }}</td>
+                <td><a class='edit' href="{{ path('tasks_edit', { 'id': task.id }) }}">{{ task.name }}</a></td>
                 <td>{% if task.due %}{{ task.due|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
         {% endfor %}
         </tbody>
+        <tfoot>
+            <tr>
+                <td><i class="fa fa-user"></i></td>
+                <td><input type="text" class="form-control narrow" /></td>
+                <td><input type="text" class="form-control narrow datetimepicker" /></td>
+            </tr>
+        </tfoot>
     </table>
     <a class="btn btn-default" href="{{path('tasks_new', {'project_id': project.id})}}">Add</a>

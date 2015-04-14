@@ -9,7 +9,7 @@
 {{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}))}}
 </div>
 <div class="col-md-4">
-<p></p>
+<div class="page-header"><h1>{{entity}}</h1></div>
     {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
     {{ form(delete_form) }}
 

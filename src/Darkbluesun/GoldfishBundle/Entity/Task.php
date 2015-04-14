@@ -68,6 +68,14 @@ class Task
     protected $project;
 
     /**
+     * @var string
+     *
+     * @ORM\ManyToOne(targetEntity="User",inversedBy="tasks")
+     * @ORM\JoinColumn(name="assignee_id",referencedColumnName="id")
+     */
+    protected $assignee;
+
+    /**
      * @var boolean
      *
      * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task")
@@ -229,6 +237,29 @@ class Task
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * Set assignee
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\User $assignee
+     * @return Task
+     */
+    public function setAssignee(\Darkbluesun\GoldfishBundle\Entity\User $assignee = null)
+    {
+        $this->assignee = $assignee;
+
+        return $this;
+    }
+
+    /**
+     * Get assignee
+     *
+     * @return \Darkbluesun\GoldfishBundle\Entity\User 
+     */
+    public function getAssignee()
+    {
+        return $this->assignee;
     }
 
     /**
