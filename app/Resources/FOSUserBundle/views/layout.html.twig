@@ -1,0 +1,14 @@
+{% extends app.request.xmlHttpRequest ? "::ajax.html.twig" : "::base.html.twig" %}
+{% block body %}
+{% if not app.request.xmlHttpRequest %}
+    <section id="sub">
+    <section class="container">
+{% else %}
+	<section style="min-width:400px;">
+{% endif %}
+{% block fos_user_content %}{% endblock %}
+	</section>
+{% if not app.request.xmlHttpRequest %}
+	</section>
+{% endif %}
+{% endblock %}

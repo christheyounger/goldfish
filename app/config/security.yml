@@ -3,20 +3,16 @@
 security:
     # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
-        Darkbluesun\GoldfishBundle\Entity\User: 
-            algorithm: bcrypt
+        FOS\UserBundle\Model\UserInterface: sha512
 
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        users:
-            entity: 
-                class: DarkbluesunGoldfishBundle:User
-                property: email 
+        fos_userbundle:
+            id: fos_user.user_provider.username
 
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
@@ -32,12 +28,12 @@ security:
 
         # secures part of the application
         main:
-            pattern:    ^/app
-            form_login: 
-                login_path: /app/login
-                check_path: /app/login_check
-            logout:
-                path: /app/logout
+            pattern:    ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:       true
+            anonymous:    true
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
@@ -48,4 +44,7 @@ security:
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
     access_control:
-        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/app$, role: ROLE_USER }
+        - { path: ^/app/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/app/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }

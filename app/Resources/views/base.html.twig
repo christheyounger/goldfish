@@ -5,11 +5,24 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
-{% block stylesheets %}{% endblock %}
+{% block stylesheets %}
+{% stylesheets 
+'bundles/darkbluesungoldfish/css/vendor/bootstrap.css'
+'bundles/darkbluesungoldfish/css/vendor/bootstrap.datetimepicker.css'
+'bundles/darkbluesungoldfish/css/vendor/font-awesome.css'
+'bundles/darkbluesungoldfish/css/*.css' %}
+        <link rel="stylesheet" type="text/css" href="{{asset_url}}">
+{% endstylesheets %}
+{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body role="document">
-{% block nav %}{% endblock %}
+{% block nav %}
+{% set route = app.request.attributes.get('_route') %}
+{% if app.user %}
+{% include "DarkbluesunGoldfishBundle::nav.html.twig" %}
+{% endif %}
+{% endblock %}
         <div class="container" role="main">
 {% block body %}{% endblock %}
         </div>
@@ -17,6 +30,14 @@
             <div class="container">
             </div>
         </div>
-{% block javascripts %}{% endblock %}
+{% block javascripts %}
+{% javascripts 
+'bundles/darkbluesungoldfish/js/vendor/jquery.js'
+'bundles/darkbluesungoldfish/js/vendor/bootstrap.js'
+'bundles/darkbluesungoldfish/js/vendor/bpopup.js'
+'bundles/darkbluesungoldfish/js/goldfish.js'  %}
+  <script type="text/javascript" src="{{asset_url}}"></script>
+{% endjavascripts %}
+{% endblock %}
     </body>
 </html>

@@ -20,10 +20,11 @@
             <li class='dropdown'>
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ app.user.email}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ path('fos_user_profile_show') }}">Profile</a></li>
                 {% for workspace in app.user.workspaces %}
                 <li><i class="fa fa-tick"> </i><a>{{workspace.name}}</a></li>
                 {% endfor %}
-                <li><a href="{{ path('logout') }}">Logout</a></li>
+                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
               </ul>
             </li>
           </ul>

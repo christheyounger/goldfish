@@ -1,0 +1,90 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+    {% if error %}<div class="error alert alert-danger">
+    <strong>{{ error.message }}.</strong>
+    </div>{% endif %}
+
+      <form class="form-signin" role="form" action="{{ path('fos_user_security_check') }}" method="post">
+    	<input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="_username" type="email" id="inputEmail" value="{{ last_username }}" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name="_password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="checkbox">
+          <label>
+            <input name="_remember_me" type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <p></p>
+        <div class="row">
+        <div class="col-xs-6">
+        <a href="#}">
+        <div class="btn-group" role="group">
+        <span class="btn btn-primary">Log in with</span>
+        <span class="btn btn-primary"><i class="fa fa-facebook"></i></span>
+        </div>
+        </a>
+        </div>
+        <div class="col-xs-6">
+        <a href="#">
+        <div class="btn-group" role="group">
+        <span class="btn btn-danger">Log in with</span>
+        <span class="btn btn-danger"><i class="fa fa-google"></i></span>
+        </div>
+        </a>
+        </div>
+        </div>
+      </form>
+      <div id="register">
+        <a href="{{path('fos_user_registration_register')}}" class="btn btn-lg btn-primary btn-block">Register</a>
+      <a href="{{path('fos_user_resetting_request')}}">Forgot your password?</a>
+      </div>
+
+{% endblock %}
+{% block stylesheets %}
+{{parent()}}
+<style>
+
+.form-signin, .error, #register {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+</style>
+{% endblock %}

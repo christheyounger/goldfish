@@ -14,5 +14,10 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController" />
             <argument type="service" id="twig.extension.acme.demo" />
         </service>
+
+        <service id="goldfish_user.profile.form.type" class="Darkbluesun\GoldfishBundle\Form\ProfileFormType">
+            <tag name="form.type" alias="goldfish_user_profile"></tag>
+            <argument>%fos_user.model.user.class%</argument>
+        </service>   
     </services>
 </container>
