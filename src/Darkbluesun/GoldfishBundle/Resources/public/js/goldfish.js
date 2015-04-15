@@ -6,23 +6,6 @@ $(function() {
 	/**
 	 * Lists
 	 */
-	
-	/** Click on a row to edit it **/
-    $('table.records_list tbody tr').click(function() {
-        window.location.href = $(this).data('href');
-    });
-
-    /**
-     * Edit Forms
-     */ 
-	// Style an input when focused
-	$('form.edit input').focus(function() {
-		$(this).addClass('form-control');
-	}).blur(function() {
-		$(this).removeClass('form-control');
-		// Save the form data
-		saveForm($(this.form));
-	});
 
 	/**
 	* Comments functions
@@ -49,13 +32,40 @@ $(function() {
 });
 
 function initializeStuff() {
+	// Datepicker
 	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
+	
 	// Popups:
 	$('a.new').click(function(e) {
 		e.preventDefault();
 		url = $(this).attr('href');
 		$('div#popup').bPopup({loadUrl: url },function() {initializeStuff()});
 	});
+
+	/**
+     * Edit Forms
+     */ 
+	// Style an input when focused
+	$('form.edit input').focus(function() {
+		$(this).addClass('form-control');
+	}).blur(function() {
+		$(this).removeClass('form-control');
+		// Save the form data
+		saveForm($(this.form));
+	});
+	$('form.edit select').change(function(){
+		saveForm($(this.form));
+	});
+
+	/** Click on a row to edit it **/
+    $('table.records_list tbody tr').click(function() {
+        if (href = $(this).data('href')) {
+        	if ($(this).data('popup'))
+        		$('#popup').bPopup({loadUrl: href},function(){initializeStuff()});
+        	else
+        		window.location.href = href;
+        }
+    });
 }
 
 
@@ -76,5 +86,5 @@ function saveForm(form) {
  * Display a success message for ajax form
  */
 function saveSuccess(data) {
-	console.log(data);
+	$('.include_200').each(function() { $(this).load($(this).attr('src')); } );
 }

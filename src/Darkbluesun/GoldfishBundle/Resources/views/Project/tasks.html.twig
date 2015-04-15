@@ -1,4 +1,4 @@
-    <table class="records_list table table striped">
+    <table class="records_list table table-striped">
         <thead>
             <tr>
                 <th><i class="fa fa-user"></i></th>
@@ -8,9 +8,9 @@
         </thead>
         <tbody>
         {% for task in tasks %}
-            <tr data-id="{{ task.id }}">
+            <tr data-id="{{ task.id }}" data-href="{{ path('tasks_edit', { 'id': task.id }) }}">
                 <td>{{ task.assignee ? task.assignee }}</td>
-                <td><a class='edit' href="{{ path('tasks_edit', { 'id': task.id }) }}">{{ task.name }}</a></td>
+                <td>{{ task.name }}</td>
                 <td>{% if task.due %}{{ task.due|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
         {% endfor %}

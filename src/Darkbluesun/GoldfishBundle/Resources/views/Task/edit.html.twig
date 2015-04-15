@@ -1,6 +1,9 @@
 {% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
+{% if app.request.xmlHttpRequest %}
+ {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
+{% else %}
 <div class='row'>
 <div class='col-md-4'>
 <div class="page-header">
@@ -8,7 +11,7 @@
     </div>
 {{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:comments',{'id':entity.id,'limit':3}))}}
 </div>
-<div class="col-md-4">
+<div class="col-md-4 main">
 <div class="page-header"><h1>Task</h1></div>
 
     {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
@@ -16,4 +19,5 @@
     {{ form(delete_form) }}
 </div>
 </div>
+{% endif %}
 {% endblock %}
