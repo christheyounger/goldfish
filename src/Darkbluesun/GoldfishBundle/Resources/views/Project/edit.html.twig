@@ -6,7 +6,7 @@
 <div class="page-header">
     <h2>Activity</h2>
     </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}))}}
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}),{'id':'hinclude'})}}
 </div>
 <div class="col-md-4">
 <div class="page-header"><h1>{{entity}}</h1></div>
@@ -18,7 +18,7 @@
 <div class="page-header">
 <h2>Tasks</h2>
 </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:tasks',{'id':entity.id,'limit':3}))}}
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:tasks',{'id':entity.id,'limit':3}),{'id':'hinclude'})}}
 </div>
 </div>
 {% endblock %}

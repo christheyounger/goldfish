@@ -9,8 +9,7 @@
         </thead>
         <tbody>
         {% for project in projects %}
-            <tr>
-                <td><a class='edit' href="{{ path('project_edit', { 'id': project.id }) }}">{{ project.id }}</a></td>
+            <tr data-href="{{ path('project_edit', { 'id': project.id }) }}" data-id="{{ project.id }}">
                 <td>{{ project.name }}</td>
                 <td>{{ project.dueDate.format('d/m/y') }}</td>
                 <td>{{ project.budget }}</td>
@@ -18,4 +17,4 @@
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-default" href="{{path('project_new', {'client_id': client.id})}}">Add</a>
+    <a class="btn btn-default new" href="{{path('project_new', {'client_id': client.id})}}">Add</a>

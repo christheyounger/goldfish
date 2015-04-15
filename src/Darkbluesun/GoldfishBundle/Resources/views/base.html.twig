@@ -1,6 +1,9 @@
-{% extends "base.html.twig" %}
+{% extends app.request.xmlHttpRequest ? "ajax.html.twig" : "base.html.twig" %}
 {% if edit_form is defined %}
 {% form_theme edit_form 'form_table_layout.html.twig' %}
+{% endif %}
+{% if form is defined %}
+{% form_theme form 'form_table_layout.html.twig' %}
 {% endif %}
 {% set route = app.request.attributes.get('_route') %}
 {% block nav %}

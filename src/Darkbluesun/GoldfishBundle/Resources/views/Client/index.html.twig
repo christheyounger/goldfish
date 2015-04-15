@@ -6,7 +6,6 @@
     <table class="records_list table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Company name</th>
                 <th>Website</th>
                 <th>Phone</th>
@@ -15,8 +14,7 @@
         </thead>
         <tbody>
         {% for entity in entities %}
-            <tr>
-                <td><a class='edit' href="{{ path('clients_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <tr data-href="{{ path('clients_edit', { 'id': entity.id }) }}" data-id="{{ entity.id }}">
                 <td>{{ entity.companyName }}</td>
                 <td>{{ entity.website }}</td>
                 <td>{{ entity.phone }}</td>
@@ -29,7 +27,7 @@
 
         <ul>
         <li>
-            <a href="{{ path('clients_new') }}">
+            <a href="{{ path('clients_new') }}" class="new">
                 Create a new entry
             </a>
         </li>

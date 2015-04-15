@@ -1,11 +1,15 @@
 $(function() {
+	$('#hinclude').bind("DOMSubtreeModified",function(){
+  		initializeStuff();
+	});
+	initializeStuff();
 	/**
 	 * Lists
 	 */
 	
 	/** Click on a row to edit it **/
     $('table.records_list tbody tr').click(function() {
-        window.location.href = $(this).find('a.edit').attr('href');
+        window.location.href = $(this).data('href');
     });
 
     /**
@@ -19,8 +23,10 @@ $(function() {
 		// Save the form data
 		saveForm($(this.form));
 	});
-	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
 
+	/**
+	* Comments functions
+	**/
 	$('#comment_form').submit(function() {
 		var form = $(this);
 		var data = form.serialize();
@@ -41,6 +47,17 @@ $(function() {
 	});
 
 });
+
+function initializeStuff() {
+	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
+	// Popups:
+	$('a.new').click(function(e) {
+		e.preventDefault();
+		url = $(this).attr('href');
+		$('div#popup').bPopup({loadUrl: url },function() {initializeStuff()});
+	});
+}
+
 
 /**
  * Submit form via ajax

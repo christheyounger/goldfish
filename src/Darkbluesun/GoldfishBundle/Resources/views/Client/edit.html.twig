@@ -21,11 +21,11 @@
 <div class="page-header">
     <h2>Projects</h2>
     </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:projects',{'id':entity.id,'limit':3}))}}
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:projects',{'id':entity.id,'limit':3}),{'id':'hinclude'})}}
 <div class="page-header">
     <h2>Tasks</h2>
     </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:tasks',{'id':entity.id,'limit':3}))}}
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Client:tasks',{'id':entity.id,'limit':3}),{'id':'hinclude'})}}
 </div>
 </div>
 {% endblock %}
