@@ -1,4 +1,4 @@
-    <table class="records_list table table striped">
+    <table class="records_list table table striped" id="tasks" data-ajax="{{path('tasks_list')}}">
         <thead>
             <tr>
                 <th>Id</th>
@@ -8,15 +8,4 @@
                 <th>Due</th>
             </tr>
         </thead>
-        <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a class='edit' href="{{ path('tasks_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.client ? entity.client.companyName }}</td>
-                <td>{{ entity.project ? entity.project.name }}</td>
-                <td>{{ entity.name }}</td>
-                <td>{% if entity.due %}{{ entity.due|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
     </table>

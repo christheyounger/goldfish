@@ -28,13 +28,7 @@ class TaskController extends Controller
      */
     public function indexAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $workspace = $user->getWorkspace();
-        $entities = $workspace->getTasks();
-
-        return array(
-            'entities' => $entities,
-        );
+        return [];
     }
 
     /**
@@ -46,13 +40,25 @@ class TaskController extends Controller
      */
     public function listAction()
     {
-        $em = $this->getDoctrine()->getManager();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $workspace = $user->getWorkspace();
+        $entities = $workspace->getTasks();
 
-        $entities = $em->getRepository('DarkbluesunGoldfishBundle:Task')->findAll();
+        foreach ($entities as $entity) {
+            $data[] = [
+                        'id' => $entity->getId(),
+                        'url' => $this->generateUrl('tasks_edit',['id'=>$entity->getId()]),
+                        'client' => (String)$entity->getClient(),
+                        'project' => (String)$entity->getProject(),
+                        'name' => $entity->getName(),
+                        'due' => [
+                            'sort' => $entity->getDue()->format('YmdHis'),
+                            'string' => $entity->getDue()->format('d/m/y ha')
+                        ],
+                      ];
+        }
 
-        return array(
-            'entities' => $entities,
-        );
+        return new JsonResponse(['data'=>$data]);
     }
     /**
      * Creates a new Task entity.
