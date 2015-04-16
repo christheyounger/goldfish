@@ -2,28 +2,27 @@
 
 {% block body -%}
 {% if app.request.xmlHttpRequest %}
- {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
+{{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
 {% else %}
 <div class='row'>
-<div class='col-md-4'>
-<div class="page-header">
-    <h2>Activity</h2>
-    </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:comments',{'id':entity.id,'limit':3}))}}
-</div>
-<div class="col-md-4 main">
-<div class="page-header"><h1>Task</h1></div>
+	<div class='col-md-4'>
+		<div class="page-header"><h2>Conversation</h2></div>
+		{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:comments',{'id':entity.id,'limit':3}))}}
+	</div>
+	<div class="col-md-4 main">
+		<div class="page-header"><h1>Task</h1></div>
 
-    {{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
+		{{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
 
-    {{ form(delete_form) }}
-</div>
-<div class='col-md-4'>
-<div class="page-header"><h2>Timer</h2></div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timer',{'id':entity.id}),{'id':'timer-panel'})}}
-<div class="page-header"><h2>Time Sheet</h2></div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timesheet',{'id':entity.id}),{'id':'timesheet-panel'})}}
-</div>
+		{{ form(delete_form) }}
+	</div>
+	<div class='col-md-4'>
+		<div class="page-header"><h2>Timer</h2></div>
+		{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timer',{'id':entity.id}),{'id':'timer-panel'})}}
+
+		<div class="page-header"><h2>Time Sheet</h2></div>
+		{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timesheet',{'id':entity.id}),{'id':'timesheet-panel'})}}
+	</div>
 </div>
 {% endif %}
 {% endblock %}

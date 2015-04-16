@@ -2,23 +2,19 @@
 
 {% block body -%}
 <div class="row">
-<div class='col-md-4'>
-<div class="page-header">
-    <h2>Activity</h2>
-    </div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}),{'id':'comments-panel'})}}
-</div>
-<div class="col-md-4">
-<div class="page-header"><h1>{{entity}}</h1></div>
-    {{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
-    {{ form(delete_form) }}
+	<div class='col-md-4'>
+		<div class="page-header"><h2>Conversation</h2></div>
+		{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:comments',{'id':entity.id,'limit':3}),{'id':'comments-panel'})}}
+	</div>
+	<div class="col-md-4">
+		<div class="page-header"><h1>Project</h1></div>
+		{{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
+		{{ form(delete_form) }}
 
-</div>
-<div class="col-md-4">
-<div class="page-header">
-<h2>Tasks</h2>
-</div>
-{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:tasks',{'id':entity.id,'limit':3}),{'id':'tasks-panel'})}}
-</div>
+	</div>
+	<div class="col-md-4">
+		<div class="page-header"><h2>Tasks</h2></div>
+		{{render_hinclude(controller('DarkbluesunGoldfishBundle:Project:tasks',{'id':entity.id,'limit':3}),{'id':'tasks-panel'})}}
+	</div>
 </div>
 {% endblock %}
