@@ -15,3 +15,17 @@
   	min-width: 450px;
   	display: none;
   }
+
+
+
+
+  /** Timer **/
+  #timer span#timer {
+    color: #444;
+  }
+  #timer div.time {
+    text-align: center;
+    font-size: 1.25em;
+    color: #CCC;
+    height: 40px;
+  }

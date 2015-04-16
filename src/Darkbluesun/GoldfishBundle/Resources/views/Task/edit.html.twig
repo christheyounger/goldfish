@@ -18,6 +18,12 @@
 
     {{ form(delete_form) }}
 </div>
+<div class='col-md-4'>
+<div class="page-header"><h2>Timer</h2></div>
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timer',{'id':entity.id}),{'id':'timer-panel'})}}
+<div class="page-header"><h2>Time Sheet</h2></div>
+{{render_hinclude(controller('DarkbluesunGoldfishBundle:Task:timesheet',{'id':entity.id}),{'id':'timesheet-panel'})}}
+</div>
 </div>
 {% endif %}
 {% endblock %}

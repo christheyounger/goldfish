@@ -47,10 +47,14 @@ $(function() {
 
 });
 
+
+
+
 function initializeStuff() {
 	// Datepicker
 	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
-	
+	$('.timedatepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
+
 	// Popups:
 	$('a.new').click(function(e) {
 		e.preventDefault();
@@ -82,6 +86,7 @@ function initializeStuff() {
         		window.location.href = href;
         }
     });
+
 }
 
 

@@ -1,0 +1,25 @@
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><i class="fa fa-user"></i></th>
+                <th>Comment</th>
+                <th>Length</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entry in timesheet %}
+            <tr data-id="{{ entry.id }}">
+                <td>{{ entry.user ? entry.user }}</td>
+                <td>{{ entry.comment }}</td>
+                <td>{% if entry.length %}{{ entry.length.format('%H:%I:%S') }}{% endif %}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td><i class="fa fa-square"></i></td>
+                <th>Total</th>
+                <td>{{task.hoursSpent}} / {{ task.time }}</td>
+            </tr>
+        </tfoot>
+    </table>

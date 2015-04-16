@@ -37,9 +37,16 @@ class Task
     private $due;
 
     /**
+     * @var \Decimal
+     *
+     * @ORM\Column(name="time", type="decimal", scale=2)
+     */
+    private $time;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string")
+     * @ORM\Column(name="description", type="string", nullable=true)
      */
     private $description;
 
@@ -50,6 +57,11 @@ class Task
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="task")
+     */
+    protected $timeEntries;
 
     /**
      * @var string
@@ -88,6 +100,7 @@ class Task
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->timeEntries = new ArrayCollection();
     }
 
 
@@ -122,6 +135,42 @@ class Task
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set time
+     *
+     * @param string $time
+     * @return Task
+     */
+    public function setTime($time)
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * Get time
+     *
+     * @return string 
+     */
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function getTimeSpent() {
+        $timesheet = $this->getTimeEntries();
+        $time = 0;
+        foreach ($timesheet as $entry) {
+            $time += $entry->getLengthInt();
+        }
+        return $time;
+    }
+
+    public function getHoursSpent() {
+        return round($this->getTimeSpent() / 60 / 60,2);
     }
 
     /**
@@ -293,5 +342,38 @@ class Task
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @return Task
+     */
+    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries[] = $timeEntries;
+
+        return $this;
+    }
+
+    /**
+     * Remove timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     */
+    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries->removeElement($timeEntries);
+    }
+
+    /**
+     * Get timeEntries
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimeEntries()
+    {
+        return $this->timeEntries;
     }
 }

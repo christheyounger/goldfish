@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Darkbluesun\GoldfishBundle\Entity\Task;
+use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
 use Darkbluesun\GoldfishBundle\Form\TaskType;
 
 /**
@@ -60,6 +61,7 @@ class TaskController extends Controller
 
         return new JsonResponse(['data'=>$data]);
     }
+
     /**
      * Creates a new Task entity.
      *
@@ -236,6 +238,50 @@ class TaskController extends Controller
 
         return new JsonResponse(['success'=>false]);
     }
+
+    /**
+     * List all time entries
+     *
+     * @Route("/{id}/timesheet/", name="task_timesheet")
+     * @Method("GET")
+     * @Template()
+     */
+    public function timesheetAction(Task $task) {
+        $timesheet = $task->getTimeEntries();
+        return [ 'task'=>$task, 'timesheet'=>$timesheet ];
+    }
+
+    /**
+     * Timer block
+     *
+     * @Route("/{id}/timer/", name="task_timer")
+     * @Method("GET")
+     * @Template()
+     */
+    public function timerAction(Task $task) {
+        return [ 'task'=>$task, ];
+    }
+
+    /**
+     * Time add
+     *
+     * @Route("/{id}/addtime/", name="task_add_time")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addTimeAction(Request $request, Task $task) {
+        $em = $this->getDoctrine()->getManager();
+        $entry = new TimeEntry();
+        $entry->setStart(new \DateTime($request->request->get('start-time')));
+        $entry->setEnd(new \DateTime($request->request->get('end-time')));
+        $entry->setComment($request->request->get('description'));
+        $entry->setTask($task);
+        $entry->setUser($this->get('security.context')->getToken()->getUser());
+        $em->persist($entry);
+        $em->flush();
+        return new JsonResponse(['success']);
+    }
+
     /**
      * Deletes a Task entity.
      *

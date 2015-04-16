@@ -18,6 +18,7 @@ class TaskType extends AbstractType
             ->add('client',null,['required'=>false])
             ->add('project',null,['required'=>false])
             ->add('assignee',null,['required'=>false])
+            ->add('time',null,['label'=>'Budgeted hours'])
             ->add('name')
             ->add('due','datetime',array('widget'=>'single_text','format'=>'dd/MM/yyyy HH:mm','attr'=>array('class'=>'datetimepicker')))
             ->add('description')

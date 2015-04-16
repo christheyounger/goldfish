@@ -44,11 +44,23 @@ class User extends BaseUser
      */
     protected $image;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="assignee")
+     */
+    protected $tasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="user")
+     */
+    protected $timeEntries;
+
 
     public function __construct()
     {
         $parent::__construct();
+        $this->tasks = new ArrayCollection();
         $this->workspaces = new ArrayCollection();
+        $this->timeEntries = new ArrayCollection();
     }
 
     public function getFirstName() {
@@ -105,5 +117,71 @@ class User extends BaseUser
 
     public function __toString() {
         return $this->firstName ? : $this->email;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return User
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @return User
+     */
+    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries[] = $timeEntries;
+
+        return $this;
+    }
+
+    /**
+     * Remove timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     */
+    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries->removeElement($timeEntries);
+    }
+
+    /**
+     * Get timeEntries
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimeEntries()
+    {
+        return $this->timeEntries;
     }
 }

@@ -38,4 +38,3 @@ class TaskComment extends Comment
         return $this->task;
     }
 }
-

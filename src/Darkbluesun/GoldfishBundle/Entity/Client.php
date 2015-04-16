@@ -82,25 +82,24 @@ class Client
     protected $workspace;
 
     /**
-     * @var boolean
-     *
      * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
      */
     protected $projects;
 
     /**
-     * @var boolean
-     *
      * @ORM\OneToMany(targetEntity="Task", mappedBy="client")
      */
     protected $tasks;
 
     /**
-     * @var boolean
-     *
      * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client")
      */
     protected $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="client")
+     */
+    protected $timeEntries;
 
     /**
      * Constructor function. Needed to initialise arrays of child objects
@@ -412,5 +411,38 @@ class Client
 
     public function __toString() {
         return $this->companyName;
+    }
+
+    /**
+     * Add timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @return Client
+     */
+    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries[] = $timeEntries;
+
+        return $this;
+    }
+
+    /**
+     * Remove timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     */
+    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries->removeElement($timeEntries);
+    }
+
+    /**
+     * Get timeEntries
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimeEntries()
+    {
+        return $this->timeEntries;
     }
 }

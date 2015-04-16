@@ -1,0 +1,41 @@
+    <div id="timer">
+        <form id="form-timer" action="{{path('task_add_time',{'id':task.id})}}">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="btn-group" role="group">
+                    <a id="start" class="btn btn-lg btn-default"><i class="fa fa-play"> </i> Start</a>
+                    <a id="end" class="btn btn-lg btn-default"><i class="fa fa-stop"> </i> End</a>
+                </div>
+            </div>
+            <div class="col-md-4 time">
+                <span id="timer"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 time">
+                <input id="start-time-field" required="true" />
+                <span id="start-time"></span>
+            </div>
+            <div class="col-md-6 time">
+                <input id="end-time-field" required="true" />
+                <span id="end-time"></span>
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-12">
+                <input class="form-control" type="text" id="description-field" name="description" placeholder="Description" required="true" />
+            </div>
+        </div>    
+        <div class="row">
+            <div class="col-md-12">
+                <div class="field-group">
+                    <label for="accounting">Accounting</label>
+                    <input type="radio" name="accounting" value="free"> Free
+                    <input type="radio" name="accounting" value="charge"> Charge
+                    <input type="radio" name="accounting" value="quoted"> Quoted
+                    <button id="savetimer" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>

@@ -74,12 +74,18 @@ class Project
     protected $comments;
 
     /**
+     * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="project")
+     */
+    protected $timeEntries;
+
+    /**
      * Constructor function. Needed to initialise arrays of child objects
      */
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->timeEntries = new ArrayCollection();
     }
 
     /**
@@ -275,5 +281,38 @@ class Project
 
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Add timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @return Project
+     */
+    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries[] = $timeEntries;
+
+        return $this;
+    }
+
+    /**
+     * Remove timeEntries
+     *
+     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     */
+    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    {
+        $this->timeEntries->removeElement($timeEntries);
+    }
+
+    /**
+     * Get timeEntries
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTimeEntries()
+    {
+        return $this->timeEntries;
     }
 }
