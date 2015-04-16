@@ -173,6 +173,14 @@ class Task
         return round($this->getTimeSpent() / 60 / 60,2);
     }
 
+    public function getBudgetColor() {
+        if ($this->time <= 0) return "default";
+        $progress = $this->getHoursSpent() / $this->time;
+        if ($progress > 1) return "danger";
+        else if ($progress > 0.8) return "warning";
+        else return "default";
+    }
+
     /**
      * Set due
      *

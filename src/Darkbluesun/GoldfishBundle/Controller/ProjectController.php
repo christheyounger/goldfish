@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Darkbluesun\GoldfishBundle\Entity\Project;
+use Darkbluesun\GoldfishBundle\Entity\Task;
 use Darkbluesun\GoldfishBundle\Form\ProjectType;
 
 /**
@@ -173,6 +174,25 @@ class ProjectController extends Controller
             'project'=>$project,
             'tasks' => $tasks,
         );
+    }
+
+    /**
+     * Task quick add
+     *
+     * @Route("/{id}/addtask/", name="project_quick_task")
+     * @Method("POST")
+     * @Template()
+     */
+    public function addTimeAction(Request $request, Project $project) {
+        $em = $this->getDoctrine()->getManager();
+        $task = new Task();
+        $task->setProject($project);
+        $task->setName($request->request->get('name'));
+        $task->setDue(new \DateTime($request->request->get('due')));
+        $task->setTime($request->request->get('time'));
+        $em->persist($task);
+        $em->flush();
+        return new JsonResponse(['success']);
     }
 
     /**

@@ -1,5 +1,5 @@
 $(function() {
-	$('#hinclude').bind("DOMSubtreeModified",function(){
+	$('#hinclude, #tasks-panel').bind("DOMSubtreeModified",function(){
   		initializeStuff();
 	});
 	initializeStuff();
@@ -49,11 +49,29 @@ $(function() {
 
 
 
+function saveQuickTask() {
+	var data = {
+		'name': $('#form-quick-task #name-field').val(),
+		'due': $('#form-quick-task #due-field').val(),
+		'time': $('#form-quick-task #time-field').val(),
+	};
+	var url = $('#form-quick-task').attr('action');
+	$.ajax({
+		url: url,
+		data: data,
+		type: "POST",
+		success: function(data) {
+			$('#tasks-panel').load($('#tasks-panel').attr('src'));
+			clearTimer();
+		}
+	})
+}
+
 
 function initializeStuff() {
 	// Datepicker
-	$('.datetimepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
-	$('.timedatepicker').datetimepicker({format:'DD/MM/YYYY hh:mm'});
+	$('.datetimepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
+	$('.timedatepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
 
 	// Popups:
 	$('a.new').click(function(e) {
@@ -86,6 +104,8 @@ function initializeStuff() {
         		window.location.href = href;
         }
     });
+
+    $('#form-quick-task').unbind('submit').on('submit',function(e) { e.preventDefault(); saveQuickTask(); })
 
 }
 
