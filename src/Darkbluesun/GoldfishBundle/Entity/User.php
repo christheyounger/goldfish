@@ -30,17 +30,17 @@ class User extends BaseUser
     protected $workspaces;
 
     /**
-     * @ORM\Column(name="first_name", type="string", length=255)
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
      */
     protected $firstName;
 
     /**
-     * @ORM\Column(name="last_name", type="string", length=255)
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
      */
     protected $lastName;
 
     /**
-     * @ORM\Column(name="image", type="string", length=255)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     protected $image;
 
@@ -57,7 +57,7 @@ class User extends BaseUser
 
     public function __construct()
     {
-        $parent::__construct();
+        parent::__construct();
         $this->tasks = new ArrayCollection();
         $this->workspaces = new ArrayCollection();
         $this->timeEntries = new ArrayCollection();
