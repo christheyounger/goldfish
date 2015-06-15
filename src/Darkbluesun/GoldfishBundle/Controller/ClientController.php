@@ -154,14 +154,12 @@ class ClientController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
         $comment = new ClientComment;
         $commentForm = $this->createCommentForm($entity,$comment);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
             'comment_form' => $commentForm->createView(),
         );
     }
@@ -300,7 +298,6 @@ class ClientController extends Controller
             throw $this->createNotFoundException('Unable to find Client entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -318,7 +315,7 @@ class ClientController extends Controller
      * @Route("/{id}", name="clients_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function destroyAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -338,6 +335,18 @@ class ClientController extends Controller
         return $this->redirect($this->generateUrl('clients'));
     }
 
+    /**
+     * Prepare to delete this thing.
+     *
+     * @Route("/{id}/delete", name="clients_delete_confirm")
+     * @Method("GET")
+     * @Template()
+     */
+    public function deleteAction(Client $client)
+    {
+        $deleteForm = $this->createDeleteForm($client->getId());
+        return ['client'=>$client, 'delete_form'=>$deleteForm->createView()];
+    }
     /**
      * Creates a form to delete a Client entity by id.
      *

@@ -1,0 +1,24 @@
+{% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
+
+{% block body -%}
+
+	<h2>Delete {{task}}</h2>
+	<p>Are you really sure you want to delete this task?</p>
+
+	{% if task.comments|length %}
+	<span>The following comments will also be deleted</span><ul>
+	{% for comment in task.comments %}
+	<li>{{comment}}</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	
+	{{ form_start(delete_form) }}
+	{{ form_widget(delete_form.submit,{'label':'Yes, Delete it','attr':{'class':'btn btn-danger btn-lg'}})}}
+	{{ form_end(delete_form) }}
+
+
+    <br/>
+    <br/>
+    <br/>
+{% endblock %}

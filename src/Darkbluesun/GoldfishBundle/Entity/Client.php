@@ -92,7 +92,7 @@ class Client
     protected $tasks;
 
     /**
-     * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client")
+     * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client", cascade="remove")
      */
     protected $comments;
 

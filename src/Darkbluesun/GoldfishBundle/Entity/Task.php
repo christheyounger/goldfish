@@ -67,7 +67,7 @@ class Task
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="tasks")
-     * @ORM\JoinColumn(name="client_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $client;
 
@@ -75,7 +75,7 @@ class Task
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="Project",inversedBy="tasks")
-     * @ORM\JoinColumn(name="project_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="project_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $project;
 
@@ -90,7 +90,7 @@ class Task
     /**
      * @var boolean
      *
-     * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task")
+     * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task", cascade="remove")
      */
     protected $comments;
 
@@ -103,6 +103,10 @@ class Task
         $this->timeEntries = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     /**
      * Get id

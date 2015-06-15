@@ -288,7 +288,7 @@ class TaskController extends Controller
      * @Route("/{id}", name="tasks_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function destroyAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -306,6 +306,19 @@ class TaskController extends Controller
         }
 
         return $this->redirect($this->generateUrl('tasks'));
+    }
+
+    /**
+     * Prepare to delete this thing.
+     *
+     * @Route("/{id}/delete", name="task_delete_confirm")
+     * @Method("GET")
+     * @Template()
+     */
+    public function deleteAction(Task $task)
+    {
+        $deleteForm = $this->createDeleteForm($task->getId());
+        return ['task'=>$task, 'delete_form'=>$deleteForm->createView()];
     }
 
     /**

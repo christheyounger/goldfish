@@ -14,7 +14,7 @@
 
 		{{ form(edit_form,{'attr':{'class':'table table-striped edit'}}) }}
 
-		{{ form(delete_form) }}
+		<a class="popup btn btn-danger delete" href="{{path('task_delete_confirm',{'id':entity.id})}}">Delete</a>
 	</div>
 	<div class='col-md-4'>
 		<div class="page-header"><h2>Timer</h2></div>

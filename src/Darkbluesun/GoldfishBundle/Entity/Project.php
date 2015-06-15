@@ -55,7 +55,7 @@ class Project
      * @var string
      *
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="projects")
-     * @ORM\JoinColumn(name="client_id",referencedColumnName="id")
+     * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $client;
 

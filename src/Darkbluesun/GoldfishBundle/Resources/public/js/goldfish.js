@@ -47,8 +47,6 @@ $(function() {
 
 });
 
-
-
 function saveQuickTask() {
 	var data = {
 		'name': $('#form-quick-task #name-field').val(),
@@ -74,7 +72,7 @@ function initializeStuff() {
 	$('.timedatepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
 
 	// Popups:
-	$('a.new').click(function(e) {
+	$('a.new, a.popup').unbind('click').click(function(e) {
 		e.preventDefault();
 		url = $(this).attr('href');
 		$('div#popup').bPopup({loadUrl: url, contentContainer: '.bContainer' },function() {initializeStuff()});

@@ -12,7 +12,7 @@
 
 		{{ form(edit_form,{'attr':{'class':'edit table table-striped'}}) }}
 
-		{{ form(delete_form) }}
+		<a class="popup btn btn-danger delete" href="{{path('clients_delete_confirm',{'id':entity.id})}}">Delete</a>
 
 	</div>
 	<div class="col-md-4">

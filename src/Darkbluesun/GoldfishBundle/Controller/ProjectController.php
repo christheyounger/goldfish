@@ -265,7 +265,7 @@ class ProjectController extends Controller
      * @Route("/{id}", name="project_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function destroyAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
@@ -283,6 +283,19 @@ class ProjectController extends Controller
         }
 
         return $this->redirect($this->generateUrl('project'));
+    }
+
+    /**
+     * Prepare to delete this thing.
+     *
+     * @Route("/{id}/delete", name="project_delete_confirm")
+     * @Method("GET")
+     * @Template()
+     */
+    public function deleteAction(Project $project)
+    {
+        $deleteForm = $this->createDeleteForm($project->getId());
+        return ['project'=>$project, 'delete_form'=>$deleteForm->createView()];
     }
 
     /**
