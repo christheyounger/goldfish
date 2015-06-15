@@ -46,6 +46,11 @@ class Comment
      */
     protected $workspace;
 
+    public function __toString()
+    {
+        return $this->datetime->format('d/m/Y H:ia').': '.$this->text;
+    }
+
     /**
      * Get id
      *

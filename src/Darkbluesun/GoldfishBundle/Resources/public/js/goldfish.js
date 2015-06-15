@@ -77,7 +77,7 @@ function initializeStuff() {
 	$('a.new').click(function(e) {
 		e.preventDefault();
 		url = $(this).attr('href');
-		$('div#popup').bPopup({loadUrl: url },function() {initializeStuff()});
+		$('div#popup').bPopup({loadUrl: url, contentContainer: '.bContainer' },function() {initializeStuff()});
 	});
 
 	/**

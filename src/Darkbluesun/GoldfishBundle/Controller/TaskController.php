@@ -105,7 +105,7 @@ class TaskController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Create','attr'=>['class'=>'btn btn-default btn-lg']));
 
         return $form;
     }
