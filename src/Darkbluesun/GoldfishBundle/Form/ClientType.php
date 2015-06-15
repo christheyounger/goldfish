@@ -16,12 +16,12 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('companyName')
-            ->add('website')
-            ->add('phone')
-            ->add('email')
-            ->add('contactName')
-            ->add('address')
-            ->add('description')
+            ->add('website',null,['required'=>false])
+            ->add('phone',null,['required'=>false])
+            ->add('email',null,['required'=>false])
+            ->add('contactName',null,['required'=>false])
+            ->add('address',null,['required'=>false])
+            ->add('description',null,['required'=>false])
         ;
     }
     

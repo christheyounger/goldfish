@@ -77,6 +77,9 @@ class User extends BaseUser
         $this->lastName = $value;
         return $this;
     }
+    public function getName() {
+        return $this->firstName.($this->lastName?' '.$this->lastName:'');
+    }
 
     /**
      * Add workspace
@@ -116,7 +119,7 @@ class User extends BaseUser
     }
 
     public function __toString() {
-        return $this->firstName ? : $this->email;
+        return $this->firstName ? : $this->username;
     }
 
     /**

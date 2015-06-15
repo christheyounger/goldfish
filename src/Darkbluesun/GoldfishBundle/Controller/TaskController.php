@@ -44,7 +44,7 @@ class TaskController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $workspace = $user->getWorkspace();
         $entities = $workspace->getTasks();
-
+        $data = [];
         foreach ($entities as $entity) {
             $data[] = [
                         'id' => $entity->getId(),
