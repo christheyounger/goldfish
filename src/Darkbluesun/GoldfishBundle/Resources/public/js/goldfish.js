@@ -84,19 +84,19 @@ function initializeStuff() {
      * Edit Forms
      */ 
 	// Style an input when focused
-	$('form.edit input').focus(function() {
+	$('form.edit input, form.edit textarea').unbind('focus').focus(function() {
 		$(this).addClass('form-control');
-	}).blur(function() {
+	}).unbind('blur').blur(function() {
 		$(this).removeClass('form-control');
 		// Save the form data
 		saveForm($(this.form));
 	});
-	$('form.edit select').change(function(){
+	$('form.edit select').unbind('change').change(function(){
 		saveForm($(this.form));
 	});
 
 	/** Click on a row to edit it **/
-    $('table.records_list tbody tr').click(function() {
+    $('table.records_list tbody tr').unbind('click').click(function() {
         if (href = $(this).data('href')) {
         	if ($(this).data('popup'))
         		$('#popup').bPopup({loadUrl: href},function(){initializeStuff()});
@@ -128,5 +128,5 @@ function saveForm(form) {
  */
 function saveSuccess(data) {
 	$('.include_200').each(function() { $(this).load($(this).attr('src')); } );
-	$('table.records_list').dataTable().api().ajax.reload();
+	//$('table.records_list').dataTable().api().ajax.reload();
 }
