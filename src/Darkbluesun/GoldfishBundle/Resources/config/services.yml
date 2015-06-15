@@ -1,4 +1,5 @@
 services:
-#    darkbluesun_goldfish.example:
-#        class: Darkbluesun\GoldfishBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    darkbluesun_goldfish.profile.form.type:
+        class: Darkbluesun\GoldfishBundle\Form\Type\ProfileType
+        tags:
+            - { name: form.type, alias: goldfish_user_profile }
