@@ -1,7 +1,10 @@
 {% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Client list</h1>
+    <div class="page-header">
+        <a href="{{ path('clients_new') }}" class="btn btn-lg btn-default new" style="float:right;"><i class="fa fa-plus"> </i> Add</a>
+        <h1>Client list</h1>
+    </div>
 
     <table class="records_list table table-striped">
         <thead>
@@ -24,12 +27,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-        <ul>
-        <li>
-            <a href="{{ path('clients_new') }}" class="new">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}

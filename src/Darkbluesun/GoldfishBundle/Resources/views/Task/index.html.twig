@@ -1,15 +1,11 @@
 {% extends 'DarkbluesunGoldfishBundle::base.html.twig' %}
 
 {% block body -%}
-    <h1>Task list</h1>
+    <div class="page-header">
+        <a href="{{ path('tasks_new') }}" class="btn btn-lg btn-default new" style="float:right;"><i class="fa fa-plus"> </i> Add</a>
+        <h1>Task list</h1>
+    </div>
 
     {% include "DarkbluesunGoldfishBundle:Task:list.html.twig" %}
 
-        <ul>
-        <li>
-            <a href="{{ path('tasks_new') }}" class="new">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}

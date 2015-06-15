@@ -2,6 +2,7 @@
 
 {% block body -%}
     <div class="page-header">
+        <a href="{{ path('project_new') }}" class="btn btn-lg btn-default new" style="float:right;"><i class="fa fa-plus"> </i> Add</a>
         <h1>Project list</h1>
     </div>
 
@@ -26,11 +27,4 @@
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('project_new') }}" class="new">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+{% endblock %}
