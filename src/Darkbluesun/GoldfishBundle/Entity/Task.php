@@ -23,6 +23,13 @@ class Task
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="done", type="boolean")
+     */
+    private $done = false;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
@@ -108,6 +115,25 @@ class Task
         return $this->name;
     }
 
+    public function __toArray() {
+        $data = [
+            'id' => $this->getId(),
+            'client' => ['id'=>$this->client?$this->client->getId():'',
+                         'name'=>(String)$this->client],
+            'project' => ['id'=>$this->project?$this->project->getId():'',
+                          'name'=>(String)$this->project],
+            'assignee' => ['id'=>$this->project?$this->project->getId():'',
+                          'name'=>(String)$this->assignee],
+            'done' => $this->isDone(),
+            'name' => $this->getName(),
+            'due' => [
+                'timestamp' => $this->getDue()->format('U'),
+                'string' => $this->getDue()->format('d/m/y ha')
+            ],
+          ];
+        return $data;
+    }
+
     /**
      * Get id
      *
@@ -139,6 +165,40 @@ class Task
     public function getName()
     {
         return $this->name;
+    }
+
+
+    /**
+     * Set done
+     *
+     * @param boolean $done
+     * @return Task
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    /**
+     * Get done
+     *
+     * @return boolean 
+     */
+    public function isDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * Get done
+     *
+     * @return boolean 
+     */
+    public function getDone()
+    {
+        return $this->done;
     }
 
     /**

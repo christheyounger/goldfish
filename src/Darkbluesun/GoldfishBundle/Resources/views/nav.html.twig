@@ -14,6 +14,7 @@
             <li{% if route == 'clients' %} class="active"{% endif %}><a href="{{ path('clients') }}">Clients</a></li>
             <li{% if route == 'project' %} class="active"{% endif %}><a href="{{ path('project') }}">Projects</a></li>
             <li{% if route == 'tasks' %} class="active"{% endif %}><a href="{{ path('tasks') }}">Tasks</a></li>
+            <li{% if route == 'todos' %} class="active"{% endif %}><a href="{{ path('todos') }}">Tasks</a></li>
           </ul>
           {% if app.user %}
           <ul class="nav navbar-nav navbar-right">
