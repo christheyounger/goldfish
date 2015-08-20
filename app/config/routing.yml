@@ -3,4 +3,4 @@ fos_user:
 
 darkbluesun_goldfish:
     resource: "@DarkbluesunGoldfishBundle/Resources/config/routing.yml"
-    prefix:   /app
+    prefix:   /

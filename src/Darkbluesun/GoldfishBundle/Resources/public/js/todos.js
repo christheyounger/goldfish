@@ -1,18 +1,18 @@
-var todoApp = angular.module('todoApp', ['ngResource']);
+var goldfishApp = angular.module('goldfishApp', ['ngResource']);
 
-todoApp.factory('Todos', function($resource) {
-  return $resource('/app/todos/api/:id', { id: '@id' }, {
+goldfishApp.factory('Tasks', function($resource) {
+  return $resource('/api/tasks/:id', { id: '@id' }, {
     update: {
       method: 'PUT'
     }
   });
 });
 
-todoApp.controller('TodoListController', ['$scope','Todos',
-	function($scope,Todos) {
-		$scope.todos = Todos.query();
+goldfishApp.controller('TaskListController', ['$scope','Tasks',
+	function($scope,Tasks) {
+		$scope.tasks = Tasks.query();
 		$scope.orderProp = 'done';
-		$scope.saveTodo = function(todo) {
-			todo.$save();
+		$scope.saveTask = function(task) {
+			task.$save();
 		}
 	}]);

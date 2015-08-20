@@ -1,5 +1,20 @@
 {% extends "DarkbluesunGoldfishBundle::base.html.twig" %}
 {% block body %}
-Hello {{ name }}!
-
+<div ng-view></div>
+{% endblock %}
+{% block stylesheets %}
+{{parent()}}
+{% javascripts 
+'bundles/darkbluesungoldfish/js/vendor/angular.min.js'
+'bundles/darkbluesungoldfish/js/vendor/angular-resource.min.js'
+'bundles/darkbluesungoldfish/js/vendor/angular-route.min.js'
+'bundles/darkbluesungoldfish/js/services.js'
+'bundles/darkbluesungoldfish/js/controllers.js'
+'bundles/darkbluesungoldfish/js/app.js'
+%}
+  <script type="text/javascript" src="{{asset_url}}"></script>
+{% endjavascripts %}
+<style>
+.done-true { text-decoration: line-through; color: #ccc; }
+</style>
 {% endblock %}

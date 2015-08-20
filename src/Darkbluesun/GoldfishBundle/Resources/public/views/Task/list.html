@@ -1,0 +1,17 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2">
+			<h1>Todos</h1>
+			<input type="text" ng-model="query">
+			<select ng-model="orderProp">
+				<option value="text">Alphabetical</option>
+				<option value="done">Status</option>
+			</select>
+			<li ng-repeat="task in tasks | filter:query | orderBy:orderProp">
+				<input type="checkbox" ng-model="task.done" ng-click="saveTodo(task)">
+				<a href="#/tasks/{{task.id}}"><span class="done-{{task.done}}">{{task.assignee.name}} {{task.name}}</span></a>
+			</li>
+		</div>
+    </div>
+  </div>
+</div>
