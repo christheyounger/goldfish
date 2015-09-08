@@ -1,16 +1,45 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2">
-			<h1>Todos</h1>
-			<input type="text" ng-model="query">
-			<select ng-model="orderProp">
-				<option value="text">Alphabetical</option>
-				<option value="done">Status</option>
-			</select>
-			<li ng-repeat="task in tasks | filter:query | orderBy:orderProp">
-				<input type="checkbox" ng-model="task.done" ng-click="saveTodo(task)">
-				<a href="#/tasks/{{task.id}}"><span class="done-{{task.done}}">{{task.assignee.name}} {{task.name}}</span></a>
-			</li>
+		<div class="col-md-10 col-md-offset-1">
+			<h1>Tasks</h1>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td colspan="10">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="query">Search:&nbsp;</label><input type="text" ng-model="query" id="query">
+								</div>
+								<div class='col-md-6' style="text-align:right;">
+									<label for="orderProp">Order:&nbsp;</label>
+									<select ng-model="orderProp" id="orderProp">
+										<option value="text">Alphabetical</option>
+										<option value="done">Status</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Status</th>
+						<th>Client</th>
+						<th>Project</th>
+						<th>Task</th>
+						<th>Due</th>
+						<th>Assignee</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="done-{{task.done}}" ng-repeat="task in tasks | filter:query | orderBy:orderProp">
+						<td><input type="checkbox" ng-model="task.done" ng-click="saveTodo(task)"></td>
+						<td>{{task.client.name}}</td>
+						<td>{{task.project.name}}</td>
+						<td><a href="#/tasks/{{task.id}}">{{task.name}}</a></td>
+						<td>{{task.due.string}}</td>
+						<td>{{task.assignee.name}}</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
     </div>
   </div>
