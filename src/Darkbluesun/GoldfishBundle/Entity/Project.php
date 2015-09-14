@@ -88,6 +88,21 @@ class Project
         $this->timeEntries = new ArrayCollection();
     }
 
+    public function __toArray() {
+        $data = [
+            'id' => $this->getId(),
+            'client' => ['id'=>$this->client?$this->client->getId():'',
+                         'name'=>(String)$this->client],
+            'name' => $this->getName(),
+            'budget' => $this->getBudget(),
+            'due' => [
+                'timestamp' => $this->getDueDate()->format('U'),
+                'string' => $this->getDueDate()->format('d/m/y ha')
+            ],
+          ];
+        return $data;
+    }
+
     /**
      * Get id
      *

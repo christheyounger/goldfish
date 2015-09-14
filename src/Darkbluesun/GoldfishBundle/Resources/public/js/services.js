@@ -7,3 +7,19 @@ goldfishServices.factory('Tasks', function($resource) {
     }
   });
 });
+
+goldfishServices.factory('Projects', function($resource) {
+  return $resource('/api/projects/:id', { id: '@id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});
+
+goldfishServices.factory('Clients', function($resource) {
+  return $resource('/api/clients/:id', { id: '@id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});

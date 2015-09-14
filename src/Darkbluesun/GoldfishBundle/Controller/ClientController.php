@@ -17,7 +17,7 @@ use Darkbluesun\GoldfishBundle\Form\CommentType;
 /**
  * Client controller.
  *
- * @Route("/clients")
+ * @Route("/api/clients")
  */
 class ClientController extends Controller
 {
@@ -45,9 +45,12 @@ class ClientController extends Controller
         }
         $entities = $workspace->getClients();
 
-        return array(
-            'entities' => $entities,
-        );
+        $data = [];
+        foreach ($entities as $entity) {
+            $data[] = $entity->__toArray();
+        }
+
+        return new JsonResponse($data);
     }
     /**
      * Creates a new Client entity.

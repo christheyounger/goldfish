@@ -9,6 +9,34 @@ goldfishControllers.controller('HomeCtrl', ['$scope','Tasks',
 		}
 	}]);
 
+goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
+	function($scope,Clients) {
+		$scope.clients = Clients.query();
+		$scope.orderProp = 'companyName';
+		$scope.saveClient = function(client) {
+			client.$save();
+		}
+	}]);
+
+goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams',
+	 function($scope, $routeParams) {
+	    $scope.clientID = $routeParams.clientID;
+	  }]);
+
+goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects',
+	function($scope,Projects) {
+		$scope.projects = Projects.query();
+		$scope.orderProp = 'done';
+		$scope.saveProject = function(project) {
+			project.$save();
+		}
+	}]);
+
+goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams',
+	 function($scope, $routeParams) {
+	    $scope.projectID = $routeParams.projectID;
+	  }]);
+
 goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks',
 	function($scope,Tasks) {
 		$scope.tasks = Tasks.query();

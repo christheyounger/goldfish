@@ -111,6 +111,18 @@ class Client
         $this->comments = new ArrayCollection();
     }
 
+    public function __toArray() {
+        $data = [
+            'id' => $this->getId(),
+            'companyName' => $this->getCompanyName(),
+            'contactName' => $this->getContactName(),
+            'phone' => $this->getPhone(),
+            'email' => $this->getEmail(),
+            'address' => $this->getAddress(),
+          ];
+        return $data;
+    }
+
     /**
      * Get id
      *

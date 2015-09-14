@@ -15,7 +15,7 @@ use Darkbluesun\GoldfishBundle\Form\ProjectType;
 /**
  * Project controller.
  *
- * @Route("/project")
+ * @Route("/api/projects")
  */
 class ProjectController extends Controller
 {
@@ -32,10 +32,12 @@ class ProjectController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         $workspace = $user->getWorkspace();
         $entities = $workspace->getProjects();
+        $data = [];
+        foreach ($entities as $entity) {
+            $data[] = $entity->__toArray();
+        }
 
-        return array(
-            'entities' => $entities,
-        );
+        return new JsonResponse($data);
     }
     /**
      * Lists all Project entities.

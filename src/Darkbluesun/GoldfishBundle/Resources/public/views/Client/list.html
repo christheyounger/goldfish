@@ -1,0 +1,37 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<h1>Clients</h1>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<td colspan="10">
+							<div class="row">
+								<div class="col-md-6">
+									<label for="query">Search:&nbsp;</label><input type="text" ng-model="query" id="query">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>Company</th>
+						<th>Contact</th>
+						<th>Phone</th>
+						<th>Email</th>
+						<th>Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="done-{{project.done}}" ng-repeat="client in clients | filter:query | orderBy:orderProp">
+						<td><a href="#/clients/{{client.id}}">{{client.companyName}}</a></td>
+						<td>{{client.contactName}}</td>
+						<td><a href="tel:{{client.phone}}">{{client.phone}}</a></td>
+						<td><a href="mailto:{{client.email}}">{{client.email}}</a></td>
+						<td>{{client.address}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+    </div>
+  </div>
+</div>

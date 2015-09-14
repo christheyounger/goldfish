@@ -19,6 +19,22 @@ goldfishApp.config(['$routeProvider',
         templateUrl: '/bundles/darkbluesungoldfish/views/Task/show.html',
         controller: 'TaskViewCtrl'
       }).
+      when('/projects', {
+        templateUrl: '/bundles/darkbluesungoldfish/views/Project/list.html',
+        controller: 'ProjectListCtrl'
+      }).
+      when('/projects/:projectID', {
+        templateUrl: '/bundles/darkbluesungoldfish/views/Project/show.html',
+        controller: 'ProjectViewCtrl'
+      }).
+      when('/clients', {
+        templateUrl: '/bundles/darkbluesungoldfish/views/Client/list.html',
+        controller: 'ClientListCtrl'
+      }).
+      when('/clients/:clientID', {
+        templateUrl: '/bundles/darkbluesungoldfish/views/Client/show.html',
+        controller: 'ClientViewCtrl'
+      }).
       otherwise({
         redirectTo: '/notfound'
       });
