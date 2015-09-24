@@ -16,6 +16,9 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		$scope.saveClient = function(client) {
 			client.$save();
 		}
+		$scope.addClient = function() {
+			$scope.clients.push(new Clients({edit:true}));
+		}
 	}]);
 
 goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams',

@@ -55,116 +55,47 @@ class ClientController extends Controller
     /**
      * Creates a new Client entity.
      *
-     * @Route("/", name="clients_create")
+     * @Route("", name="clients_create")
      * @Method("POST")
      * @Template("DarkbluesunGoldfishBundle:Client:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Client();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $user = $this->get('security.context')->getToken()->getUser();
-            $entity->setWorkspace($user->getWorkspace());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $user = $this->get('security.context')->getToken()->getUser();
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Hello Email')
-                ->setFrom($user->getEmail())
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'DarkbluesunGoldfishBundle:Client:email.html.twig',
-                        array('name' => $entity->getCompanyName())
-                    ),'text/html')
-                ->addPart(
-                    $this->renderView(
-                        'DarkbluesunGoldfishBundle:Client:email.txt.twig',
-                        array('name' => $entity->getCompanyName())
-                    ),'text/plain');
-
-            $mailgun = $this->container->get("mailgun.swift_transport.transport");
-
-            $mailgun->send($message);
-
-            return $this->redirect($this->generateUrl('clients_edit', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        $client = new Client();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $client->setWorkspace($user->getWorkspace());
+        $data = $request->request->all();
+        $this->applyData($client,$data);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($client);
+        $em->flush();
+        return new JsonResponse($client->__toArray($client));
     }
 
     /**
-     * Creates a form to create a Client entity.
+     * Edits an existing Client entity.
      *
-     * @param Client $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Route("/{id}", name="clients_update")
+     * @Method("POST")
+     * @Template("DarkbluesunGoldfishBundle:Client:edit.html.twig")
      */
-    private function createCreateForm(Client $entity)
-    {
-        $form = $this->createForm(new ClientType(), $entity, array(
-            'action' => $this->generateUrl('clients_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create','attr'=>['class'=>'btn btn-default btn-lg']));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Client entity.
-     *
-     * @Route("/new", name="clients_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Client();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'edit_form'   => $form->createView(),
-        );
-    }
-
-
-    /**
-     * Displays a form to edit an existing Client entity.
-     *
-     * @Route("/{id}", name="clients_edit")
-     * @Method("GET")
-     * @Template()
-     */
-    public function editAction($id)
+    public function updateAction(Request $request, Client $client)
     {
         $em = $this->getDoctrine()->getManager();
+        $data = (array)json_decode($request->getContent());
+        $this->applyData($client,$data);
+        $em->flush();
+        return new JsonResponse($client->__toArray($client));
+    }
 
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Client entity.');
+    private function applyData(Client $client, Array $data) {
+        $keys = ['companyName','contactName','website','email','phone','address','comments'];
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $data)) {
+                $setter = 'set'.ucfirst($key);
+                $client->$setter($data[$key]);
+            }
         }
-
-        $editForm = $this->createEditForm($entity);
-        $comment = new ClientComment;
-        $commentForm = $this->createCommentForm($entity,$comment);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'comment_form' => $commentForm->createView(),
-        );
     }
 
     /**
@@ -284,34 +215,7 @@ class ClientController extends Controller
 
         return $form;
     }
-    /**
-     * Edits an existing Client entity.
-     *
-     * @Route("/{id}", name="clients_update")
-     * @Method("PUT")
-     * @Template("DarkbluesunGoldfishBundle:Client:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Client entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return new JsonResponse(['success'=>true]);
-        }
-
-        return new JsonResponse(['success'=>false]);
-    }
     /**
      * Deletes a Client entity.
      *

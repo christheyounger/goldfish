@@ -19,17 +19,32 @@
 						<th>Phone</th>
 						<th>Email</th>
 						<th>Address</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr class="done-{{project.done}}" ng-repeat="client in clients | filter:query | orderBy:orderProp">
-						<td><a href="#/clients/{{client.id}}">{{client.companyName}}</a></td>
-						<td>{{client.contactName}}</td>
-						<td><a href="tel:{{client.phone}}">{{client.phone}}</a></td>
-						<td><a href="mailto:{{client.email}}">{{client.email}}</a></td>
-						<td>{{client.address}}</td>
+						<td ng-if="!client.editing"><a href="#/clients/{{client.id}}">{{client.companyName}}</a></td>
+						<td ng-if="client.editing"><input type="text" class="form-control" ng-model="client.companyName"></td>
+						<td ng-if="!client.editing">{{client.contactName}}</td>
+						<td ng-if="client.editing"><input type="text" class="form-control" ng-model="client.contactName"></td>
+						<td ng-if="!client.editing"><a href="tel:{{client.phone}}">{{client.phone}}</a></td>
+						<td ng-if="client.editing"><input type="text" class="form-control" ng-model="client.phone"></td>
+						<td ng-if="!client.editing"><a href="mailto:{{client.email}}">{{client.email}}</a></td>
+						<td ng-if="client.editing"><input type="text" class="form-control" ng-model="client.email"></td>
+						<td ng-if="!client.editing">{{client.address}}</td>
+						<td ng-if="client.editing"><input type="text" class="form-control" ng-model="client.address"></td>
+						<td class="btn-group" role="group">
+							<button class="btn btn-sm btn-default" ng-if="!client.editing" data-ng-click="client.editing=true"><i class="fa fa-edit"> </i></button>
+							<button class="btn btn-sm btn-success" ng-if="client.editing" data-ng-click="saveClient(client)"><i class="fa fa-save"> </i></button>
+						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td><a data-ng-click="addClient()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
     </div>
