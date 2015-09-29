@@ -1,4 +1,9 @@
+/bower_components/
+/node_modules/
 /web/bundles/
+/web/assets/
+/web/assetic/
+/web/fonts/
 /app/bootstrap.php.cache
 /app/cache/*
 /app/config/parameters.yml

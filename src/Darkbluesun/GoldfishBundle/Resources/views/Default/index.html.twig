@@ -4,14 +4,7 @@
 {% endblock %}
 {% block stylesheets %}
 {{parent()}}
-{% javascripts 
-'bundles/darkbluesungoldfish/js/vendor/angular.min.js'
-'bundles/darkbluesungoldfish/js/vendor/angular-resource.min.js'
-'bundles/darkbluesungoldfish/js/vendor/angular-route.min.js'
-'bundles/darkbluesungoldfish/js/services.js'
-'bundles/darkbluesungoldfish/js/controllers.js'
-'bundles/darkbluesungoldfish/js/app.js'
-%}
+{% javascripts filter='?uglifyjs2' output='assets/top.js' '@vendor_js_top' '@goldfish_angular_js' %}
   <script type="text/javascript" src="{{asset_url}}"></script>
 {% endjavascripts %}
 <style>
