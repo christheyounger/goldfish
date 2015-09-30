@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discr", type="string")
- * @ORM\DiscriminatorMap({"client" = "ClientComment", "project" = "ProjectComment", "task" = "TaskComment"})
+ * @ORM\DiscriminatorMap({"client" = "ClientComment", "project" = "ProjectComment", "task" = "TaskComment", "comment" = "Comment"})
  * @ORM\HasLifecycleCallbacks()
  */
 class Comment
