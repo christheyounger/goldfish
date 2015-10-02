@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * User
@@ -21,6 +22,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serial\Groups({"user_list","task_list","task_details"})
      */
     protected $id;
 
@@ -31,16 +33,19 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+     * @Serial\Groups({"user_list","task_list","task_details"})
      */
     protected $firstName;
 
     /**
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     * @Serial\Groups({"user_list","task_list","task_details"})
      */
     protected $lastName;
 
     /**
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @Serial\Groups({"user_list","task_list","task_details"})
      */
     protected $image;
 

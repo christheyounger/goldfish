@@ -31,12 +31,29 @@
 				</thead>
 				<tbody>
 					<tr class="done-{{project.done}}" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-						<td><a href="#/clients/{{project.client.id}}">{{project.client.name}}</td>
-						<td><a href="#/projects/{{project.id}}">{{project.name}}</a></td>
-						<td>{{project.due.string}}</td>
-						<td>${{project.budget}}</td>
+						<td ng-if="!project.editing"><a href="#/clients/{{project.client.id}}">{{project.client.companyName}}</a></td>
+						<td ng-if="project.editing">
+							<select ng-model="project.client" ng-options="client as client.companyName for client in clients track by client.id">
+								<option>None</option>
+							</select>
+						</td>
+						<td ng-if="!project.editing"><a href="#/projects/{{project.id}}">{{project.name}}</a></td>
+						<td ng-if="project.editing"><input type="text" class="form-control" ng-model="project.name"></td>
+						<td ng-if="!project.editing">{{project.dueDate.string}}</td>
+						<td ng-if="project.editing"><input type="date" class="form-control" ng-model="project.dueDate"></td>
+						<td ng-if="!project.editing"><a href="mailto:{{client.email}}">${{project.budget}}</a></td>
+						<td ng-if="project.editing"><input type="number" class="form-control" ng-model="project.budget"></td>
+						<td class="btn-group" role="group">
+							<button class="btn btn-sm btn-default" ng-if="!project.editing" data-ng-click="project.editing=true"><i class="fa fa-edit"> </i></button>
+							<button class="btn btn-sm btn-success" ng-if="project.editing" data-ng-click="saveProject(project)"><i class="fa fa-save"> </i></button>
+						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td><a data-ng-click="addProject()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
     </div>

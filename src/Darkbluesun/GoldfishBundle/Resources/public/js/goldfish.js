@@ -8,20 +8,6 @@ $(function() {
 	 */
 
 	
-	$('table#tasks').dataTable({
-		"columns": [
-	            { "data": "id", "render": function( data, type, row) { 
-	            	href = row['url']; 
-	            	return "<a class='edit' href='"+href+"'>"+data+"</a>";
-	            	} 
-	            },
-	            { "data": "client" },
-	            { "data": "project" },
-	            { "data": "name" },
-	            { "data": { _: "due.string", sort: "due.sort"} },
-	           ],
-	});
-	$('table.records_list').dataTable();
 
 	/**
 	* Comments functions

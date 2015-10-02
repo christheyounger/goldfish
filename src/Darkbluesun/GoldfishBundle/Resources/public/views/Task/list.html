@@ -35,14 +35,28 @@
 				</thead>
 				<tbody>
 					<tr class="done-{{task.done}}" ng-repeat="task in tasks | filter:query | orderBy:orderProp">
-						<td><input type="checkbox" ng-model="task.done" ng-click="saveTodo(task)"></td>
-						<td><a href="#/clients/{{task.client.id}}">{{task.client.name}}</a></td>
-						<td><a href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
-						<td><a href="#/tasks/{{task.id}}">{{task.name}}</a></td>
-						<td>{{task.due.string}}</td>
-						<td>{{task.assignee.name}}</td>
+						<td><input type="checkbox" ng-model="task.done" ng-click="saveTask(task)"></td>
+						<td ng-if="!task.editing"><a href="#/clients/{{task.client.id}}">{{task.client.companyName}}</a></td>
+						<td ng-if="task.editing"><select ng-model="task.client" ng-options="client as client.companyName for client in clients track by client.id"><option></option></select></td>
+						<td ng-if="!task.editing"><a href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
+						<td ng-if="task.editing"><select ng-model="task.project" ng-options="project as project.name for project in projects track by project.id"><option></option></select></td>
+						<td ng-if="!task.editing"><a href="#/tasks/{{task.id}}">{{task.name}}</a></td>
+						<td ng-if="task.editing"><input type="text" ng-model="task.name"></td>
+						<td ng-if="!task.editing">{{task.due}}</td>
+						<td ng-if="task.editing"><input type="date" ng-model="task.due"></td>
+						<td ng-if="!task.editing">{{task.assignee.firstName}}</td>
+						<td ng-if="task.editing"><select ng-options="user as user.firstName for user in users track by user.id" ng-model="task.assignee"><option></option></select></td>
+						<td class="btn-group" role="group">
+							<button class="btn btn-sm btn-default" ng-if="!task.editing" data-ng-click="task.editing=true"><i class="fa fa-edit"> </i></button>
+							<button class="btn btn-sm btn-success" ng-if="task.editing" data-ng-click="saveTask(task)"><i class="fa fa-save"> </i></button>
+						</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<td><a data-ng-click="addTask()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
     </div>

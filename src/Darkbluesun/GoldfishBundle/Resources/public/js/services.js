@@ -23,3 +23,11 @@ goldfishServices.factory('Clients', function($resource) {
     }
   });
 });
+
+goldfishServices.factory('Users', function($resource) {
+  return $resource('/api/users/:id', { id: '@id' }, {
+    update: {
+      method: 'PUT'
+    }
+  });
+});

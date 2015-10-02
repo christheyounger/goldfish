@@ -3,12 +3,16 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Darkbluesun\GoldfishBundle\Entity\Client;
+use Darkbluesun\GoldfishBundle\Entity\Project;
 use Darkbluesun\GoldfishBundle\Entity\Task;
+use Darkbluesun\GoldfishBundle\Entity\User;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
 use Darkbluesun\GoldfishBundle\Form\TaskType;
 
@@ -27,81 +31,76 @@ class TaskController extends Controller
      */
     public function listAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $workspace = $user->getWorkspace();
-        $entities = $workspace->getTasks();
-        $data = [];
-        foreach ($entities as $entity) {
-            $data[] = $entity->__toArray();
-        }
-
-        return new JsonResponse($data);
+        return new Response(
+            $this->get('serializer')->serialize(
+                $this->getUser()->getWorkspace()->getTasks(),
+                'json',['groups'=>['task_list']]
+            ));
     }
 
     /**
-     * Creates a new Task entity.
+     * Creates a new Task.
      *
-     * @Route("/", name="tasks_create")
+     * @Route("", name="tasks_create")
      * @Method("POST")
      */
     public function createAction(Request $request)
     {
-        $entity = new Task();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $task = new Task();
+        $task->setWorkspace($this->getUser()->getWorkspace());
+        $this->applyData($task,(array)json_decode($request->getContent()));
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($task);
+        $em->flush();
 
-        if ($form->isValid()) {
-            $user = $this->get('security.context')->getToken()->getUser();
-            $entity->setWorkspace($user->getWorkspace());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return new JsonResponse($entity);
-        }
-
+        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
     }
 
     /**
-     * Edits an existing Task entity.
+     * Edits an existing Task.
      *
      * @Route("/{id}", name="tasks_update")
      * @Method("POST")
      */
-    public function updateAction(Task $todo)
+    public function updateAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
-        $postData = json_decode($this->get("request")->getContent());
-        $todo->setDone($postData->done);
+        $this->applyData($task,(array)json_decode($request->getContent()));
         $em->flush();
-        return new JsonResponse($todo->__toArray());
+        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+    }
+
+    private function applyData(Task $client, Array $data) {
+        $em = $this->getDoctrine()->getManager();
+        $keys = ['name','done','due','client','project','assignee'];
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $data)) {
+                // Transform
+                switch ($key) {
+                    case 'due': try { $data[$key] = new \DateTime($data[$key]); } catch (\Exception $e) { continue; } break;
+                    case 'client': $data[$key] = $em->find(Client::class,$data[$key]->id); break;
+                    case 'project': $data[$key] = $em->find(Project::class,$data[$key]->id); break;
+                    case 'assignee': $data[$key] = $em->find(User::class,$data[$key]->id); break;
+                }
+                // Set
+                $setter = 'set'.ucfirst($key);
+                $client->$setter($data[$key]);
+            }
+        }
     }
 
     /**
-     * Deletes a Task entity.
+     * Deletes a Task.
      *
      * @Route("/{id}", name="tasks_delete")
      * @Method("DELETE")
      */
-    public function destroyAction(Request $request, $id)
+    public function destroyAction(Request $request, Task $task)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Task entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-
-            return new JsonResponse(['success'=>true]);
-        }
-
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($task);
+        $em->flush();
+        return new JsonResponse(['success'=>true]);
     }
 
     /**
@@ -110,17 +109,13 @@ class TaskController extends Controller
      * @Route("/{id}/comments", name="task_comment_list")
      * @Method("GET")
      */
-    public function commentsAction($id)
+    public function commentsAction(Task $task)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $task = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-        $comments = $task->getComments();
-
-        return new JsonResponse(array(
-            'comments' => $comments,
-        ));
+        return new Response(
+            $this->get('serializer')->serialize(
+                $task->getComments(),
+                'json',['groups'=>['comments_list']]
+            ));
     }
 
     /**
@@ -128,11 +123,13 @@ class TaskController extends Controller
      *
      * @Route("/{id}/timesheet/", name="task_timesheet")
      * @Method("GET")
-     * @Template()
      */
     public function timesheetAction(Task $task) {
-        $timesheet = $task->getTimeEntries();
-        return new JsonResponse([ 'task'=>$task, 'timesheet'=>$timesheet ]);
+        return new Response(
+            $this->get('serializer')->serialize(
+                $task->getTimeEntries(),
+                'json',['groups'=>['timesheet_list']]
+            ));
     }
 
     /**
@@ -151,6 +148,6 @@ class TaskController extends Controller
         $entry->setUser($this->get('security.context')->getToken()->getUser());
         $em->persist($entry);
         $em->flush();
-        return new JsonResponse(['success']);
+        return new Response($this->get('serializer')->serialize($entry,'json',['groups'=>['time_details']]));
     }
 }

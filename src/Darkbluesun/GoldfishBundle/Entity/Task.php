@@ -4,6 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * Task
@@ -16,6 +17,7 @@ class Task
     /**
      * @var integer
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -25,6 +27,7 @@ class Task
     /**
      * @var boolean
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="done", type="boolean")
      */
     private $done = false;
@@ -32,6 +35,7 @@ class Task
     /**
      * @var string
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -39,6 +43,7 @@ class Task
     /**
      * @var \DateTime
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="due", type="datetime")
      */
     private $due;
@@ -46,6 +51,7 @@ class Task
     /**
      * @var \Decimal
      *
+     * @Serial\Groups({"task_list","task_details","project_details"}, nullable=true)
      * @ORM\Column(name="time", type="decimal", scale=2)
      */
     private $time;
@@ -53,6 +59,7 @@ class Task
     /**
      * @var string
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     private $description;
@@ -60,43 +67,41 @@ class Task
     /**
      * @var string
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="tasks")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
 
     /**
+     * @Serial\Groups({"task_details"})
      * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="task")
      */
     protected $timeEntries;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="tasks")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $client;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details"})
      * @ORM\ManyToOne(targetEntity="Project",inversedBy="tasks")
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $project;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="User",inversedBy="tasks")
      * @ORM\JoinColumn(name="assignee_id",referencedColumnName="id")
      */
     protected $assignee;
 
     /**
-     * @var boolean
-     *
+     * @Serial\Groups({"task_details"})
      * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task", cascade="remove")
      */
     protected $comments;

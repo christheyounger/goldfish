@@ -4,6 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * Project
@@ -18,6 +19,7 @@ class Project
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @Serial\Groups({"project_list","project_details","client_details","task_list","task_details"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -25,6 +27,7 @@ class Project
     /**
      * @var string
      *
+     * @Serial\Groups({"project_list","project_details","client_details","task_list","task_details"})
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -32,6 +35,7 @@ class Project
     /**
      * @var \DateTime
      *
+     * @Serial\Groups({"project_list","project_details","client_details"})
      * @ORM\Column(name="due_date", type="datetimetz")
      */
     private $dueDate;
@@ -39,6 +43,7 @@ class Project
     /**
      * @var integer
      *
+     * @Serial\Groups({"project_list","project_details","client_details"})
      * @ORM\Column(name="budget", type="integer")
      */
     private $budget;
@@ -46,34 +51,33 @@ class Project
     /**
      * @var string
      *
+     * @Serial\Groups({"project_details"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="projects")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"project_list","project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="projects")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $client;
 
     /**
-     * @var boolean
-     *
+     * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="Task", mappedBy="project")
      */
     protected $tasks;
 
     /**
-     * @var boolean
-     *
+     * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="ProjectComment", mappedBy="project")
      */
     protected $comments;
 
     /**
+     * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="project")
      */
     protected $timeEntries;
