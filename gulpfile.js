@@ -46,7 +46,7 @@ gulp.task('css', function () {
 gulp.task('fonts', function() {
     return gulp.src([
                     'bower_components/font-awesome/fonts/fontawesome-webfont.*',
-                    'bower_components/bootstrap/fonts/glyphicons-halflings.*'
+                    'bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.*'
                     ])
             .pipe(gulp.dest(dest + 'fonts'));
 });
