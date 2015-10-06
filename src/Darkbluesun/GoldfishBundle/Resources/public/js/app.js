@@ -1,4 +1,8 @@
-var goldfishApp = angular.module('goldfishApp', ['ngRoute','goldfishServices','goldfishControllers','ngResource']);
+var goldfishApp = angular.module('goldfishApp', ['ngRoute','goldfishServices','goldfishControllers','ngResource','xeditable']);
+
+goldfishApp.run(function(editableOptions) {
+  editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
 
 goldfishApp.config(['$routeProvider',
   function($routeProvider) {

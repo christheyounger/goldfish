@@ -42,8 +42,6 @@ class Task
 
     /**
      * @var \DateTime
-     *
-     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="due", type="datetime")
      */
     private $due;
@@ -51,8 +49,8 @@ class Task
     /**
      * @var \Decimal
      *
-     * @Serial\Groups({"task_list","task_details","project_details"}, nullable=true)
-     * @ORM\Column(name="time", type="decimal", scale=2)
+     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @ORM\Column(name="time", type="decimal", scale=2, nullable=true)
      */
     private $time;
 
@@ -271,6 +269,17 @@ class Task
     public function getDue()
     {
         return $this->due;
+    }
+
+    /**
+     * Get due
+     *
+     * @Serial\Groups({"task_list","task_details"})
+     * @return \DateTime 
+     */
+    public function getDueDate()
+    {
+        return $this->due->format(\DateTime::ISO8601);
     }
 
     /**

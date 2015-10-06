@@ -35,20 +35,25 @@
 				</thead>
 				<tbody>
 					<tr class="done-{{task.done}}" ng-repeat="task in tasks | filter:query | orderBy:orderProp">
-						<td><input type="checkbox" ng-model="task.done" ng-click="saveTask(task)"></td>
-						<td ng-if="!task.editing"><a href="#/clients/{{task.client.id}}">{{task.client.companyName}}</a></td>
-						<td ng-if="task.editing"><select ng-model="task.client" ng-options="client as client.companyName for client in clients track by client.id"><option></option></select></td>
-						<td ng-if="!task.editing"><a href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
-						<td ng-if="task.editing"><select ng-model="task.project" ng-options="project as project.name for project in projects track by project.id"><option></option></select></td>
-						<td ng-if="!task.editing"><a href="#/tasks/{{task.id}}">{{task.name}}</a></td>
-						<td ng-if="task.editing"><input type="text" ng-model="task.name"></td>
-						<td ng-if="!task.editing">{{task.due}}</td>
-						<td ng-if="task.editing"><input type="date" ng-model="task.due"></td>
-						<td ng-if="!task.editing">{{task.assignee.firstName}}</td>
-						<td ng-if="task.editing"><select ng-options="user as user.firstName for user in users track by user.id" ng-model="task.assignee"><option></option></select></td>
-						<td class="btn-group" role="group">
-							<button class="btn btn-sm btn-default" ng-if="!task.editing" data-ng-click="task.editing=true"><i class="fa fa-edit"> </i></button>
-							<button class="btn btn-sm btn-success" ng-if="task.editing" data-ng-click="saveTask(task)"><i class="fa fa-save"> </i></button>
+						<td><input type="checkbox" ng-click="saveTask(task)"></td>
+						<td><a e-form="rowform" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.companyName for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.companyName}}</a></td>
+						<td><a e-form="rowform" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
+						<td><a e-form="rowform" editable-text="task.name" href="#/tasks/{{task.id}}">{{task.name}}</a></td>
+						<td><span e-form="rowform" editable-bsdate="task.dueDate" e-datepicker-popup="dd-MMMM-yyyy">{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}</span></td>
+						<td><span e-form="rowform" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.firstName for user in users track by user.id">{{task.assignee.firstName}}</span></td>
+						<td style="white-space: nowrap">
+							<div class="btn-group" role="group">
+					        <!-- form -->
+					        <form editable-form name="rowform" onaftersave="saveTask(task)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == task">
+					          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+					            <i class="fa fa-save"></i>
+					          </button>
+					          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+					            <i class="fa fa-close"></i>
+					          </button>
+					        </form>
+								<button ng-show="!rowform.$visible" class="btn btn-sm btn-default" data-ng-click="rowform.$show()"><i class="fa fa-edit"> </i></button>
+							</div>
 						</td>
 					</tr>
 				</tbody>

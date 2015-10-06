@@ -17,7 +17,8 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 			client.$save();
 		}
 		$scope.addClient = function() {
-			$scope.clients.push(new Clients({editing:true}));
+			$scope.inserted = new Clients();
+			$scope.clients.push($scope.inserted);
 		}
 	}]);
 
@@ -46,10 +47,16 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams',
 
 goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Clients','Users','$q',
 	function($scope,Tasks,Projects,Clients,Users,$q) {
-		$scope.tasks = Tasks.query();		
-		$scope.projects = Projects.query();
-		$scope.clients = Clients.query();
-		$scope.users = Users.query();
+		$scope.tasks = Tasks.query();	
+		$scope.loadProjects = function() {	
+			$scope.projects = Projects.query();
+		}
+		$scope.loadClients = function() {
+			$scope.clients = Clients.query();
+		}
+		$scope.loadUsers = function() {
+			$scope.users = Users.query();
+		}
 		$scope.orderProp = 'done';
 		$scope.saveTask = function(task) {
 			task.$save();
