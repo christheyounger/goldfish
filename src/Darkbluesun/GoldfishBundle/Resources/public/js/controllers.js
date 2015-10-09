@@ -22,9 +22,12 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		}
 	}]);
 
-goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams',
-	 function($scope, $routeParams) {
-	    $scope.clientID = $routeParams.clientID;
+goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams','Clients',
+	 function($scope, $routeParams,Clients) {
+	    $scope.client = Clients.get({id:$routeParams.clientID});
+	    $scope.saveClient = function() {
+	    	$scope.client.$save();
+	    }
 	  }]);
 
 goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients',
@@ -40,9 +43,18 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 		}
 	}]);
 
-goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams',
-	 function($scope, $routeParams) {
-	    $scope.projectID = $routeParams.projectID;
+goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Projects','Clients','Tasks','Users',
+	 function($scope, $routeParams,Projects,Clients,Tasks,Users) {
+	    $scope.project = Projects.get({id:$routeParams.projectID});
+	    $scope.saveProject = function() {
+	    	$scope.project.$save();
+	    }
+		$scope.loadClients = function() {
+			$scope.clients = Clients.query();
+		}
+		$scope.loadUsers = function() {
+			$scope.users = Users.query();
+		}
 	  }]);
 
 goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Clients','Users','$q',
@@ -66,7 +78,19 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 		}
 	}]);
 
-goldfishControllers.controller('TaskViewCtrl', ['$scope','$routeParams',
-	 function($scope, $routeParams) {
-	    $scope.taskID = $routeParams.taskID;
+goldfishControllers.controller('TaskViewCtrl', ['$scope','$routeParams','Tasks','Projects','Clients','Users',
+	 function($scope, $routeParams, Tasks, Projects, Clients, Users) {
+	    $scope.task = Tasks.get({id:$routeParams.taskID});
+	    $scope.saveTask = function() {
+	    	$scope.task.$save();
+	    }
+		$scope.loadProjects = function() {	
+			$scope.projects = Projects.query();
+		}
+		$scope.loadClients = function() {
+			$scope.clients = Clients.query();
+		}
+		$scope.loadUsers = function() {
+			$scope.users = Users.query();
+		}
 	  }]);

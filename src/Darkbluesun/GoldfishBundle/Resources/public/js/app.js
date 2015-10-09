@@ -20,7 +20,7 @@ goldfishApp.config(['$routeProvider',
         controller: 'TaskListCtrl'
       }).
       when('/tasks/:taskID', {
-        templateUrl: '/bundles/darkbluesungoldfish/views/Task/show.html',
+        templateUrl: '/bundles/darkbluesungoldfish/views/Task/detail.html',
         controller: 'TaskViewCtrl'
       }).
       when('/projects', {
@@ -28,7 +28,7 @@ goldfishApp.config(['$routeProvider',
         controller: 'ProjectListCtrl'
       }).
       when('/projects/:projectID', {
-        templateUrl: '/bundles/darkbluesungoldfish/views/Project/show.html',
+        templateUrl: '/bundles/darkbluesungoldfish/views/Project/detail.html',
         controller: 'ProjectViewCtrl'
       }).
       when('/clients', {
@@ -36,7 +36,7 @@ goldfishApp.config(['$routeProvider',
         controller: 'ClientListCtrl'
       }).
       when('/clients/:clientID', {
-        templateUrl: '/bundles/darkbluesungoldfish/views/Client/show.html',
+        templateUrl: '/bundles/darkbluesungoldfish/views/Client/detail.html',
         controller: 'ClientViewCtrl'
       }).
       otherwise({

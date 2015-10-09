@@ -38,6 +38,17 @@ class ProjectController extends Controller
     }
 
     /**
+     * Get a Project
+     *
+     * @Route("/{id}", name="project_get")
+     * @Method("GET")
+     */
+    public function getAction(Project $project)
+    {
+        return new Response($this->get('serializer')->serialize($project,'json',['groups'=>['project_details']]));
+    }
+
+    /**
      * Creates a new Project entity.
      *
      * @Route("", name="project_create")
@@ -45,13 +56,10 @@ class ProjectController extends Controller
      */
     public function createAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         $project = new Project();
         $project->setWorkspace($this->getUser()->getWorkspace());
         $this->applyData($project,(array)json_decode($request->getContent()),['name','budget','dueDate','client']);
-        $em->persist($project);
-        $em->flush();
-        return new Response($this->get('serializer')->serialize($project,'json',['groups'=>['project_details']]));
+        return $this->getAction($project);
     }
 
     /**
@@ -63,10 +71,8 @@ class ProjectController extends Controller
     public function updateAction(Request $request, Project $project)
     {
         $this->requireWorkspace($project);
-        $em = $this->getDoctrine()->getManager();
         $this->applyData($project,(array)json_decode($request->getContent()),['name','budget','dueDate','client']);
-        $em->flush();
-        return new Response($this->get('serializer')->serialize($project,'json',['groups'=>['project_details']]));
+        return $this->getAction($project);
     }
 
     /**
@@ -113,7 +119,7 @@ class ProjectController extends Controller
         }
     }
 
-    private function applyData(Project $client, Array $data, Array $allowed) {
+    private function applyData(Project $project, Array $data, Array $allowed) {
         $em = $this->getDoctrine()->getManager();
         foreach ($allowed as $key) {
             if (array_key_exists($key, $data)) {
@@ -124,8 +130,10 @@ class ProjectController extends Controller
                 }
                 // Set
                 $setter = 'set'.ucfirst($key);
-                $client->$setter($data[$key]);
+                $project->$setter($data[$key]);
             }
         }
+        if (!$project->getId()) $em->persist($project);
+        $em->flush();
     }
 }

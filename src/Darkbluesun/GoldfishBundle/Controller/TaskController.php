@@ -39,6 +39,17 @@ class TaskController extends Controller
     }
 
     /**
+     * Gets a Task.
+     *
+     * @Route("/{id}", name="tasks_get")
+     * @Method("GET")
+     */
+    public function getAction(Task $task)
+    {
+        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+    }
+
+    /**
      * Creates a new Task.
      *
      * @Route("", name="tasks_create")
@@ -49,11 +60,8 @@ class TaskController extends Controller
         $task = new Task();
         $task->setWorkspace($this->getUser()->getWorkspace());
         $this->applyData($task,(array)json_decode($request->getContent()));
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($task);
-        $em->flush();
 
-        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+        return $this->getAction($task);
     }
 
     /**
@@ -64,15 +72,13 @@ class TaskController extends Controller
      */
     public function updateAction(Request $request, Task $task)
     {
-        $em = $this->getDoctrine()->getManager();
         $this->applyData($task,(array)json_decode($request->getContent()));
-        $em->flush();
-        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+        return $this->getAction($task);
     }
 
-    private function applyData(Task $client, Array $data) {
+    private function applyData(Task $task, Array $data) {
         $em = $this->getDoctrine()->getManager();
-        $keys = ['name','done','due','client','project','assignee'];
+        $keys = ['name','done','due','client','project','assignee','time','description'];
         foreach ($keys as $key) {
             if (array_key_exists($key, $data)) {
                 // Transform
@@ -84,9 +90,12 @@ class TaskController extends Controller
                 }
                 // Set
                 $setter = 'set'.ucfirst($key);
-                $client->$setter($data[$key]);
+                $task->$setter($data[$key]);
             }
         }
+        if (!$task->getId()) $em->persist($task);
+        $em->flush();
+        return true;
     }
 
     /**

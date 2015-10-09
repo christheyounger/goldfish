@@ -48,6 +48,17 @@ class ClientController extends Controller
                     'json',['groups'=>['client_list']]
             ));
     }
+
+    /**
+     * Gets an existing Client entity.
+     *
+     * @Route("/{id}", name="clients_get")
+     * @Method("GET")
+     */
+    public function getAction(Client $client)
+    {
+        return new Response($this->get('serializer')->serialize($client,'json',['groups'=>['client_details']]));
+    }
     /**
      * Creates a new Client entity.
      *
@@ -63,7 +74,7 @@ class ClientController extends Controller
         $client->setWorkspace($this->getUser()->getWorkspace());
         $em->persist($client);
         $em->flush();
-        return new Response($serializer->serialize($client,'json',['groups'=>['client_details']]));
+        return $this->getAction($client);
     }
 
     /**
@@ -79,7 +90,7 @@ class ClientController extends Controller
         $data = (array)json_decode($request->getContent());
         $this->applyData($client,$data);
         $em->flush();
-        return new Response($this->get('serializer')->serialize($client,'json',['groups'=>['client_details']]));
+        return $this->getAction($client);
     }
 
     private function applyData(Client $client, Array $data) {

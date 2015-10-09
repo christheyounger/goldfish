@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1" ng-model="project">
+			<form name="projectForm" editable-form onaftersave="saveProject()">
+			<h1 e-form="projectForm" editable-text="project.name">{{project.name}}</h1>
+			<table>
+			<tr><th>Due:</th><td><span editable-date="project.dueDate" e-form="projectForm">{{project.dueDate}}</span></td></tr>
+			<tr><th>Budget:</th><td><span editable-number="project.budget" step="0.25" e-form="projectForm">{{project.budget}}</span></td></tr>
+			<tr><th>Client:</th><td><a e-form="projectForm" onshow="loadClients()" editable-select="project.client" e-ng-options="client as client.companyName for client in clients track by client.id" href="#/clients/{{project.client.id}}">{{project.client.companyName}}</span></td></tr>
+			</table>
+			<div class="btn-group" role="group">
+			  <button type="submit" ng-show="projectForm.$visible" ng-disabled="projectForm.$waiting" class="btn btn-primary">
+	            <i class="fa fa-save"></i> Save
+	          </button>
+	          <button type="button" ng-show="projectForm.$visible" ng-disabled="projectForm.$waiting" ng-click="projectForm.$cancel()" class="btn btn-default">
+	            <i class="fa fa-close"></i> Cancel
+	          </button>
+	          </div>
+			</form>
+				<button ng-show="!projectForm.$visible" class="btn btn-default" data-ng-click="projectForm.$show()"><i class="fa fa-edit"> </i> Edit</button>
+			</div>
+		</div>
+	</div>
+</div>
