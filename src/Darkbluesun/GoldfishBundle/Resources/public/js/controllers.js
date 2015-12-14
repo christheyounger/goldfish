@@ -59,7 +59,11 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Proj
 
 goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Clients','Users','$q',
 	function($scope,Tasks,Projects,Clients,Users,$q) {
-		$scope.tasks = Tasks.query();	
+		$scope.tasks = Tasks.query(function() {
+			angular.forEach($scope.tasks,function(task,key) {
+				$scope.tasks[key].dueDate = new Date(task.dueDate);
+			})
+		});
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
 		}
@@ -80,7 +84,9 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 
 goldfishControllers.controller('TaskViewCtrl', ['$scope','$routeParams','Tasks','Projects','Clients','Users',
 	 function($scope, $routeParams, Tasks, Projects, Clients, Users) {
-	    $scope.task = Tasks.get({id:$routeParams.taskID});
+	    $scope.task = Tasks.get({id:$routeParams.taskID},function() {
+	    	$scope.date.dueDate = new Date($scope.task.dueDate);
+	    });
 	    $scope.saveTask = function() {
 	    	$scope.task.$save();
 	    }

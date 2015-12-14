@@ -53,9 +53,6 @@ function saveQuickTask() {
 
 
 function initializeStuff() {
-	// Datepicker
-	$('.datetimepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
-	$('.timedatepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
 
 	// Popups:
 	$('a.new, a.popup').unbind('click').click(function(e) {

@@ -11,18 +11,13 @@ var plugins = require('gulp-load-plugins')({
 var dest = 'web/';
 
 gulp.task('js', function () {
+	var jsFiles = ["bower_components/angular-bootstrap/ui-bootstrap-tpls.js"];
 
 	var jsFilter = plugins.filter('**/*.js');
-	var angularFilter = plugins.filter(['*','!angular*'],{restore:true});
-	var stream = gulp.src(plugins.mainBowerFiles())
+	var stream = gulp.src(plugins.mainBowerFiles().concat(jsFiles))
 		.pipe(jsFilter)
-		.pipe(angularFilter)
 		.pipe(plugins.concat('vendor.js'))
 		.pipe(plugins.uglify())
-		.pipe(gulp.dest(dest + 'assets'));
-
-	// Put angular JS files seperately, individually (minified)
-	angularFilter.restore.pipe(plugins.uglify())
 		.pipe(gulp.dest(dest + 'assets'));
 
 	return stream;

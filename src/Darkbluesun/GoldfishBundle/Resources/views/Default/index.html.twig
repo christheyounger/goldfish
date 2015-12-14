@@ -4,10 +4,13 @@
 {% endblock %}
 {% block stylesheets %}
 {{parent()}}
-{% javascripts filter='?uglifyjs2' output='assets/top.js' '@vendor_js_top' '@goldfish_angular_js' %}
-  <script type="text/javascript" src="{{asset_url}}"></script>
-{% endjavascripts %}
 <style>
 .done-true { text-decoration: line-through; color: #ccc; }
 </style>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+{% javascripts filter='?uglifyjs2' output='assets/app.js' '@goldfish_angular_js' %}
+  <script type="text/javascript" src="{{asset_url}}"></script>
+{% endjavascripts %}
 {% endblock %}

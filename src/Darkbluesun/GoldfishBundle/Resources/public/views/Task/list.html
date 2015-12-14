@@ -39,7 +39,7 @@
 						<td><a e-form="rowform" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.companyName for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.companyName}}</a></td>
 						<td><a e-form="rowform" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
 						<td><a e-form="rowform" editable-text="task.name" href="#/tasks/{{task.id}}">{{task.name}}</a></td>
-						<td><span e-form="rowform" editable-bsdate="task.dueDate" e-datepicker-popup="dd-MMMM-yyyy">{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}</span></td>
+						<td><span e-form="rowform" editable-bsdate="task.dueDate" e-required e-datepicker-popup="dd-MMMM-yyyy">{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}</span></td>
 						<td><span e-form="rowform" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.firstName for user in users track by user.id">{{task.assignee.firstName}}</span></td>
 						<td style="white-space: nowrap">
 							<div class="btn-group" role="group">
