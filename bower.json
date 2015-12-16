@@ -13,5 +13,9 @@
     "angular-bootstrap": "~0.14.0",
     "moment": "~2.10.6",
     "bPopup": "bpopup#~0.11.0"
+  },
+  "resolutions": {
+    "angular": "1.4.8",
+    "angular-route": "~1.4.6"
   }
 }
