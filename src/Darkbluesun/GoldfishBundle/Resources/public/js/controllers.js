@@ -32,7 +32,11 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams','Clien
 
 goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients',
 	function($scope,Projects,Clients) {
-		$scope.projects = Projects.query();
+		$scope.projects = Projects.query(function() {
+			angular.forEach($scope.projects,function(task,key) {
+				$scope.projects[key].dueDate = new Date(project.dueDateString);
+			});
+		});
 		$scope.clients = Clients.query();
 		$scope.orderProp = 'done';
 		$scope.saveProject = function(project) {

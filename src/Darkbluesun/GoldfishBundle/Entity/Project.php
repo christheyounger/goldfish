@@ -164,6 +164,16 @@ class Project
     }
 
     /**
+     * Get dueDate
+     * @Serial\Groups({"project_list","project_details"})
+     * @return string
+     */
+    public function getDueDateString()
+    {
+        return $this->dueDate->format(\DateTime::ISO8601);
+    }
+
+    /**
      * Set budget
      *
      * @param integer $budget
