@@ -32,9 +32,9 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams','Clien
 
 goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients',
 	function($scope,Projects,Clients) {
-		$scope.projects = Projects.query(function() {
-			angular.forEach($scope.projects,function(task,key) {
-				$scope.projects[key].dueDate = new Date(project.dueDateString);
+		Projects.query().$promise.then(function(result) {
+			$scope.projects = _.map(result, function(project) {
+				project.dueDate = new Date(project.dueDateString); return project;
 			});
 		});
 		$scope.clients = Clients.query();
@@ -63,10 +63,10 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Proj
 
 goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Clients','Users','$q',
 	function($scope,Tasks,Projects,Clients,Users,$q) {
-		$scope.tasks = Tasks.query(function() {
-			angular.forEach($scope.tasks,function(task,key) {
-				$scope.tasks[key].dueDate = new Date(task.dueDate);
-			})
+		Tasks.query().$promise.then(function(result) {
+			$scope.tasks = _.map(result, function(task) {
+				task.dueDate = new Date(task.dueDate); return task;
+			});
 		});
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
