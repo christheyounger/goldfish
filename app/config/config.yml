@@ -23,6 +23,9 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    serializer:
+        enabled: true
+        enable_annotations: true
 
 # Twig Configuration
 twig:
@@ -34,15 +37,24 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [ DarkbluesunGoldfishBundle ]
-    #java: /usr/bin/java
+    node: /usr/local/bin/node
     filters:
         cssrewrite: ~
-        #closure:
-        #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
-        #yui_css:
-        #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
-        uglifyjs:
-            bin: /usr/bin/uglifyjs
+        uglifyjs2:
+            bin: ../node_modules/uglify-js/bin/uglifyjs
+        uglifycss:
+            bin: ../node_modules/uglifycss/uglifycss
+    assets:
+        vendor_js_top:
+            inputs:
+                - 'assets/angular.js'
+                - 'assets/angular-resource.js'
+                - 'assets/angular-route.js'
+        goldfish_angular_js:
+            inputs:
+                - 'bundles/darkbluesungoldfish/js/services.js'
+                - 'bundles/darkbluesungoldfish/js/controllers.js'
+                - 'bundles/darkbluesungoldfish/js/app.js'
 
 # Doctrine Configuration
 doctrine:

@@ -4,6 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * Task
@@ -16,6 +17,7 @@ class Task
     /**
      * @var integer
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,15 +25,23 @@ class Task
     private $id;
 
     /**
+     * @var boolean
+     *
+     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @ORM\Column(name="done", type="boolean")
+     */
+    private $done = false;
+
+    /**
      * @var string
      *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="due", type="datetime")
      */
     private $due;
@@ -39,13 +49,15 @@ class Task
     /**
      * @var \Decimal
      *
-     * @ORM\Column(name="time", type="decimal", scale=2)
+     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @ORM\Column(name="time", type="decimal", scale=2, nullable=true)
      */
     private $time;
 
     /**
      * @var string
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\Column(name="description", type="string", nullable=true)
      */
     private $description;
@@ -53,43 +65,41 @@ class Task
     /**
      * @var string
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="tasks")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
 
     /**
+     * @Serial\Groups({"task_details"})
      * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="task")
      */
     protected $timeEntries;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="tasks")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $client;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details"})
      * @ORM\ManyToOne(targetEntity="Project",inversedBy="tasks")
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id", onDelete="SET NULL")
      */
     protected $project;
 
     /**
-     * @var string
-     *
+     * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="User",inversedBy="tasks")
      * @ORM\JoinColumn(name="assignee_id",referencedColumnName="id")
      */
     protected $assignee;
 
     /**
-     * @var boolean
-     *
+     * @Serial\Groups({"task_details"})
      * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task", cascade="remove")
      */
     protected $comments;
@@ -106,6 +116,25 @@ class Task
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function __toArray() {
+        $data = [
+            'id' => $this->getId(),
+            'client' => ['id'=>$this->client?$this->client->getId():'',
+                         'name'=>(String)$this->client],
+            'project' => ['id'=>$this->project?$this->project->getId():'',
+                          'name'=>(String)$this->project],
+            'assignee' => ['id'=>$this->project?$this->project->getId():'',
+                          'name'=>(String)$this->assignee],
+            'done' => $this->isDone(),
+            'name' => $this->getName(),
+            'due' => [
+                'timestamp' => $this->getDue()->format('U'),
+                'string' => $this->getDue()->format('d/m/y ha')
+            ],
+          ];
+        return $data;
     }
 
     /**
@@ -139,6 +168,40 @@ class Task
     public function getName()
     {
         return $this->name;
+    }
+
+
+    /**
+     * Set done
+     *
+     * @param boolean $done
+     * @return Task
+     */
+    public function setDone($done)
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    /**
+     * Get done
+     *
+     * @return boolean 
+     */
+    public function isDone()
+    {
+        return $this->done;
+    }
+
+    /**
+     * Get done
+     *
+     * @return boolean 
+     */
+    public function getDone()
+    {
+        return $this->done;
     }
 
     /**
@@ -206,6 +269,17 @@ class Task
     public function getDue()
     {
         return $this->due;
+    }
+
+    /**
+     * Get due
+     *
+     * @Serial\Groups({"task_list","task_details"})
+     * @return \DateTime 
+     */
+    public function getDueDate()
+    {
+        return $this->due->format(\DateTime::ISO8601);
     }
 
     /**

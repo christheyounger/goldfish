@@ -1,0 +1,41 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1">
+			<form name="clientForm" editable-form onaftersave="saveClient()">
+			<h1 e-form="clientForm" editable-text="client.companyName">{{client.companyName}}</h1>
+			<table class="table">
+			<tr><th>Contact:</th><td><span editable-text="client.contactName" e-form="clientForm">{{client.contactName}}</span></td></tr>
+			<tr><th>Email:</th><td><span editable-text="client.email" e-form="clientForm">{{client.email}}</span></td></tr>
+			<tr><th>Phone:</th><td><span editable-text="client.phone" e-form="clientForm">{{client.phone}}</span></td></tr>
+			<tr><th>Address:</th><td><span editable-text="client.address" e-form="clientForm">{{client.address}}</span></td></tr>
+			</table>
+			<div class="btn-group" role="group">
+			  <button type="submit" ng-show="clientForm.$visible" ng-disabled="clientForm.$waiting" class="btn btn-primary">
+	            <i class="fa fa-save"></i> Save
+	          </button>
+	          <button type="button" ng-show="clientForm.$visible" ng-disabled="clientForm.$waiting" ng-click="clientForm.$cancel()" class="btn btn-default">
+	            <i class="fa fa-close"></i> Cancel
+	          </button>
+	          </div>
+			</form>
+			<button ng-show="!clientForm.$visible" class="btn btn-default" data-ng-click="clientForm.$show()"><i class="fa fa-edit"> </i> Edit</button>
+		</div>
+		<div class="col-md-6">
+			<div class="section-header">
+				<h3>Projects</h3>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr><th>Name</th><th>Due</th><th>Budget</th></tr>
+				</thead>
+				<tbody>
+					<tr data-ng-repeat="project in client.projects">
+						<td>{{ project.name }}</td>
+						<th>{{ project.dueDateString }}</th>
+						<td>${{ project.budget }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

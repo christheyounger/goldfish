@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="goldfishApp">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +7,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
 {% block stylesheets %}
 {% stylesheets 
-'bundles/darkbluesungoldfish/css/vendor/bootstrap.css'
-'bundles/darkbluesungoldfish/css/vendor/bootstrap.datetimepicker.css'
-'bundles/darkbluesungoldfish/css/vendor/font-awesome.css'
+'assets/vendor.css'
 'bundles/darkbluesungoldfish/css/*.css' %}
         <link rel="stylesheet" type="text/css" href="{{asset_url}}">
 {% endstylesheets %}
@@ -32,9 +30,7 @@
         </div>
 {% block javascripts %}
 {% javascripts 
-'bundles/darkbluesungoldfish/js/vendor/jquery.js'
-'bundles/darkbluesungoldfish/js/vendor/bootstrap.js'
-'bundles/darkbluesungoldfish/js/vendor/bpopup.js'
+'assets/vendor.js'
 'bundles/darkbluesungoldfish/js/goldfish.js'  %}
   <script type="text/javascript" src="{{asset_url}}"></script>
 {% endjavascripts %}

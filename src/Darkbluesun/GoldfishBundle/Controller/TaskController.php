@@ -3,174 +3,113 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Darkbluesun\GoldfishBundle\Entity\Client;
+use Darkbluesun\GoldfishBundle\Entity\Project;
 use Darkbluesun\GoldfishBundle\Entity\Task;
+use Darkbluesun\GoldfishBundle\Entity\User;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
 use Darkbluesun\GoldfishBundle\Form\TaskType;
 
 /**
  * Task controller.
  *
- * @Route("/tasks")
+ * @Route("/api/tasks")
  */
 class TaskController extends Controller
 {
-
     /**
      * Lists all Task entities.
      *
-     * @Route("/", name="tasks")
+     * @Route("/", name="tasks_list")
      * @Method("GET")
-     * @Template()
-     */
-    public function indexAction()
-    {
-        return [];
-    }
-
-    /**
-     * Lists all Task entities.
-     *
-     * @Route("/list", name="tasks_list")
-     * @Method("GET")
-     * @Template()
      */
     public function listAction()
     {
-        $user = $this->get('security.context')->getToken()->getUser();
-        $workspace = $user->getWorkspace();
-        $entities = $workspace->getTasks();
-        $data = [];
-        foreach ($entities as $entity) {
-            $data[] = [
-                        'id' => $entity->getId(),
-                        'url' => $this->generateUrl('tasks_edit',['id'=>$entity->getId()]),
-                        'client' => (String)$entity->getClient(),
-                        'project' => (String)$entity->getProject(),
-                        'name' => $entity->getName(),
-                        'due' => [
-                            'sort' => $entity->getDue()->format('YmdHis'),
-                            'string' => $entity->getDue()->format('d/m/y ha')
-                        ],
-                      ];
-        }
-
-        return new JsonResponse(['data'=>$data]);
+        return new Response(
+            $this->get('serializer')->serialize(
+                $this->getUser()->getWorkspace()->getTasks(),
+                'json',['groups'=>['task_list']]
+            ));
     }
 
     /**
-     * Creates a new Task entity.
+     * Gets a Task.
      *
-     * @Route("/", name="tasks_create")
+     * @Route("/{id}", name="tasks_get")
+     * @Method("GET")
+     */
+    public function getAction(Task $task)
+    {
+        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+    }
+
+    /**
+     * Creates a new Task.
+     *
+     * @Route("", name="tasks_create")
      * @Method("POST")
-     * @Template("DarkbluesunGoldfishBundle:Task:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Task();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $task = new Task();
+        $task->setWorkspace($this->getUser()->getWorkspace());
+        $this->applyData($task,(array)json_decode($request->getContent()));
 
-        if ($form->isValid()) {
-            $user = $this->get('security.context')->getToken()->getUser();
-            $entity->setWorkspace($user->getWorkspace());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('tasks_edit', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        return $this->getAction($task);
     }
 
     /**
-     * Creates a form to create a Task entity.
+     * Edits an existing Task.
      *
-     * @param Task $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
+     * @Route("/{id}", name="tasks_update")
+     * @Method("POST")
      */
-    private function createCreateForm(Task $entity)
+    public function updateAction(Request $request, Task $task)
     {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('tasks_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create','attr'=>['class'=>'btn btn-default btn-lg']));
-
-        return $form;
+        $this->applyData($task,(array)json_decode($request->getContent()));
+        return $this->getAction($task);
     }
 
-    /**
-     * Displays a form to create a new Task entity.
-     *
-     * @Route("/new", name="tasks_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction(Request $request)
-    {
-        $entity = new Task();
-        $project_id = $request->query->get('project_id');
-        $client_id = $request->query->get('client_id');
-        if (!empty($project_id)) {
-            $em = $this->getDoctrine()->getManager();
-            $project = $em->getRepository('DarkbluesunGoldfishBundle:Project')->find($project_id);
-            if ($project) {
-                $entity->setProject($project);
-                if ($client = $project->getClient()) {
-                    $entity->setClient($client);
+    private function applyData(Task $task, Array $data) {
+        $em = $this->getDoctrine()->getManager();
+        $keys = ['name','done','due','client','project','assignee','time','description'];
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $data)) {
+                // Transform
+                switch ($key) {
+                    case 'due': try { $data[$key] = new \DateTime($data[$key]); } catch (\Exception $e) { continue; } break;
+                    case 'client': $data[$key] = $em->find(Client::class,$data[$key]->id); break;
+                    case 'project': $data[$key] = $em->find(Project::class,$data[$key]->id); break;
+                    case 'assignee': $data[$key] = $em->find(User::class,$data[$key]->id); break;
                 }
-            }
-        } else if (!empty($client_id)) {
-            $em = $this->getDoctrine()->getManager();
-            $client = $em->getRepository('DarkbluesunGoldfishBundle:Client')->find($client_id);
-            if ($client) {
-                $entity->setClient($client);
+                // Set
+                $setter = 'set'.ucfirst($key);
+                $task->$setter($data[$key]);
             }
         }
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+        if (!$task->getId()) $em->persist($task);
+        $em->flush();
+        return true;
     }
 
     /**
-     * Displays a form to edit an existing Task entity.
+     * Deletes a Task.
      *
-     * @Route("/{id}", name="tasks_edit")
-     * @Method("GET")
-     * @Template()
+     * @Route("/{id}", name="tasks_delete")
+     * @Method("DELETE")
      */
-    public function editAction($id)
+    public function destroyAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
+        $em->remove($task);
+        $em->flush();
+        return new JsonResponse(['success'=>true]);
     }
 
     /**
@@ -178,65 +117,14 @@ class TaskController extends Controller
      *
      * @Route("/{id}/comments", name="task_comment_list")
      * @Method("GET")
-     * @Template()
      */
-    public function commentsAction($id)
+    public function commentsAction(Task $task)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $task = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-        $comments = $task->getComments();
-
-        return array(
-            'comments' => $comments,
-        );
-    }
-
-    /**
-    * Creates a form to edit a Task entity.
-    *
-    * @param Task $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Task $entity)
-    {
-        $form = $this->createForm(new TaskType(), $entity, array(
-            'action' => $this->generateUrl('tasks_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Task entity.
-     *
-     * @Route("/{id}", name="tasks_update")
-     * @Method("PUT")
-     * @Template("DarkbluesunGoldfishBundle:Task:edit.html.twig")
-     */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Task entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return new JsonResponse(['success'=>true]);
-        }
-
-        return new JsonResponse(['success'=>false]);
+        return new Response(
+            $this->get('serializer')->serialize(
+                $task->getComments(),
+                'json',['groups'=>['comments_list']]
+            ));
     }
 
     /**
@@ -244,22 +132,13 @@ class TaskController extends Controller
      *
      * @Route("/{id}/timesheet/", name="task_timesheet")
      * @Method("GET")
-     * @Template()
      */
     public function timesheetAction(Task $task) {
-        $timesheet = $task->getTimeEntries();
-        return [ 'task'=>$task, 'timesheet'=>$timesheet ];
-    }
-
-    /**
-     * Timer block
-     *
-     * @Route("/{id}/timer/", name="task_timer")
-     * @Method("GET")
-     * @Template()
-     */
-    public function timerAction(Task $task) {
-        return [ 'task'=>$task, ];
+        return new Response(
+            $this->get('serializer')->serialize(
+                $task->getTimeEntries(),
+                'json',['groups'=>['timesheet_list']]
+            ));
     }
 
     /**
@@ -267,7 +146,6 @@ class TaskController extends Controller
      *
      * @Route("/{id}/addtime/", name="task_add_time")
      * @Method("POST")
-     * @Template()
      */
     public function addTimeAction(Request $request, Task $task) {
         $em = $this->getDoctrine()->getManager();
@@ -279,62 +157,6 @@ class TaskController extends Controller
         $entry->setUser($this->get('security.context')->getToken()->getUser());
         $em->persist($entry);
         $em->flush();
-        return new JsonResponse(['success']);
-    }
-
-    /**
-     * Deletes a Task entity.
-     *
-     * @Route("/{id}", name="tasks_delete")
-     * @Method("DELETE")
-     */
-    public function destroyAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('DarkbluesunGoldfishBundle:Task')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Task entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('tasks'));
-    }
-
-    /**
-     * Prepare to delete this thing.
-     *
-     * @Route("/{id}/delete", name="task_delete_confirm")
-     * @Method("GET")
-     * @Template()
-     */
-    public function deleteAction(Task $task)
-    {
-        $deleteForm = $this->createDeleteForm($task->getId());
-        return ['task'=>$task, 'delete_form'=>$deleteForm->createView()];
-    }
-
-    /**
-     * Creates a form to delete a Task entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tasks_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return new Response($this->get('serializer')->serialize($entry,'json',['groups'=>['time_details']]));
     }
 }

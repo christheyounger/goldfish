@@ -11,13 +11,8 @@
 {% endblock %}
 
 {% block stylesheets %}
-{% stylesheets 
-'bundles/darkbluesungoldfish/css/vendor/jquery-ui.min.css'
-'bundles/darkbluesungoldfish/css/vendor/jquery.dataTables.css'
-'bundles/darkbluesungoldfish/css/vendor/bootstrap.css'
-'bundles/darkbluesungoldfish/css/vendor/bootstrap.datetimepicker.css'
-'bundles/darkbluesungoldfish/css/vendor/font-awesome.css'
-'bundles/darkbluesungoldfish/css/goldfish.css' %}
+<link rel="stylesheet" type="text/css" href="{{asset('assets/vendor.css')}}">
+{% stylesheets filter='?uglifycss' filter='cssrewrite' output='assets/main.css' 'bundles/darkbluesungoldfish/css/goldfish.css' %}
         <link rel="stylesheet" type="text/css" href="{{asset_url}}">
 {% endstylesheets %}
 {% endblock %}
@@ -25,15 +20,8 @@
 {% block javascripts %}
 
   <!--javascript libraries-->
-{% javascripts 
-'bundles/darkbluesungoldfish/js/vendor/jquery.js'
-'bundles/darkbluesungoldfish/js/vendor/jquery-ui.js'
-'bundles/darkbluesungoldfish/js/vendor/jquery.dataTables.js'
-'bundles/darkbluesungoldfish/js/vendor/moment.js'
-'bundles/darkbluesungoldfish/js/vendor/bootstrap.js'
-'bundles/darkbluesungoldfish/js/vendor/bootstrap.datetimepicker.js'
-'bundles/darkbluesungoldfish/js/vendor/bpopup.js'
-'bundles/darkbluesungoldfish/js/vendor/hinclude.js'
+ <script type="text/javascript" src="{{asset('assets/vendor.js')}}"></script>
+{% javascripts filter='?uglifyjs2' output='assets/main.js'
 'bundles/darkbluesungoldfish/js/goldfish.js' 
 'bundles/darkbluesungoldfish/js/timer.js'  %}
   <script type="text/javascript" src="{{asset_url}}"></script>

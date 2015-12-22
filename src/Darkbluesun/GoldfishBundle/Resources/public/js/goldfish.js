@@ -8,20 +8,6 @@ $(function() {
 	 */
 
 	
-	$('table#tasks').dataTable({
-		"columns": [
-	            { "data": "id", "render": function( data, type, row) { 
-	            	href = row['url']; 
-	            	return "<a class='edit' href='"+href+"'>"+data+"</a>";
-	            	} 
-	            },
-	            { "data": "client" },
-	            { "data": "project" },
-	            { "data": "name" },
-	            { "data": { _: "due.string", sort: "due.sort"} },
-	           ],
-	});
-	$('table.records_list').dataTable();
 
 	/**
 	* Comments functions
@@ -67,9 +53,6 @@ function saveQuickTask() {
 
 
 function initializeStuff() {
-	// Datepicker
-	$('.datetimepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
-	$('.timedatepicker').datetimepicker({format:'DD-MM-YYYY hh:mm'});
 
 	// Popups:
 	$('a.new, a.popup').unbind('click').click(function(e) {

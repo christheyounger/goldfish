@@ -1,0 +1,22 @@
+{
+  "name": "goldfish",
+  "dependencies": {
+    "angular": "~1.4.6",
+    "angular-resource": "~1.4.6",
+    "angular-route": "~1.4.6",
+    "angular-routing": "~0.1.2",
+    "angular-xeditable": "~0.1.9",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "jquery": "~2.1.4",
+    "jquery-ui": "~1.11.4",
+    "lodash": "~3.10.1",
+    "angular-bootstrap": "~0.14.0",
+    "moment": "~2.10.6",
+    "bPopup": "bpopup#~0.11.0"
+  },
+  "resolutions": {
+    "angular": "1.4.8",
+    "angular-route": "~1.4.6"
+  }
+}

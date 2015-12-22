@@ -1,5 +1,5 @@
-goldfish_homepage:
-    path:     /
+app:
+    path:     /app
     defaults: { _controller: DarkbluesunGoldfishBundle:Default:index }
 
 login:
@@ -38,4 +38,8 @@ _goldfish_projects:
 
 _goldfish_tasks:
     resource: "@DarkbluesunGoldfishBundle/Controller/TaskController.php"
+    type:     annotation
+
+_goldfish_users:
+    resource: "@DarkbluesunGoldfishBundle/Controller/UserController.php"
     type:     annotation

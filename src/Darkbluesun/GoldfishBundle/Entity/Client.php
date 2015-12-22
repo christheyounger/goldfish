@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * Client
@@ -20,6 +21,7 @@ class Client
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @Serial\Groups({"client_list","client_details","project_list","project_details","task_list","task_details"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -27,6 +29,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_list","client_details","project_list","project_details","task_list","task_details"})
      * @ORM\Column(name="companyName", type="string", length=255)
      */
     private $companyName;
@@ -34,6 +37,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_details"})
      * @ORM\Column(name="website", type="string", length=255, nullable=true)
      */
     private $website;
@@ -41,6 +45,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_list","client_details"})
      * @ORM\Column(name="phone", type="string", length=255, nullable=true)
      */
     private $phone;
@@ -48,6 +53,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_list","client_details"})
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     private $email;
@@ -55,6 +61,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_list","client_details"})
      * @ORM\Column(name="contactName", type="string", length=255, nullable=true)
      */
     private $contactName;
@@ -62,6 +69,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_list","client_details"})
      * @ORM\Column(name="address", type="text", nullable=true)
      */
     private $address;
@@ -69,6 +77,7 @@ class Client
     /**
      * @var string
      *
+     * @Serial\Groups({"client_details"})
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
@@ -78,26 +87,31 @@ class Client
      *
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="clients")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     * @Serial\Groups({"client_details"})
      */
     protected $workspace;
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
+     * @Serial\Groups({"client_details"})
      */
     protected $projects;
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="client")
+     * @Serial\Groups({"client_details"})
      */
     protected $tasks;
 
     /**
      * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client", cascade="remove")
+     * @Serial\Groups({"client_details"})
      */
     protected $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="client")
+     * @Serial\Groups({"client_details"})
      */
     protected $timeEntries;
 
@@ -109,6 +123,18 @@ class Client
         $this->projects = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toArray() {
+        $data = [
+            'id' => $this->getId(),
+            'companyName' => $this->getCompanyName(),
+            'contactName' => $this->getContactName(),
+            'phone' => $this->getPhone(),
+            'email' => $this->getEmail(),
+            'address' => $this->getAddress(),
+          ];
+        return $data;
     }
 
     /**
