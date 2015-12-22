@@ -93,6 +93,7 @@ class Client
 
     /**
      * @ORM\OneToMany(targetEntity="Project", mappedBy="client")
+     * @Serial\Groups({"client_details"})
      */
     protected $projects;
 
