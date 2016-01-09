@@ -144,19 +144,19 @@ class TaskController extends Controller
     /**
      * Time add
      *
-     * @Route("/{id}/addtime/", name="task_add_time")
+     * @Route("/{id}/addtime", name="task_add_time")
      * @Method("POST")
      */
     public function addTimeAction(Request $request, Task $task) {
         $em = $this->getDoctrine()->getManager();
         $entry = new TimeEntry();
-        $entry->setStart(new \DateTime($request->request->get('start-time')));
-        $entry->setEnd(new \DateTime($request->request->get('end-time')));
-        $entry->setComment($request->request->get('description'));
+        $entry->setStart(new \DateTime(date('Y-m-d ') . substr($request->request->get('start'), 10)));
+        $entry->setEnd(new \DateTime(date('Y-m-d ') . substr($request->request->get('end'), 10)));
+        $entry->setComment($request->request->get('comment'));
         $entry->setTask($task);
         $entry->setUser($this->get('security.context')->getToken()->getUser());
         $em->persist($entry);
         $em->flush();
-        return new Response($this->get('serializer')->serialize($entry,'json',['groups'=>['time_details']]));
+        return new Response($this->get('serializer')->serialize($entry,'json',['groups'=>['task_details ']]));
     }
 }

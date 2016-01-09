@@ -20,8 +20,35 @@
 	          </button>
 	          </div>
 			</form>
-				<button ng-show="!taskForm.$visible" class="btn btn-default" data-ng-click="taskForm.$show()"><i class="fa fa-edit"> </i> Edit</button>
+			<button ng-show="!taskForm.$visible" class="btn btn-default" data-ng-click="taskForm.$show()"><i class="fa fa-edit"> </i> Edit</button>
+		</div>
+		<div class="col-md-6">
+			<div class="Section-header">
+				<h3>Time Entries</h3>
 			</div>
+			<ul>
+				<li data-ng-repeat="entry in task.timeEntries">
+					<span class="label label-default">{{entry.user.firstName}}</span> {{entry.comment}}
+				</li>
+				<form data-ng-submit="addTimeEntry()">
+				<div class="row">
+				<div class="form-group col-sm-3"> 
+					<input class="form-control" type="time" data-ng-model="newtimeentry.start"/>
+				</div>
+				<div class="form-group col-sm-3">
+					<input class="form-control" type="time" data-ng-model="newtimeentry.end"/>
+				</div>
+				<div class="input-group col-sm-6">
+					<input type="text" class="form-control" data-ng-model="newtimeentry.comment" placeholder="New time entry" required />
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							Go
+						</button>
+					</span>
+				</div>
+				</div>
+				</form>
+			</ul>
 		</div>
 	</div>
 </div>

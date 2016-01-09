@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation as Serial;
 
 /**
  * TimeEntry
@@ -15,6 +16,7 @@ class TimeEntry
     /**
      * @var integer
      *
+     * @Serial\Groups({"default"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -22,6 +24,7 @@ class TimeEntry
     private $id;
 
     /**
+     * @Serial\Groups({"task_details"})
      * @ORM\ManyToOne(targetEntity="User",inversedBy="timeEntries")
      * @ORM\JoinColumn(name="user_id",referencedColumnName="id")
      */
@@ -48,6 +51,7 @@ class TimeEntry
     /**
      * @var \DateTime
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\Column(name="start", type="datetime")
      */
     private $start;
@@ -55,6 +59,7 @@ class TimeEntry
     /**
      * @var \DateTime
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\Column(name="end", type="datetime")
      */
     private $end;
@@ -62,6 +67,7 @@ class TimeEntry
     /**
      * @var string
      *
+     * @Serial\Groups({"task_details"})
      * @ORM\Column(name="comment", type="string", length=255)
      */
     private $comment;

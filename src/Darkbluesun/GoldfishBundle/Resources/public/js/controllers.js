@@ -86,8 +86,8 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 		}
 	}]);
 
-goldfishControllers.controller('TaskViewCtrl', ['$scope','$routeParams','Tasks','Projects','Clients','Users',
-	 function($scope, $routeParams, Tasks, Projects, Clients, Users) {
+goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams','Tasks','Projects','Clients','Users',
+	 function($scope, $http, $routeParams, Tasks, Projects, Clients, Users) {
 	    $scope.task = Tasks.get({id:$routeParams.taskID},function() {
 	    	$scope.date.dueDate = new Date($scope.task.dueDate);
 	    });
@@ -102,5 +102,10 @@ goldfishControllers.controller('TaskViewCtrl', ['$scope','$routeParams','Tasks',
 		}
 		$scope.loadUsers = function() {
 			$scope.users = Users.query();
+		}
+		$scope.addTimeEntry = function() {
+			$http.post('/api/tasks/'+$scope.task.id+'/addtime', $scope.newtimeentry).then(_.property('data')).then(function(data) {
+				$scope.task.timeEntries.push(data);
+			});
 		}
 	  }]);
