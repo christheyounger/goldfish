@@ -2,6 +2,7 @@
 
 namespace Darkbluesun\GoldfishBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,12 +30,12 @@ class TaskController extends Controller
      * @Route("/", name="tasks_list")
      * @Method("GET")
      */
-    public function listAction()
+    public function listAction()    
     {
         return new Response(
             $this->get('serializer')->serialize(
-                $this->getUser()->getWorkspace()->getTasks(),
-                'json',['groups'=>['task_list']]
+                array_values($this->getUser()->getWorkspace()->getTasks()->toArray()), 'json',
+                SerializationContext::create()->setGroups(['task_list'])
             ));
     }
 
@@ -46,7 +47,11 @@ class TaskController extends Controller
      */
     public function getAction(Task $task)
     {
-        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+        return new Response(
+            $this->get('serializer')->serialize(
+                $task, 'json',
+                SerializationContext::create()->setGroups(['task_details'])
+            ));
     }
 
     /**
@@ -122,8 +127,8 @@ class TaskController extends Controller
     {
         return new Response(
             $this->get('serializer')->serialize(
-                $task->getComments(),
-                'json',['groups'=>['comments_list']]
+                $task->getComments(), 'json',
+                SerializationContext::create()->setGroups(['comments_list'])
             ));
     }
 
@@ -136,8 +141,8 @@ class TaskController extends Controller
     public function timesheetAction(Task $task) {
         return new Response(
             $this->get('serializer')->serialize(
-                $task->getTimeEntries(),
-                'json',['groups'=>['timesheet_list']]
+                $task->getTimeEntries(), 'json',
+                SerializationContext::create()->setGroups(['timesheet_list'])
             ));
     }
 
@@ -157,6 +162,10 @@ class TaskController extends Controller
         $entry->setUser($this->get('security.context')->getToken()->getUser());
         $em->persist($entry);
         $em->flush();
-        return new Response($this->get('serializer')->serialize($entry,'json',['groups'=>['task_details ']]));
+        return new Response(
+            $this->get('serializer')->serialize(
+                $entry, 'json',
+                SerializationContext::create()->setGroups(['task_details '])
+            ));
     }
 }

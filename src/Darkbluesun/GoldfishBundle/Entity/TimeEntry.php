@@ -3,7 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation as Serial;
+use JMS\Serializer\Annotation as Serial;
 
 /**
  * TimeEntry

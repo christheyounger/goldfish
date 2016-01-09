@@ -4,7 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Serializer\Annotation as Serial;
+use JMS\Serializer\Annotation as Serial;
 
 /**
  * Project

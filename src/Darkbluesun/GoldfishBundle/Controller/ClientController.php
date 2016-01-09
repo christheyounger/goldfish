@@ -2,6 +2,7 @@
 
 namespace Darkbluesun\GoldfishBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,8 +45,8 @@ class ClientController extends Controller
 
         return new Response(
             $this->get('serializer')->serialize(
-                    $workspace->getClients(),
-                    'json',['groups'=>['client_list']]
+                    $workspace->getClients(), 'json',
+                    SerializationContext::create()->setGroups(['client_list'])
             ));
     }
 
@@ -57,7 +58,7 @@ class ClientController extends Controller
      */
     public function getAction(Client $client)
     {
-        return new Response($this->get('serializer')->serialize($client,'json',['groups'=>['client_details']]));
+        return new Response($this->get('serializer')->serialize($client,'json',SerializationContext::create()->setGroups(['client_details'])));
     }
     /**
      * Creates a new Client entity.
@@ -118,7 +119,7 @@ class ClientController extends Controller
         $em->persist($comment);
         $em->flush();
 
-        return new Response($this->get('serializer')->serialize($client,'json',['groups'=>['client_details']]));
+        return new Response($this->get('serializer')->serialize($client,'json',SerializationContext::create()->setGroups(['client_details'])));
     }
 
 

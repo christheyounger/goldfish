@@ -2,6 +2,7 @@
 
 namespace Darkbluesun\GoldfishBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,8 +33,8 @@ class ProjectController extends Controller
     {
         return new Response(
             $this->get('serializer')->serialize(
-                $this->getUser()->getWorkspace()->getProjects(),
-                'json',['groups'=>['project_list']]
+                $this->getUser()->getWorkspace()->getProjects(), 'json',
+                SerializationContext::create()->setGroups(['project_list'])
             ));
     }
 
@@ -45,7 +46,7 @@ class ProjectController extends Controller
      */
     public function getAction(Project $project)
     {
-        return new Response($this->get('serializer')->serialize($project,'json',['groups'=>['project_details']]));
+        return new Response($this->get('serializer')->serialize($project,'json',SerializationContext::create()->setGroups(['project_details'])));
     }
 
     /**
@@ -91,7 +92,7 @@ class ProjectController extends Controller
         $task->setTime($request->request->get('time'));
         $em->persist($task);
         $em->flush();
-        return new Response($this->get('serializer')->serialize($task,'json',['groups'=>['task_details']]));
+        return new Response($this->get('serializer')->serialize($task,'json',SerializationContext::create()->setGroups(['task_details'])));
     }
     /**
      * Deletes a Project.
