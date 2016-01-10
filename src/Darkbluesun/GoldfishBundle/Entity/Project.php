@@ -36,7 +36,7 @@ class Project
      * @var \DateTime
      *
      * @Serial\Groups({"project_list","project_details","client_details"})
-     * @ORM\Column(name="due_date", type="datetimetz")
+     * @ORM\Column(name="due_date", type="datetimetz", nullable=true)
      */
     private $dueDate;
 

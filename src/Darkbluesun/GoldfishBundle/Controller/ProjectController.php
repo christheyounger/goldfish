@@ -60,7 +60,8 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
         $project->setWorkspace($this->getUser()->getWorkspace());
-        $em->persist($project);
+        $project = $em->merge($project);
+        $em->flush();
         return $this->getAction($project);
     }
 
@@ -74,10 +75,11 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
-        $em->merge($project);
+        $project = $em->merge($project);
+        $em->flush();
         return $this->getAction($project);
     }
-    
+
     /**
      * Deletes a Project.
      *

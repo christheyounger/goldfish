@@ -65,7 +65,8 @@ class TaskController extends Controller
         $em = $this->getDoctrine()->getManager();
         $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
         $task->setWorkspace($this->getUser()->getWorkspace());
-        $em->persist($task);
+        $task = $em->merge($task);
+        $em->flush();
 
         return $this->getAction($task);
     }
@@ -80,7 +81,8 @@ class TaskController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
-        $em->merge($task);
+        $task = $em->merge($task);
+        $em->flush();
 
         return $this->getAction($task);
     }

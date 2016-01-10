@@ -42,7 +42,7 @@ class Task
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="due", type="datetime")
+     * @ORM\Column(name="due", type="datetime", nullable=true)
      * @Serial\Groups({"task_list","task_details"})
      */
     private $dueDate;
