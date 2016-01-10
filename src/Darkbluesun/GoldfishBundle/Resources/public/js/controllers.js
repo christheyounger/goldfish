@@ -34,7 +34,7 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 	function($scope,Projects,Clients) {
 		Projects.query().$promise.then(function(result) {
 			$scope.projects = _.map(result, function(project) {
-				project.dueDate = new Date(project.dueDateString); return project;
+				project.dueDate = new Date(project.due_date); return project;
 			});
 		});
 		$scope.clients = Clients.query();
@@ -65,7 +65,7 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 	function($scope,Tasks,Projects,Clients,Users,$q) {
 		Tasks.query().$promise.then(function(result) {
 			$scope.tasks = _.map(result, function(task) {
-				task.dueDate = new Date(task.dueDate); return task;
+				task.dueDate = new Date(task.due_date); return task;
 			});
 		});
 		$scope.loadProjects = function() {	
@@ -89,7 +89,7 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams','Tasks','Projects','Clients','Users',
 	 function($scope, $http, $routeParams, Tasks, Projects, Clients, Users) {
 	    $scope.task = Tasks.get({id:$routeParams.taskID},function() {
-	    	$scope.date.dueDate = new Date($scope.task.dueDate);
+	    	$scope.date.dueDate = new Date($scope.task.due_date);
 	    });
 	    $scope.saveTask = function() {
 	    	$scope.task.$save();
