@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as Serial;
  * TimeEntry
  *
  * @ORM\Table("TimeLog")
- * @ORM\Entity(repositoryClass="Darkbluesun\GoldfishBundle\Entity\TimeEntryRepository")
+ * @ORM\Entity(repositoryClass="TimeEntryRepository")
  */
 class TimeEntry
 {
@@ -163,10 +163,10 @@ class TimeEntry
     /**
      * Set user
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\User $user
+     * @param User $user
      * @return TimeEntry
      */
-    public function setUser(\Darkbluesun\GoldfishBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -176,7 +176,7 @@ class TimeEntry
     /**
      * Get user
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\User 
+     * @return User 
      */
     public function getUser()
     {
@@ -186,10 +186,10 @@ class TimeEntry
     /**
      * Set task
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Task $task
+     * @param Task $task
      * @return TimeEntry
      */
-    public function setTask(\Darkbluesun\GoldfishBundle\Entity\Task $task = null)
+    public function setTask(Task $task = null)
     {
         $this->task = $task;
 
@@ -199,7 +199,7 @@ class TimeEntry
     /**
      * Get task
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Task 
+     * @return Task 
      */
     public function getTask()
     {
@@ -209,10 +209,10 @@ class TimeEntry
     /**
      * Set project
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Project $project
+     * @param Project $project
      * @return TimeEntry
      */
-    public function setProject(\Darkbluesun\GoldfishBundle\Entity\Project $project = null)
+    public function setProject(Project $project = null)
     {
         $this->project = $project;
 
@@ -222,7 +222,7 @@ class TimeEntry
     /**
      * Get project
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Project 
+     * @return Project 
      */
     public function getProject()
     {
@@ -232,10 +232,10 @@ class TimeEntry
     /**
      * Set client
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Client $client
+     * @param Client $client
      * @return TimeEntry
      */
-    public function setClient(\Darkbluesun\GoldfishBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -245,7 +245,7 @@ class TimeEntry
     /**
      * Get client
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Client 
+     * @return Client 
      */
     public function getClient()
     {

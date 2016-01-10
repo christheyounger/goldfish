@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serial;
  * Project
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Darkbluesun\GoldfishBundle\Entity\ProjectRepository")
+ * @ORM\Entity(repositoryClass="ProjectRepository")
  */
 class Project
 {
@@ -90,21 +90,6 @@ class Project
         $this->tasks = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->timeEntries = new ArrayCollection();
-    }
-
-    public function __toArray() {
-        $data = [
-            'id' => $this->getId(),
-            'client' => ['id'=>$this->client?$this->client->getId():'',
-                         'name'=>(String)$this->client],
-            'name' => $this->getName(),
-            'budget' => $this->getBudget(),
-            'due' => [
-                'timestamp' => $this->getDueDate()->format('U'),
-                'string' => $this->getDueDate()->format('d/m/y ha')
-            ],
-          ];
-        return $data;
     }
 
     /**
@@ -189,10 +174,10 @@ class Project
     /**
      * Set workspace
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @param Workspace $workspace
      * @return Project
      */
-    public function setWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace = null)
+    public function setWorkspace(Workspace $workspace = null)
     {
         $this->workspace = $workspace;
 
@@ -202,7 +187,7 @@ class Project
     /**
      * Get workspace
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Workspace 
+     * @return Workspace 
      */
     public function getWorkspace()
     {
@@ -212,10 +197,10 @@ class Project
     /**
      * Set client
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Client $client
+     * @param Client $client
      * @return Project
      */
-    public function setClient(\Darkbluesun\GoldfishBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -225,7 +210,7 @@ class Project
     /**
      * Get client
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Client 
+     * @return Client 
      */
     public function getClient()
     {
@@ -235,10 +220,10 @@ class Project
     /**
      * Add tasks
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Task $tasks
+     * @param Task $tasks
      * @return Project
      */
-    public function addTask(\Darkbluesun\GoldfishBundle\Entity\Task $tasks)
+    public function addTask(Task $tasks)
     {
         $this->tasks[] = $tasks;
 
@@ -248,9 +233,9 @@ class Project
     /**
      * Remove tasks
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Task $tasks
+     * @param Task $tasks
      */
-    public function removeTask(\Darkbluesun\GoldfishBundle\Entity\Task $tasks)
+    public function removeTask(Task $tasks)
     {
         $this->tasks->removeElement($tasks);
     }
@@ -268,10 +253,10 @@ class Project
     /**
      * Add comments
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments
+     * @param ProjectComment $comments
      * @return Project
      */
-    public function addComment(\Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments)
+    public function addComment(ProjectComment $comments)
     {
         $this->comments[] = $comments;
 
@@ -281,9 +266,9 @@ class Project
     /**
      * Remove comments
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments
+     * @param ProjectComment $comments
      */
-    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\ProjectComment $comments)
+    public function removeComment(ProjectComment $comments)
     {
         $this->comments->removeElement($comments);
     }
@@ -305,10 +290,10 @@ class Project
     /**
      * Add timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      * @return Project
      */
-    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries[] = $timeEntries;
 
@@ -318,9 +303,9 @@ class Project
     /**
      * Remove timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      */
-    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries->removeElement($timeEntries);
     }

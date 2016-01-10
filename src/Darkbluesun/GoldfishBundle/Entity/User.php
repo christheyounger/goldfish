@@ -89,10 +89,10 @@ class User extends BaseUser
     /**
      * Add workspace
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @param Workspace $workspace
      * @return User
      */
-    public function addWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace)
+    public function addWorkspace(Workspace $workspace)
     {
         $this->workspaces[] = $workspace;
 
@@ -102,9 +102,9 @@ class User extends BaseUser
     /**
      * Remove workspace
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @param Workspace $workspace
      */
-    public function removeWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace)
+    public function removeWorkspace(Workspace $workspace)
     {
         $this->workspaces->removeElement($workspace);
     }
@@ -163,10 +163,10 @@ class User extends BaseUser
     /**
      * Add timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      * @return User
      */
-    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries[] = $timeEntries;
 
@@ -176,9 +176,9 @@ class User extends BaseUser
     /**
      * Remove timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      */
-    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries->removeElement($timeEntries);
     }

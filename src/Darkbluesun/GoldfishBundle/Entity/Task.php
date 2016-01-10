@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serial;
  * Task
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Darkbluesun\GoldfishBundle\Entity\TaskRepository")
+ * @ORM\Entity(repositoryClass="TaskRepository")
  */
 class Task
 {
@@ -117,25 +117,6 @@ class Task
     public function __toString()
     {
         return $this->name;
-    }
-
-    public function __toArray() {
-        $data = [
-            'id' => $this->getId(),
-            'client' => ['id'=>$this->client?$this->client->getId():'',
-                         'name'=>(String)$this->client],
-            'project' => ['id'=>$this->project?$this->project->getId():'',
-                          'name'=>(String)$this->project],
-            'assignee' => ['id'=>$this->project?$this->project->getId():'',
-                          'name'=>(String)$this->assignee],
-            'done' => $this->isDone(),
-            'name' => $this->getName(),
-            'due' => [
-                'timestamp' => $this->getDue()->format('U'),
-                'string' => $this->getDue()->format('d/m/y ha')
-            ],
-          ];
-        return $data;
     }
 
     /**
@@ -298,10 +279,10 @@ class Task
     /**
      * Set workspace
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Workspace $workspace
+     * @param Workspace $workspace
      * @return Task
      */
-    public function setWorkspace(\Darkbluesun\GoldfishBundle\Entity\Workspace $workspace = null)
+    public function setWorkspace(Workspace $workspace = null)
     {
         $this->workspace = $workspace;
 
@@ -311,7 +292,7 @@ class Task
     /**
      * Get workspace
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Workspace 
+     * @return Workspace 
      */
     public function getWorkspace()
     {
@@ -321,10 +302,10 @@ class Task
     /**
      * Set client
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Client $client
+     * @param Client $client
      * @return Task
      */
-    public function setClient(\Darkbluesun\GoldfishBundle\Entity\Client $client = null)
+    public function setClient(Client $client = null)
     {
         $this->client = $client;
 
@@ -334,7 +315,7 @@ class Task
     /**
      * Get client
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Client 
+     * @return Client 
      */
     public function getClient()
     {
@@ -344,10 +325,10 @@ class Task
     /**
      * Set project
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\Project $project
+     * @param Project $project
      * @return Task
      */
-    public function setProject(\Darkbluesun\GoldfishBundle\Entity\Project $project = null)
+    public function setProject(Project $project = null)
     {
         $this->project = $project;
 
@@ -357,7 +338,7 @@ class Task
     /**
      * Get project
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\Project 
+     * @return Project 
      */
     public function getProject()
     {
@@ -367,10 +348,10 @@ class Task
     /**
      * Set assignee
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\User $assignee
+     * @param User $assignee
      * @return Task
      */
-    public function setAssignee(\Darkbluesun\GoldfishBundle\Entity\User $assignee = null)
+    public function setAssignee(User $assignee = null)
     {
         $this->assignee = $assignee;
 
@@ -380,7 +361,7 @@ class Task
     /**
      * Get assignee
      *
-     * @return \Darkbluesun\GoldfishBundle\Entity\User 
+     * @return User 
      */
     public function getAssignee()
     {
@@ -390,10 +371,10 @@ class Task
     /**
      * Add comments
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TaskComment $comments
+     * @param TaskComment $comments
      * @return Task
      */
-    public function addComment(\Darkbluesun\GoldfishBundle\Entity\TaskComment $comments)
+    public function addComment(TaskComment $comments)
     {
         $this->comments[] = $comments;
 
@@ -403,9 +384,9 @@ class Task
     /**
      * Remove comments
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TaskComment $comments
+     * @param TaskComment $comments
      */
-    public function removeComment(\Darkbluesun\GoldfishBundle\Entity\TaskComment $comments)
+    public function removeComment(TaskComment $comments)
     {
         $this->comments->removeElement($comments);
     }
@@ -423,10 +404,10 @@ class Task
     /**
      * Add timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      * @return Task
      */
-    public function addTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries[] = $timeEntries;
 
@@ -436,9 +417,9 @@ class Task
     /**
      * Remove timeEntries
      *
-     * @param \Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries
+     * @param TimeEntry $timeEntries
      */
-    public function removeTimeEntry(\Darkbluesun\GoldfishBundle\Entity\TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntries)
     {
         $this->timeEntries->removeElement($timeEntries);
     }
