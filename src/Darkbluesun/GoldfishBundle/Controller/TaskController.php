@@ -62,9 +62,10 @@ class TaskController extends Controller
      */
     public function createAction(Request $request)
     {
-        $task = new Task();
+        $em = $this->getDoctrine()->getManager();
+        $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
         $task->setWorkspace($this->getUser()->getWorkspace());
-        $this->applyData($task,(array)json_decode($request->getContent()));
+        $em->persist($task);
 
         return $this->getAction($task);
     }
@@ -77,30 +78,11 @@ class TaskController extends Controller
      */
     public function updateAction(Request $request, Task $task)
     {
-        $this->applyData($task,(array)json_decode($request->getContent()));
-        return $this->getAction($task);
-    }
-
-    private function applyData(Task $task, Array $data) {
         $em = $this->getDoctrine()->getManager();
-        $keys = ['name','done','due','client','project','assignee','time','description'];
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $data)) {
-                // Transform
-                switch ($key) {
-                    case 'due': try { $data[$key] = new \DateTime($data[$key]); } catch (\Exception $e) { continue; } break;
-                    case 'client': $data[$key] = $em->find(Client::class,$data[$key]->id); break;
-                    case 'project': $data[$key] = $em->find(Project::class,$data[$key]->id); break;
-                    case 'assignee': $data[$key] = $em->find(User::class,$data[$key]->id); break;
-                }
-                // Set
-                $setter = 'set'.ucfirst($key);
-                $task->$setter($data[$key]);
-            }
-        }
-        if (!$task->getId()) $em->persist($task);
-        $em->flush();
-        return true;
+        $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
+        $em->merge($task);
+
+        return $this->getAction($task);
     }
 
     /**
@@ -154,10 +136,7 @@ class TaskController extends Controller
      */
     public function addTimeAction(Request $request, Task $task) {
         $em = $this->getDoctrine()->getManager();
-        $entry = new TimeEntry();
-        $entry->setStart(new \DateTime(date('Y-m-d ') . substr($request->request->get('start'), 10)));
-        $entry->setEnd(new \DateTime(date('Y-m-d ') . substr($request->request->get('end'), 10)));
-        $entry->setComment($request->request->get('comment'));
+        $entry = $this->get('serializer')->deserialize($request->getContent(), TimeEntry::class, 'json');
         $entry->setTask($task);
         $entry->setUser($this->get('security.context')->getToken()->getUser());
         $em->persist($entry);

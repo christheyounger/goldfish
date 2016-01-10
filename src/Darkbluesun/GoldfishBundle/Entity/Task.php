@@ -69,6 +69,7 @@ class Task
      * @Serial\Groups({"task_details"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="tasks")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Workspace")
      */
     protected $workspace;
 
@@ -82,6 +83,7 @@ class Task
      * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="tasks")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Client")
      */
     protected $client;
 
@@ -89,6 +91,7 @@ class Task
      * @Serial\Groups({"task_list","task_details"})
      * @ORM\ManyToOne(targetEntity="Project",inversedBy="tasks")
      * @ORM\JoinColumn(name="project_id",referencedColumnName="id", onDelete="SET NULL")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Project")
      */
     protected $project;
 
@@ -96,6 +99,7 @@ class Task
      * @Serial\Groups({"task_list","task_details","project_details"})
      * @ORM\ManyToOne(targetEntity="User",inversedBy="tasks")
      * @ORM\JoinColumn(name="assignee_id",referencedColumnName="id")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\User")
      */
     protected $assignee;
 

@@ -57,9 +57,10 @@ class ProjectController extends Controller
      */
     public function createAction(Request $request)
     {
-        $project = new Project();
+        $em = $this->getDoctrine()->getManager();
+        $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
         $project->setWorkspace($this->getUser()->getWorkspace());
-        $this->applyData($project,(array)json_decode($request->getContent()),['name','budget','dueDate','client']);
+        $em->persist($project);
         return $this->getAction($project);
     }
 
@@ -71,29 +72,12 @@ class ProjectController extends Controller
      */
     public function updateAction(Request $request, Project $project)
     {
-        $this->requireWorkspace($project);
-        $this->applyData($project,(array)json_decode($request->getContent()),['name','budget','dueDate','client']);
+        $em = $this->getDoctrine()->getManager();
+        $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
+        $em->merge($project);
         return $this->getAction($project);
     }
-
-    /**
-     * Task quick add
-     *
-     * @Route("/{id}/task/", name="project_quick_task")
-     * @Method("POST")
-     */
-    public function addTaskAction(Request $request, Project $project) {
-        $this->requireWorkspace($project);
-        $em = $this->getDoctrine()->getManager();
-        $task = new Task();
-        $task->setProject($project);
-        $task->setName($request->request->get('name'));
-        $task->setDue(new \DateTime($request->request->get('due')));
-        $task->setTime($request->request->get('time'));
-        $em->persist($task);
-        $em->flush();
-        return new Response($this->get('serializer')->serialize($task,'json',SerializationContext::create()->setGroups(['task_details'])));
-    }
+    
     /**
      * Deletes a Project.
      *
@@ -118,23 +102,5 @@ class ProjectController extends Controller
         foreach ($this->getUser()->getWorkspaces() as $w) {
             if ($w->getProjects()->contains($project)) return true;
         }
-    }
-
-    private function applyData(Project $project, Array $data, Array $allowed) {
-        $em = $this->getDoctrine()->getManager();
-        foreach ($allowed as $key) {
-            if (array_key_exists($key, $data)) {
-                // Transform
-                switch ($key) {
-                    case 'dueDate': $data[$key] = new \DateTime($data[$key]); break;
-                    case 'client': $data[$key] = $em->find(Client::class,$data[$key]->id); break;
-                }
-                // Set
-                $setter = 'set'.ucfirst($key);
-                $project->$setter($data[$key]);
-            }
-        }
-        if (!$project->getId()) $em->persist($project);
-        $em->flush();
     }
 }

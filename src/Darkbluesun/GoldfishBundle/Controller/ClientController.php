@@ -71,7 +71,7 @@ class ClientController extends Controller
     {
         $serializer = $this->get('serializer');
         $em = $this->getDoctrine()->getManager();
-        $client = $serializer->deserialize($request->getContent(),'Darkbluesun\GoldfishBundle\Entity\Client','json');
+        $client = $serializer->deserialize($request->getContent(), Client::class, 'json');
         $client->setWorkspace($this->getUser()->getWorkspace());
         $em->persist($client);
         $em->flush();
@@ -88,20 +88,10 @@ class ClientController extends Controller
     public function updateAction(Request $request, Client $client)
     {
         $em = $this->getDoctrine()->getManager();
-        $data = (array)json_decode($request->getContent());
-        $this->applyData($client,$data);
+        $client = $serializer->deserialize($request->getContent(), Client::class, 'json');
+        $em->merge($client);
         $em->flush();
         return $this->getAction($client);
-    }
-
-    private function applyData(Client $client, Array $data) {
-        $keys = ['companyName','contactName','website','email','phone','address'];
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $data)) {
-                $setter = 'set'.ucfirst($key);
-                $client->$setter($data[$key]);
-            }
-        }
     }
 
     /**
