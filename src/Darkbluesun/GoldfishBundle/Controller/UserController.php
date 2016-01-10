@@ -2,6 +2,7 @@
 
 namespace Darkbluesun\GoldfishBundle\Controller;
 
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,8 +34,8 @@ class UserController extends Controller
 
         return new Response(
             $this->get('serializer')->serialize(
-                    $workspace->getUsers(),
-                    'json',['groups'=>['user_list']]
+                    $workspace->getUsers(), 'json',
+                    SerializationContext::create()->setGroups(['user_list'])
             ));
     }
 
