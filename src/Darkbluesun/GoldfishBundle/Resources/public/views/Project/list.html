@@ -31,7 +31,7 @@
 				</thead>
 				<tbody>
 					<tr class="done-{{project.done}}" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-						<td><a href="#/clients/{{project.client.id}}" e-form="rowform" editable-select="project.client" e-ng-options="client as client.companyName for client in clients track by client.id">{{project.client.companyName}}</a></td>
+						<td><a href="#/clients/{{project.client.id}}" e-form="rowform" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id">{{project.client.company_name}}</a></td>
 						<td><a e-form="rowform" editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a></td>
 						<td><span e-form="rowform" editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}</span></td>
 						<td><a e-form="rowform" editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a></td>

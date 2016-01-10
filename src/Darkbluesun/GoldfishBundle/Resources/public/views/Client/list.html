@@ -24,8 +24,8 @@
 				</thead>
 				<tbody>
 					<tr class="done-{{project.done}}" ng-repeat="client in clients | filter:query | orderBy:orderProp">
-						<td><a data-e-required editable-text="client.companyName" e-form="rowform" href="#/clients/{{client.id}}">{{client.companyName}}</a></td>
-						<td><span data-e-required editable-text="client.contactName" e-form="rowform" e-name="contactName">{{client.contactName}}</span></td>
+						<td><a data-e-required editable-text="client.company_name" e-form="rowform" href="#/clients/{{client.id}}">{{client.company_name}}</a></td>
+						<td><span data-e-required editable-text="client.contact_name" e-form="rowform" e-name="contact_name">{{client.contact_name}}</span></td>
 						<td><a data-e-required editable-text="client.phone" e-form="rowform" href="tel:{{client.phone}}">{{client.phone}}</a></td>
 						<td><a data-e-required editable-text="client.email" e-form="rowform" href="mailto:{{client.email}}">{{client.email}}</a></td>
 						<td><span editable-textarea="client.address" e-form="rowform">{{client.address}}</span></td>

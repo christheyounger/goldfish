@@ -2,9 +2,9 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<form name="clientForm" editable-form onaftersave="saveClient()">
-			<h1 e-form="clientForm" editable-text="client.companyName">{{client.companyName}}</h1>
+			<h1 e-form="clientForm" editable-text="client.company_name">{{client.company_name}}</h1>
 			<table class="table">
-			<tr><th>Contact:</th><td><span editable-text="client.contactName" e-form="clientForm">{{client.contactName}}</span></td></tr>
+			<tr><th>Contact:</th><td><span editable-text="client.contact_name" e-form="clientForm">{{client.contact_name}}</span></td></tr>
 			<tr><th>Email:</th><td><span editable-text="client.email" e-form="clientForm">{{client.email}}</span></td></tr>
 			<tr><th>Phone:</th><td><span editable-text="client.phone" e-form="clientForm">{{client.phone}}</span></td></tr>
 			<tr><th>Address:</th><td><span editable-text="client.address" e-form="clientForm">{{client.address}}</span></td></tr>

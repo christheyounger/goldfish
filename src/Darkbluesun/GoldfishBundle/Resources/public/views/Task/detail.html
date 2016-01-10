@@ -6,9 +6,9 @@
 			<table>
 			<tr><th>Due:</th><td><span editable-text="task.dueDate" e-form="taskForm">{{task.dueDate}}</span></td></tr>
 			<tr><th>Time:</th><td><span editable-number="task.time" step="0.25" e-form="taskForm">{{task.time}}</span></td></tr>
-			<tr><th>Client:</th><td><a e-form="taskForm" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.companyName for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.companyName}}</span></td></tr>
+			<tr><th>Client:</th><td><a e-form="taskForm" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.company_name}}</span></td></tr>
 			<tr><th>Project:</th><td><a e-form="taskForm" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</span></td></tr>
-			<tr><th>Assignee:</th><td><a e-form="taskForm" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.firstName for user in users track by user.id" href="#/users/{{task.assignee.id}}">{{task.assignee.firstName}}</span></td></tr>
+			<tr><th>Assignee:</th><td><a e-form="taskForm" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.first_name for user in users track by user.id" href="#/users/{{task.assignee.id}}">{{task.assignee.first_name}}</span></td></tr>
 			<tr><th>Description:</th><td><span editable-textarea="task.description" e-form="taskForm">{{task.description}}</span></td></tr>
 			</table>
 			<div class="btn-group" role="group">
@@ -28,7 +28,7 @@
 			</div>
 			<ul>
 				<li data-ng-repeat="entry in task.timeEntries">
-					<span class="label label-default">{{entry.user.firstName}}</span> {{entry.comment}}
+					<span class="label label-default">{{entry.user.first_name}}</span> {{entry.comment}}
 				</li>
 				<form data-ng-submit="addTimeEntry()">
 				<div class="row">
