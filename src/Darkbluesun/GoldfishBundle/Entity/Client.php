@@ -87,7 +87,7 @@ class Client
      *
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="clients")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
-     * @Serial\Groups({"client_details"})
+     * @Serial\Groups({"client_details", "client_list"})
      */
     protected $workspace;
 

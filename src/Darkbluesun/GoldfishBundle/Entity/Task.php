@@ -66,7 +66,7 @@ class Task
     /**
      * @var string
      *
-     * @Serial\Groups({"task_details"})
+     * @Serial\Groups({"task_details","task_list"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="tasks")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Workspace")

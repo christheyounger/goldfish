@@ -4,12 +4,14 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as Serial;
 
 /**
  * Workspace
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @Serial\ExclusionPolicy("all")
  */
 class Workspace
 {
@@ -18,6 +20,8 @@ class Workspace
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @Serial\Expose()
+     * @Serial\Groups({"client_list","client_details","project_list","project_details","task_list","task_details"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;

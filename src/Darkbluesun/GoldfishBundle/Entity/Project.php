@@ -51,14 +51,14 @@ class Project
     /**
      * @var string
      *
-     * @Serial\Groups({"project_details"})
+     * @Serial\Groups({"project_details", "project_list"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="projects")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
      */
     protected $workspace;
 
     /**
-     * @Serial\Groups({"project_list","project_details"})
+     * @Serial\Groups({"project_list", "project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="projects")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
      */
