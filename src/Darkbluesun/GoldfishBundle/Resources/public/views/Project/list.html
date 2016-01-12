@@ -38,7 +38,7 @@
 						<td style="white-space: nowrap">
 							<div class="btn-group" role="group">
 					        <!-- form -->
-					        <form editable-form name="rowform" onaftersave="saveProject(project)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == project">
+					        <form editable-form name="rowform" onbeforesave="saveProject(project)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == project">
 					          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
 					            <i class="fa fa-save"></i>
 					          </button>

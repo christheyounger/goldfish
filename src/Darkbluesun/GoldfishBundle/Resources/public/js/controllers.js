@@ -5,7 +5,7 @@ goldfishControllers.controller('HomeCtrl', ['$scope','Tasks',
 		$scope.tasks = Tasks.query();
 		$scope.orderProp = 'done';
 		$scope.saveTask = function(task) {
-			task.$save();
+			return task.$save();
 		}
 	}]);
 
@@ -14,7 +14,7 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		$scope.clients = Clients.query();
 		$scope.orderProp = 'companyName';
 		$scope.saveClient = function(client) {
-			client.$save();
+			return client.$save();
 		}
 		$scope.addClient = function() {
 			$scope.inserted = new Clients();
@@ -40,7 +40,7 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 		$scope.clients = Clients.query();
 		$scope.orderProp = 'done';
 		$scope.saveProject = function(project) {
-			project.$save();
+			return project.$save();
 		}
 		$scope.addProject = function() {
 			$scope.projects.push(new Projects({editing:true}));
@@ -51,7 +51,7 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Proj
 	 function($scope, $routeParams,Projects,Clients,Tasks,Users) {
 	    $scope.project = Projects.get({id:$routeParams.projectID});
 	    $scope.saveProject = function() {
-	    	$scope.project.$save();
+	    	return $scope.project.$save();
 	    }
 		$scope.loadClients = function() {
 			$scope.clients = Clients.query();
@@ -79,7 +79,7 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 		}
 		$scope.orderProp = 'done';
 		$scope.saveTask = function(task) {
-			task.$save();
+			return task.$save();
 		}
 		$scope.addTask = function() {
 			$scope.tasks.push(new Tasks({editing:true}));
@@ -92,7 +92,7 @@ goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams',
 	    	$scope.date.dueDate = new Date($scope.task.due_date);
 	    });
 	    $scope.saveTask = function() {
-	    	$scope.task.$save();
+	    	return $scope.task.$save();
 	    }
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
@@ -104,7 +104,7 @@ goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams',
 			$scope.users = Users.query();
 		}
 		$scope.addTimeEntry = function() {
-			$http.post('/api/tasks/'+$scope.task.id+'/addtime', $scope.newtimeentry).then(_.property('data')).then(function(data) {
+			return $http.post('/api/tasks/'+$scope.task.id+'/addtime', $scope.newtimeentry).then(_.property('data')).then(function(data) {
 				$scope.task.timeEntries.push(data);
 			});
 		}

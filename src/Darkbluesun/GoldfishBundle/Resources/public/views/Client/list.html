@@ -27,12 +27,12 @@
 						<td><a data-e-required editable-text="client.company_name" e-form="rowform" href="#/clients/{{client.id}}">{{client.company_name}}</a></td>
 						<td><span data-e-required editable-text="client.contact_name" e-form="rowform" e-name="contact_name">{{client.contact_name}}</span></td>
 						<td><a data-e-required editable-text="client.phone" e-form="rowform" href="tel:{{client.phone}}">{{client.phone}}</a></td>
-						<td><a data-e-required editable-text="client.email" e-form="rowform" href="mailto:{{client.email}}">{{client.email}}</a></td>
+						<td><a data-e-required editable-email="client.email" e-form="rowform" href="mailto:{{client.email}}">{{client.email}}</a></td>
 						<td><span editable-textarea="client.address" e-form="rowform">{{client.address}}</span></td>
 						<td style="white-space: nowrap">
 						<div class="btn-group" role="group">
 				        <!-- form -->
-				        <form editable-form name="rowform" onaftersave="saveClient(client)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
+				        <form editable-form name="rowform" data-onbeforesave="saveClient(client)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
 				          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
 				            <i class="fa fa-save"></i>
 				          </button>
