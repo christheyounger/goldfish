@@ -2,67 +2,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<h1>Tasks</h1>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<td colspan="10">
-							<div class="row">
-								<div class="col-md-6">
-									<label for="query">Search:&nbsp;</label><input type="text" ng-model="query" id="query">
-								</div>
-								<div class='col-md-6' style="text-align:right;">
-									<label for="orderProp">Order:&nbsp;</label>
-									<select ng-model="orderProp" id="orderProp">
-										<option value="status">Status</option>
-										<option value="client.name">Client</option>
-										<option value="project.name">Project</option>
-										<option value="name">Task</option>
-										<option value="due.timestamp">Due</option>
-										<option value="assignee.name">Assignee</option>
-									</select>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Status</th>
-						<th>Client</th>
-						<th>Project</th>
-						<th>Task</th>
-						<th>Due</th>
-						<th>Assignee</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="done-{{task.done}}" ng-repeat="task in tasks | filter:query | orderBy:orderProp">
-						<td><input type="checkbox" ng-click="saveTask(task)"></td>
-						<td><a e-form="rowform" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.company_name}}</a></td>
-						<td><a e-form="rowform" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
-						<td><a e-form="rowform" editable-text="task.name" href="#/tasks/{{task.id}}">{{task.name}}</a></td>
-						<td><span e-form="rowform" editable-bsdate="task.dueDate" e-required e-datepicker-popup="dd-MMMM-yyyy">{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}</span></td>
-						<td><span e-form="rowform" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.first_name for user in users track by user.id">{{task.assignee.first_name}}</span></td>
-						<td style="white-space: nowrap">
-							<div class="btn-group" role="group">
-					        <!-- form -->
-					        <form editable-form name="rowform" onbeforesave="saveTask(task)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == task">
-					          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-					            <i class="fa fa-save"></i>
-					          </button>
-					          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-					            <i class="fa fa-close"></i>
-					          </button>
-					        </form>
-								<button ng-show="!rowform.$visible" class="btn btn-sm btn-default" data-ng-click="rowform.$show()"><i class="fa fa-edit"> </i></button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td><a data-ng-click="addTask()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
-					</tr>
-				</tfoot>
-			</table>
+			<ng-include src="'/bundles/darkbluesungoldfish/views/Task/table.html'"></ng-include>
 		</div>
     </div>
   </div>

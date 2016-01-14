@@ -14,6 +14,7 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		$scope.clients = Clients.query();
 		$scope.orderProp = 'companyName';
 		$scope.saveClient = function(client) {
+
 			return client.$save();
 		}
 		$scope.addClient = function() {
@@ -22,12 +23,42 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		}
 	}]);
 
-goldfishControllers.controller('ClientViewCtrl', ['$scope','$routeParams','Clients',
-	 function($scope, $routeParams,Clients) {
-	    $scope.client = Clients.get({id:$routeParams.clientID});
+goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Clients', 'Projects', 'Tasks', 'Users',
+	 function($scope, $routeParams, Clients, Projects, Tasks, Users) {
+	    $scope.client = Clients.get({id:$routeParams.clientID}, function() {
+	    	$scope.projects = _.map($scope.client.projects, function(project) {
+	    		return Projects.get({id: project.id});
+	    	});
+	    	Tasks.query().$promise.then(function(result) {
+	    		var tasks = _.map($scope.client.tasks, function(task) {
+	    			return _.findWhere(result, {id: task.id});
+	    		});
+	    		$scope.tasks = tasks;
+	    	})
+	    });
 	    $scope.saveClient = function() {
 	    	$scope.client.$save();
 	    }
+		$scope.addProject = function() {
+			$scope.projects.push(new Projects({editing:true, client: $scope.client}));
+		}
+		$scope.saveProject = function(data, id) {
+			var project = new Projects(_.extend(data, {id: id}));
+			return project.$save();
+		}
+		$scope.addTask = function() {
+			$scope.tasks.push(new Tasks({editing:true, client: $scope.client}));
+		}
+		$scope.saveTask = function(data, id) {
+			var task = new Tasks(_.extend(data, {id: id}));
+			return task.$save();
+		}
+		$scope.loadProjects = function() {	
+			$scope.projects = Projects.query();
+		}
+		$scope.loadUsers = function() {
+			$scope.users = Users.query();
+		}
 	  }]);
 
 goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients',
@@ -39,7 +70,8 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 		});
 		$scope.clients = Clients.query();
 		$scope.orderProp = 'done';
-		$scope.saveProject = function(project) {
+		$scope.saveProject = function(data, id) {
+			var project = new Projects(_.extend(data, {id: id}));
 			return project.$save();
 		}
 		$scope.addProject = function() {
@@ -50,8 +82,9 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Projects','Clients','Tasks','Users',
 	 function($scope, $routeParams,Projects,Clients,Tasks,Users) {
 	    $scope.project = Projects.get({id:$routeParams.projectID});
-	    $scope.saveProject = function() {
-	    	return $scope.project.$save();
+	    $scope.saveProject = function(data, id) {
+			var project = new Projects(_.extend(data, {id: id}));
+			return project.$save();
 	    }
 		$scope.loadClients = function() {
 			$scope.clients = Clients.query();
@@ -78,7 +111,8 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 			$scope.users = Users.query();
 		}
 		$scope.orderProp = 'done';
-		$scope.saveTask = function(task) {
+		$scope.saveTask = function(data, id) {
+			var task = new Tasks(_.extend(data, {id: id}));
 			return task.$save();
 		}
 		$scope.addTask = function() {
@@ -91,9 +125,10 @@ goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams',
 	    $scope.task = Tasks.get({id:$routeParams.taskID},function() {
 	    	$scope.date.dueDate = new Date($scope.task.due_date);
 	    });
-	    $scope.saveTask = function() {
-	    	return $scope.task.$save();
-	    }
+		$scope.saveTask = function(data, id) {
+			var task = new Tasks(_.extend(data, {id: id}));
+			return task.$save();
+		}
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
 		}

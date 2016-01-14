@@ -2,61 +2,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<h1>Projects</h1>
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<td colspan="10">
-							<div class="row">
-								<div class="col-md-6">
-									<label for="query">Search:&nbsp;</label><input type="text" ng-model="query" id="query">
-								</div>
-								<div class='col-md-6' style="text-align:right;">
-									<label for="orderProp">Order:&nbsp;</label>
-									<select ng-model="orderProp" id="orderProp">
-										<option value="client.name">Client</option>
-										<option value="name">Project</option>
-										<option value="due.timestamp">Due</option>
-										<option value="budget">Budget</option>
-									</select>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th>Client</th>
-						<th>Project</th>
-						<th>Due</th>
-						<th>Budget</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="done-{{project.done}}" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-						<td><a href="#/clients/{{project.client.id}}" e-form="rowform" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id">{{project.client.company_name}}</a></td>
-						<td><a e-form="rowform" editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a></td>
-						<td><span e-form="rowform" editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}</span></td>
-						<td><a e-form="rowform" editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a></td>
-						<td style="white-space: nowrap">
-							<div class="btn-group" role="group">
-					        <!-- form -->
-					        <form editable-form name="rowform" onbeforesave="saveProject(project)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == project">
-					          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
-					            <i class="fa fa-save"></i>
-					          </button>
-					          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
-					            <i class="fa fa-close"></i>
-					          </button>
-					        </form>
-								<button ng-show="!rowform.$visible" class="btn btn-sm btn-default" data-ng-click="rowform.$show()"><i class="fa fa-edit"> </i></button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td><a data-ng-click="addProject()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
-					</tr>
-				</tfoot>
-			</table>
+			<ng-include src="'/bundles/darkbluesungoldfish/views/Project/table.html'"></ng-include>
 		</div>
     </div>
   </div>

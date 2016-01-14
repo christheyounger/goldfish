@@ -22,20 +22,15 @@
 		</div>
 		<div class="col-md-6">
 			<div class="section-header">
-				<h3>Projects</h3>
+				<h2>Projects</h2>
 			</div>
-			<table class="table table-striped">
-				<thead>
-					<tr><th>Name</th><th>Due</th><th>Budget</th></tr>
-				</thead>
-				<tbody>
-					<tr data-ng-repeat="project in client.projects">
-						<td>{{ project.name }}</td>
-						<th>{{ project.dueDateString }}</th>
-						<td>${{ project.budget }}</td>
-					</tr>
-				</tbody>
-			</table>
+			 <ng-include src="'/bundles/darkbluesungoldfish/views/Project/table.html'"></ng-include>
+		</div>
+		<div class="col-md-6">
+			<div class="section-header">
+				<h2>Tasks</h2>
+			</div>
+			 <ng-include src="'/bundles/darkbluesungoldfish/views/Task/table.html'"></ng-include>
 		</div>
 	</div>
 </div>
