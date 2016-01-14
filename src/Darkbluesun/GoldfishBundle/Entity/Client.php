@@ -106,6 +106,7 @@ class Client
     /**
      * @ORM\OneToMany(targetEntity="ClientComment", mappedBy="client", cascade="remove")
      * @Serial\Groups({"client_details"})
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\ClientComment")
      */
     protected $comments;
 

@@ -54,6 +54,7 @@ class Project
      * @Serial\Groups({"project_details", "project_list"})
      * @ORM\ManyToOne(targetEntity="Workspace",inversedBy="projects")
      * @ORM\JoinColumn(name="workspace_id",referencedColumnName="id")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Workspace")
      */
     protected $workspace;
 
@@ -61,24 +62,28 @@ class Project
      * @Serial\Groups({"project_list", "project_details"})
      * @ORM\ManyToOne(targetEntity="Client",inversedBy="projects")
      * @ORM\JoinColumn(name="client_id",referencedColumnName="id", onDelete="SET NULL")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Client")
      */
     protected $client;
 
     /**
      * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="Task", mappedBy="project")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\Task")
      */
     protected $tasks;
 
     /**
      * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="ProjectComment", mappedBy="project")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\ProjectComment")
      */
     protected $comments;
 
     /**
      * @Serial\Groups({"project_details"})
      * @ORM\OneToMany(targetEntity="TimeEntry", mappedBy="project")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\TimeEntry")
      */
     protected $timeEntries;
 

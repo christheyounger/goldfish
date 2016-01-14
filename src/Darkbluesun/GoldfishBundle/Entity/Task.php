@@ -17,7 +17,7 @@ class Task
     /**
      * @var integer
      *
-     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @Serial\Groups({"task_list","task_details","project_details","client_details"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -106,6 +106,7 @@ class Task
     /**
      * @Serial\Groups({"task_details"})
      * @ORM\OneToMany(targetEntity="TaskComment", mappedBy="task", cascade="remove")
+     * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\TaskComment")
      */
     protected $comments;
 
