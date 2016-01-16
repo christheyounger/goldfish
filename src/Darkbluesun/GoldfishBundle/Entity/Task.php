@@ -27,7 +27,7 @@ class Task
     /**
      * @var boolean
      *
-     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @Serial\Groups({"task_list","task_details","project_details","client_details"})
      * @ORM\Column(name="done", type="boolean")
      */
     private $done = false;
@@ -35,7 +35,7 @@ class Task
     /**
      * @var string
      *
-     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @Serial\Groups({"task_list","task_details","project_details","client_details"})
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
@@ -43,14 +43,14 @@ class Task
     /**
      * @var \DateTime
      * @ORM\Column(name="due", type="datetime", nullable=true)
-     * @Serial\Groups({"task_list","task_details"})
+     * @Serial\Groups({"task_list","task_details","client_details"})
      */
     private $dueDate;
 
     /**
      * @var \Decimal
      *
-     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @Serial\Groups({"task_list","task_details","project_details","client_details"})
      * @ORM\Column(name="time", type="decimal", scale=2, nullable=true)
      */
     private $time;
@@ -96,7 +96,7 @@ class Task
     protected $project;
 
     /**
-     * @Serial\Groups({"task_list","task_details","project_details"})
+     * @Serial\Groups({"task_list","task_details","project_details","client_details"})
      * @ORM\ManyToOne(targetEntity="User",inversedBy="tasks")
      * @ORM\JoinColumn(name="assignee_id",referencedColumnName="id")
      * @Serial\Type("Darkbluesun\GoldfishBundle\Entity\User")

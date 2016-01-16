@@ -22,7 +22,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(name="id", type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serial\Groups({"user_list","task_list","task_details"})
+     * @Serial\Groups({"user_list","task_list","task_details","client_details"})
      */
     protected $id;
 
@@ -33,19 +33,19 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
-     * @Serial\Groups({"user_list","task_list","task_details"})
+     * @Serial\Groups({"user_list","task_list","task_details","client_details"})
      */
     protected $firstName;
 
     /**
      * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
-     * @Serial\Groups({"user_list","task_list","task_details"})
+     * @Serial\Groups({"user_list","task_list","task_details","client_details"})
      */
     protected $lastName;
 
     /**
      * @ORM\Column(name="image", type="string", length=255, nullable=true)
-     * @Serial\Groups({"user_list","task_list","task_details"})
+     * @Serial\Groups({"user_list","task_list","task_details","client_details"})
      */
     protected $image;
 

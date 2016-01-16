@@ -27,13 +27,10 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 	 function($scope, $routeParams, Clients, Projects, Tasks, Users) {
 	    $scope.client = Clients.get({id:$routeParams.clientID}, function() {
 	    	$scope.projects = _.map($scope.client.projects, function(project) {
-	    		return Projects.get({id: project.id});
+	    		return new Projects(project);
 	    	});
-	    	Tasks.query().$promise.then(function(result) {
-	    		var tasks = _.map($scope.client.tasks, function(task) {
-	    			return _.findWhere(result, {id: task.id});
-	    		});
-	    		$scope.tasks = tasks;
+	    	$scope.tasks = _.map($scope.client.tasks, function(task) {
+	    		return new Tasks(task);
 	    	})
 	    });
 	    $scope.saveClient = function() {
