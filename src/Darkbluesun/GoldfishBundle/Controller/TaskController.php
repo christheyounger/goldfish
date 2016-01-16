@@ -65,6 +65,7 @@ class TaskController extends Controller
         $em = $this->getDoctrine()->getManager();
         $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
         $task->setWorkspace($this->getUser()->getWorkspace());
+        $task->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
         $task = $em->merge($task);
         $em->flush();
 
@@ -80,7 +81,9 @@ class TaskController extends Controller
     public function updateAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
+        $created = $task->getCreatedAt();
         $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
+        $task->setCreatedAt($created)->setUpdatedAt(new \DateTime());
         $task = $em->merge($task);
         $em->flush();
 

@@ -61,6 +61,7 @@ class ProjectController extends Controller
         $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
         $project->setWorkspace($this->getUser()->getWorkspace());
         $project = $em->merge($project);
+        $project->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
         $em->flush();
         return $this->getAction($project);
     }
@@ -74,8 +75,10 @@ class ProjectController extends Controller
     public function updateAction(Request $request, Project $project)
     {
         $em = $this->getDoctrine()->getManager();
+        $created = $project->getCreatedAt();
         $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
         $project = $em->merge($project);
+        $project->setCreatedAt($created)->setUpdatedAt(new \DateTime());
         $em->flush();
         return $this->getAction($project);
     }

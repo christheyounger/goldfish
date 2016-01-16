@@ -73,6 +73,7 @@ class ClientController extends Controller
         $em = $this->getDoctrine()->getManager();
         $client = $serializer->deserialize($request->getContent(), Client::class, 'json');
         $client->setWorkspace($this->getUser()->getWorkspace());
+        $client->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
         $em->persist($client);
         $em->flush();
         return $this->getAction($client);
@@ -88,7 +89,9 @@ class ClientController extends Controller
     public function updateAction(Request $request, Client $client)
     {
         $em = $this->getDoctrine()->getManager();
+        $created = $client->getCreatedAt();
         $client = $serializer->deserialize($request->getContent(), Client::class, 'json');
+        $client->setCreatedAt($created)->setUpdatedAt(new \DateTime());
         $em->merge($client);
         $em->flush();
         return $this->getAction($client);

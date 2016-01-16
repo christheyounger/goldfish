@@ -4,6 +4,7 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serial;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * TimeEntry
@@ -13,6 +14,8 @@ use JMS\Serializer\Annotation as Serial;
  */
 class TimeEntry
 {
+    use TimestampableEntity;
+
     /**
      * @var integer
      *

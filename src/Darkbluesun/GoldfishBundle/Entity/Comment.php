@@ -3,6 +3,9 @@
 namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * Comment
@@ -12,9 +15,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\DiscriminatorColumn(name="discr", type="string")
  * @ORM\DiscriminatorMap({"client" = "ClientComment", "project" = "ProjectComment", "task" = "TaskComment", "comment" = "Comment"})
  * @ORM\HasLifecycleCallbacks()
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class Comment
 {
+    use TimestampableEntity;
+    use SoftDeleteableEntity;
+
     /**
      * @var integer
      *

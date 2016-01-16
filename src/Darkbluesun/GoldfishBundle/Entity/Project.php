@@ -4,6 +4,9 @@ namespace Darkbluesun\GoldfishBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use JMS\Serializer\Annotation as Serial;
 
 /**
@@ -11,9 +14,13 @@ use JMS\Serializer\Annotation as Serial;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="ProjectRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class Project
 {
+    use TimestampableEntity;
+    use SoftDeleteableEntity;
+
     /**
      * @var integer
      *
