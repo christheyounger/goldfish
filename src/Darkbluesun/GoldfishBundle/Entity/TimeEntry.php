@@ -192,6 +192,7 @@ class TimeEntry
     public function setTask(Task $task = null)
     {
         $this->task = $task;
+        $this->client = $this->project = null;
 
         return $this;
     }
@@ -210,11 +211,13 @@ class TimeEntry
      * Set project
      *
      * @param Project $project
+     *
      * @return TimeEntry
      */
     public function setProject(Project $project = null)
     {
         $this->project = $project;
+        $this->client = $this->task = null;
 
         return $this;
     }
@@ -222,7 +225,7 @@ class TimeEntry
     /**
      * Get project
      *
-     * @return Project 
+     * @return Project
      */
     public function getProject()
     {
@@ -233,11 +236,13 @@ class TimeEntry
      * Set client
      *
      * @param Client $client
+     *
      * @return TimeEntry
      */
     public function setClient(Client $client = null)
     {
         $this->client = $client;
+        $this->project = $this->task = null;
 
         return $this;
     }

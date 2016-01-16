@@ -321,32 +321,38 @@ class Client
     }
 
     /**
-     * Add projects
+     * Add project.
      *
-     * @param Project $projects
+     * @param Project $project
+     *
      * @return Client
      */
-    public function addProject(Project $projects)
+    public function addProject(Project $project)
     {
-        $this->projects[] = $projects;
+        if (!$this->projects->contains($project)) {
+            $this->projects->add($project);
+            $project->setClient($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove projects
+     * Remove project.
      *
-     * @param Project $projects
+     * @param Project $project
+     *
+     * @return Client
      */
-    public function removeProject(Project $projects)
+    public function removeProject(Project $project)
     {
-        $this->projects->removeElement($projects);
+        $this->projects->removeElement($project);
     }
 
     /**
-     * Get projects
+     * Get projects.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getProjects()
     {
@@ -354,32 +360,40 @@ class Client
     }
 
     /**
-     * Add tasks
+     * Add task.
      *
-     * @param Task $tasks
+     * @param Task $task
+     *
      * @return Client
      */
-    public function addTask(Task $tasks)
+    public function addTask(Task $task)
     {
-        $this->tasks[] = $tasks;
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setClient($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove tasks
+     * Remove task
      *
-     * @param Task $tasks
+     * @param Task $task
+     *
+     * @return Client
      */
-    public function removeTask(Task $tasks)
+    public function removeTask(Task $task)
     {
-        $this->tasks->removeElement($tasks);
+        $this->tasks->removeElement($task);
+
+        return $this;
     }
 
     /**
      * Get tasks
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getTasks($local=true)
     {
@@ -392,32 +406,36 @@ class Client
     }
 
     /**
-     * Add comments
+     * Add comment.
      *
-     * @param ClientComment $comments
+     * @param ClientComment $comment
+     *
      * @return Client
      */
-    public function addComment(ClientComment $comments)
+    public function addComment(ClientComment $comment)
     {
-        $this->comments[] = $comments;
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setClient($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove comments
+     * Remove comment
      *
-     * @param ClientComment $comments
+     * @param ClientComment $comment
      */
-    public function removeComment(ClientComment $comments)
+    public function removeComment(ClientComment $comment)
     {
-        $this->comments->removeElement($comments);
+        $this->comments->removeElement($comment);
     }
 
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getComments()
     {
@@ -429,32 +447,40 @@ class Client
     }
 
     /**
-     * Add timeEntries
+     * Add timeEntry
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
+     *
      * @return Client
      */
-    public function addTimeEntry(TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries[] = $timeEntries;
+        if (!$this->timeEntries->contains($timeEntry)) {
+            $this->timeEntries->add($timeEntry);
+            $timeEntry->setClient($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove timeEntries
+     * Remove timeEntry
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
+     *
+     * @return Client
      */
-    public function removeTimeEntry(TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries->removeElement($timeEntries);
+        $this->timeEntries->removeElement($timeEntry);
+
+        return $this;
     }
 
     /**
      * Get timeEntries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getTimeEntries()
     {

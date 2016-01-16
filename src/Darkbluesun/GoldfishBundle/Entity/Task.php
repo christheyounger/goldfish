@@ -313,6 +313,7 @@ class Task
     public function setClient(Client $client = null)
     {
         $this->client = $client;
+        $this->project = null;
 
         return $this;
     }
@@ -336,6 +337,7 @@ class Task
     public function setProject(Project $project = null)
     {
         $this->project = $project;
+        $this->client = null;
 
         return $this;
     }
@@ -374,30 +376,38 @@ class Task
     }
 
     /**
-     * Add comments
+     * Add comment.
      *
-     * @param TaskComment $comments
+     * @param TaskComment $comment
+     *
      * @return Task
      */
-    public function addComment(TaskComment $comments)
+    public function addComment(TaskComment $comment)
     {
-        $this->comments[] = $comments;
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setTask($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove comments
+     * Remove comment.
      *
-     * @param TaskComment $comments
+     * @param TaskComment $comment
+     *
+     * @return Task
      */
-    public function removeComment(TaskComment $comments)
+    public function removeComment(TaskComment $comment)
     {
-        $this->comments->removeElement($comments);
+        $this->comments->removeElement($comment);
+
+        return $this;
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
@@ -407,30 +417,37 @@ class Task
     }
 
     /**
-     * Add timeEntries
+     * Add timeEntry.
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
      * @return Task
      */
-    public function addTimeEntry(TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries[] = $timeEntries;
+        if (!$this->timeEntries->contains($timeEntry)) {
+            $this->timeEntries->add($timeEntry);
+            $timeEntry->setTask($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove timeEntries
+     * Remove timeEntry.
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
+     *
+     * @return Task
      */
-    public function removeTimeEntry(TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries->removeElement($timeEntries);
+        $this->timeEntries->removeElement($timeEntry);
+
+        return $this;
     }
 
     /**
-     * Get timeEntries
+     * Get timeEntries.
      *
      * @return \Doctrine\Common\Collections\Collection 
      */

@@ -223,32 +223,38 @@ class Project
     }
 
     /**
-     * Add tasks
+     * Add task.
      *
-     * @param Task $tasks
+     * @param Task $task
+     *
      * @return Project
      */
-    public function addTask(Task $tasks)
+    public function addTask(Task $task)
     {
-        $this->tasks[] = $tasks;
+        if (!$this->tasks->contains($task)) {
+            $this->tasks->add($task);
+            $task->setProject($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove tasks
+     * Remove task.
      *
-     * @param Task $tasks
+     * @param Task $task
+     *
+     * @return Project
      */
-    public function removeTask(Task $tasks)
+    public function removeTask(Task $task)
     {
-        $this->tasks->removeElement($tasks);
+        $this->tasks->removeElement($task);
     }
 
     /**
-     * Get tasks
+     * Get tasks.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getTasks()
     {
@@ -256,32 +262,38 @@ class Project
     }
 
     /**
-     * Add comments
+     * Add comment.
      *
-     * @param ProjectComment $comments
+     * @param ProjectComment $comment
+     *
      * @return Project
      */
-    public function addComment(ProjectComment $comments)
+    public function addComment(ProjectComment $comment)
     {
-        $this->comments[] = $comments;
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setProject($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove comments
+     * Remove comment.
      *
-     * @param ProjectComment $comments
+     * @param ProjectComment $comment
+     *
+     * @return Project
      */
-    public function removeComment(ProjectComment $comments)
+    public function removeComment(ProjectComment $comment)
     {
-        $this->comments->removeElement($comments);
+        $this->comments->removeElement($comment);
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getComments()
     {
@@ -293,32 +305,38 @@ class Project
     }
 
     /**
-     * Add timeEntries
+     * Add timeEntry
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
+     *
      * @return Project
      */
-    public function addTimeEntry(TimeEntry $timeEntries)
+    public function addTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries[] = $timeEntries;
+        $this->timeEntries->add($timeEntry);
+        $timeEntry->setProject($this);
 
         return $this;
     }
 
     /**
-     * Remove timeEntries
+     * Remove timeEntry
      *
-     * @param TimeEntry $timeEntries
+     * @param TimeEntry $timeEntry
+     *
+     * @return Project
      */
-    public function removeTimeEntry(TimeEntry $timeEntries)
+    public function removeTimeEntry(TimeEntry $timeEntry)
     {
-        $this->timeEntries->removeElement($timeEntries);
+        $this->timeEntries->removeElement($timeEntry);
+
+        return $this;
     }
 
     /**
      * Get timeEntries
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getTimeEntries()
     {
