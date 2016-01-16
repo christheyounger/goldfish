@@ -40,17 +40,17 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 	    	$scope.client.$save();
 	    }
 		$scope.addProject = function() {
-			$scope.projects.push(new Projects({editing:true, client: $scope.client}));
+			$scope.projects.push(new Projects({editing:true}));
 		}
 		$scope.saveProject = function(data, id) {
-			var project = new Projects(_.extend(data, {id: id}));
+			var project = new Projects(_.extend(data, {id: id, client: $scope.client}));
 			return project.$save();
 		}
 		$scope.addTask = function() {
-			$scope.tasks.push(new Tasks({editing:true, client: $scope.client}));
+			$scope.tasks.push(new Tasks({editing:true}));
 		}
 		$scope.saveTask = function(data, id) {
-			var task = new Tasks(_.extend(data, {id: id}));
+			var task = new Tasks(_.extend(data, {id: id, client: $scope.client}));
 			return task.$save();
 		}
 		$scope.loadProjects = function() {	
