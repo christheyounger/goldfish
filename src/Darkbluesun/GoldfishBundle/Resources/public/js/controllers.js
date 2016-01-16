@@ -29,22 +29,23 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 	    	$scope.projects = _.map($scope.client.projects, function(project) {
 	    		return new Projects(project);
 	    	});
-	    	$scope.tasks = _.map($scope.client.tasks, function(task) {
+	    	$scope.tasks = _.extend(_.map($scope.client.tasks, function(task) {
+	    		task.dueDate = new Date(task.due_date);
 	    		return new Tasks(task);
-	    	})
+	    	}), {orderProp : 'dueDate'});
 	    });
 	    $scope.saveClient = function() {
 	    	$scope.client.$save();
 	    }
 		$scope.addProject = function() {
-			$scope.projects.push(new Projects({editing:true}));
+			$scope.projects.push($scope.inserted = new Projects({editing:true}));
 		}
 		$scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id, client: $scope.client}));
 			return project.$save();
 		}
 		$scope.addTask = function() {
-			$scope.tasks.push(new Tasks({editing:true}));
+			$scope.tasks.push($scope.inserted = new Tasks({editing:true}));
 		}
 		$scope.saveTask = function(data, id) {
 			var task = new Tasks(_.extend(data, {id: id, client: $scope.client}));
