@@ -34,8 +34,8 @@
 				<tbody>
 					<tr class="done-{{task.done}}" ng-repeat="task in tasks | filter:query | orderBy:tasks.orderProp">
 						<td><input type="checkbox" ng-click="saveTask(task, task.id)" data-ng-model="task.done"></td>
-						<td data-ng-hide="client"><a e-form="taskrow" data-e-name="client" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.company_name}}</a></td>
-						<td data-ng-hide="client"><a e-form="taskrow" data-e-name="project" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
+						<td data-ng-if="!client"><a e-form="taskrow" data-e-name="client" onshow="loadClients()" editable-select="task.client" e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{task.client.id}}">{{task.client.company_name}}</a></td>
+						<td data-ng-if="!client"><a e-form="taskrow" data-e-name="project" onshow="loadProjects()" editable-select="task.project" e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">{{task.project.name}}</a></td>
 						<td><a e-form="taskrow" data-e-name="name" editable-text="task.name" href="#/tasks/{{task.id}}">{{task.name}}</a></td>
 						<td><span e-form="taskrow" data-e-name="dueDate" editable-bsdate="task.dueDate" e-required e-datepicker-popup="dd-MMMM-yyyy">{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}</span></td>
 						<td><span e-form="taskrow" data-e-name="assignee" onshow="loadUsers()" editable-select="task.assignee" e-ng-options="user as user.first_name for user in users track by user.id">{{task.assignee.first_name}}</span></td>
