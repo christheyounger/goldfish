@@ -1,20 +1,23 @@
-Symfony Standard Edition
-========================
+Goldfish Project Management
+===========================
+_Oooh, a castle!_
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+Goldfish is a project manager that attempts to combine the features of several web technologies into a single package.
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+It isn't really inteded for use, rather as a project for me to cut my teeth on new technologies, but if you like it, great!
 
-1) Installing the Standard Edition
-----------------------------------
+1) Installing
+-------------
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+Clone the repo
 
-### Use Composer (*recommended*)
+    git clone https://github.com/darkbluesun/goldfish
+
+## Create a database
+
+Using your favourite relational database, create a database for Goldfish. You might also want to create a user with access only to this database, or not. You'll be asked for these details at the end of the next step.
+
+### Install Dependancies
 
 As Symfony uses [Composer][2] to manage its dependencies, the recommended way
 to create a new project is to use it.
@@ -24,23 +27,19 @@ http://getcomposer.org/ or just run the following command:
 
     curl -s http://getcomposer.org/installer | php
 
-Then, use the `create-project` command to generate a new Symfony application:
-
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
-
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
-
-### Download an Archive File
-
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
-
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+The following command will install all the server-side dependancies.
 
     php composer.phar install
+
+At the end of that process you'll be asked for a number of local settings, including the database you created and user credentials to access it.
+
+## Building the database
+
+Creating the (relatively few) tables that Goldfish uses is a one-step process, simply run:
+
+    app/console doctrine:schema:update --dump-sql --force
+
+This will use the credentials and database you specified to build the tables. No data will be created yet. The `--dump-sql` switch simply prints out what the script is doing. It's nice to see details.
 
 2) Checking your System Configuration
 -------------------------------------
@@ -61,110 +60,26 @@ Access the `config.php` script from a browser:
 
 If you get any warnings or recommendations, fix them before moving on.
 
-3) Browsing the Demo Application
+
+3) Install client-side libraries
 --------------------------------
 
-Congratulations! You're now ready to use Symfony.
+This project uses a lot of client-side web technologies to make interactions nicer.
 
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
+To install these libraries you will need to install [Node.js][3].
 
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
+Once installed, run the following command to install tools:
 
-To see a real-live Symfony page in action, access the following page:
+    npm install
 
-    web/app_dev.php/demo/hello/Fabien
+Once that runs successfully, you can run bower to install the libraries:
 
-4) Getting started with Symfony
--------------------------------
+    bower install
 
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
+Finally, when all that is done, run Gulp to build your assets.
 
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
-
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
-
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
-
-  * delete the `src/Acme` directory;
-
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
-
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * empty the `security.yml` file or tweak the security configuration to fit
-    your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
+    gulp
 
 [1]:  http://symfony.com/doc/2.5/book/installation.html
 [2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.5/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.5/index.html
-[6]:  http://symfony.com/doc/2.5/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.5/book/doctrine.html
-[8]:  http://symfony.com/doc/2.5/book/templating.html
-[9]:  http://symfony.com/doc/2.5/book/security.html
-[10]: http://symfony.com/doc/2.5/cookbook/email.html
-[11]: http://symfony.com/doc/2.5/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.5/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.5/bundles/SensioGeneratorBundle/index.html
+[3]:  http://nodejs.org/
