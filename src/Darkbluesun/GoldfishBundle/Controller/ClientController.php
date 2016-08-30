@@ -5,11 +5,9 @@ namespace Darkbluesun\GoldfishBundle\Controller;
 use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Darkbluesun\GoldfishBundle\Entity\Workspace;
 use Darkbluesun\GoldfishBundle\Entity\Client;
 use Darkbluesun\GoldfishBundle\Entity\ClientComment;
@@ -26,9 +24,8 @@ class ClientController extends Controller
      *
      * @Route("/", name="clients")
      * @Method("GET")
-     * @Template()
      */
-    public function indexAction()
+    public function getcAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $workspace = $user->getWorkspace();
@@ -65,7 +62,6 @@ class ClientController extends Controller
      *
      * @Route("", name="clients_create")
      * @Method("POST")
-     * @Template("DarkbluesunGoldfishBundle:Client:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -80,11 +76,10 @@ class ClientController extends Controller
     }
 
     /**
-     * Edits an existing Client entity.
+     * Updates an existing Client entity.
      *
      * @Route("/{id}", name="clients_update")
      * @Method("POST")
-     * @Template("DarkbluesunGoldfishBundle:Client:edit.html.twig")
      */
     public function updateAction(Request $request, Client $client)
     {

@@ -9,13 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Darkbluesun\GoldfishBundle\Entity\Client;
-use Darkbluesun\GoldfishBundle\Entity\Project;
 use Darkbluesun\GoldfishBundle\Entity\Task;
-use Darkbluesun\GoldfishBundle\Entity\User;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
-use Darkbluesun\GoldfishBundle\Form\TaskType;
 
 /**
  * Task controller.
@@ -30,7 +25,7 @@ class TaskController extends Controller
      * @Route("/", name="tasks_list")
      * @Method("GET")
      */
-    public function listAction()    
+    public function getcAction()
     {
         return new Response(
             $this->get('serializer')->serialize(
@@ -60,7 +55,7 @@ class TaskController extends Controller
      * @Route("", name="tasks_create")
      * @Method("POST")
      */
-    public function createAction(Request $request)
+    public function postAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $task = $this->get('serializer')->deserialize($request->getContent(), Task::class, 'json');
@@ -73,7 +68,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Edits an existing Task.
+     * Updates an existing Task.
      *
      * @Route("/{id}", name="tasks_update")
      * @Method("POST")
@@ -96,7 +91,7 @@ class TaskController extends Controller
      * @Route("/{id}", name="tasks_delete")
      * @Method("DELETE")
      */
-    public function destroyAction(Request $request, Task $task)
+    public function deleteAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
@@ -110,7 +105,7 @@ class TaskController extends Controller
      * @Route("/{id}/comments", name="task_comment_list")
      * @Method("GET")
      */
-    public function commentsAction(Task $task)
+    public function getCommentsAction(Task $task)
     {
         return new Response(
             $this->get('serializer')->serialize(
@@ -125,7 +120,7 @@ class TaskController extends Controller
      * @Route("/{id}/timesheet/", name="task_timesheet")
      * @Method("GET")
      */
-    public function timesheetAction(Task $task) {
+    public function getTimesheetAction(Task $task) {
         return new Response(
             $this->get('serializer')->serialize(
                 $task->getTimeEntries(), 'json',
@@ -139,7 +134,7 @@ class TaskController extends Controller
      * @Route("/{id}/addtime", name="task_add_time")
      * @Method("POST")
      */
-    public function addTimeAction(Request $request, Task $task) {
+    public function postTimeAction(Request $request, Task $task) {
         $em = $this->getDoctrine()->getManager();
         $entry = $this->get('serializer')->deserialize($request->getContent(), TimeEntry::class, 'json');
         $entry->setTask($task);

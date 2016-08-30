@@ -9,11 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Darkbluesun\GoldfishBundle\Entity\Client;
 use Darkbluesun\GoldfishBundle\Entity\Project;
-use Darkbluesun\GoldfishBundle\Entity\Task;
-use Darkbluesun\GoldfishBundle\Form\ProjectType;
 
 /**
  * Project controller.
@@ -29,7 +25,7 @@ class ProjectController extends Controller
      * @Route("/", name="project")
      * @Method("GET")
      */
-    public function indexAction()
+    public function getcAction()
     {
         return new Response(
             $this->get('serializer')->serialize(
@@ -55,7 +51,7 @@ class ProjectController extends Controller
      * @Route("", name="project_create")
      * @Method("POST")
      */
-    public function createAction(Request $request)
+    public function postAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
@@ -67,7 +63,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Edits an existing Project entity.
+     * Updates an existing Project entity.
      *
      * @Route("/{id}", name="project_update")
      * @Method("POST")
@@ -89,7 +85,7 @@ class ProjectController extends Controller
      * @Route("/{id}", name="project_delete")
      * @Method("DELETE")
      */
-    public function destroyAction(Request $request, Project $project)
+    public function deleteAction(Request $request, Project $project)
     {
         $this->requireWorkspace($project);
         $em->remove($project);
