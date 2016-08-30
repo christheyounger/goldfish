@@ -1,56 +1,58 @@
-<table class="table table-striped">
-				<thead>
-					<tr data-ng-hide="client">
-						<td colspan="10">
-							<div class="row">
-								<div class="col-md-6">
-									<label for="query">Search:&nbsp;</label><input type="text" ng-model="query" id="query">
-								</div>
-								<div class='col-md-6' style="text-align:right;">
-									<label for="orderProp">Order:&nbsp;</label>
-									<select ng-model="orderProp" id="orderProp">
-										<option value="client.name">Client</option>
-										<option value="name">Project</option>
-										<option value="due.timestamp">Due</option>
-										<option value="budget">Budget</option>
-									</select>
-								</div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<th data-ng-hide="client">Client</th>
-						<th>Project</th>
-						<th>Due</th>
-						<th>Budget</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="done-{{project.done}}" ng-repeat="project in projects | filter:query | orderBy:orderProp">
-						<td data-ng-hide="client"><a href="#/clients/{{project.client.id}}" e-form="projectrow" data-e-name="client" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id">{{project.client.company_name}}</a></td>
-						<td><a e-form="projectrow" data-e-name="name" editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a></td>
-						<td><span e-form="projectrow" data-e-name="dueDate" editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}</span></td>
-						<td><a e-form="projectrow" data-e-name="budget" editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a></td>
-						<td style="white-space: nowrap">
-							<div class="btn-group" role="group">
-					        <!-- form -->
-					        <form editable-form name="projectrow" data-onaftersave="saveProject($data, project.id)" ng-show="projectrow.$visible" class="form-buttons form-inline" shown="inserted == project">
-					          <button type="submit" ng-disabled="projectrow.$waiting" class="btn btn-primary">
-					            <i class="fa fa-save"></i>
-					          </button>
-					          <button type="button" ng-disabled="projectrow.$waiting" ng-click="projectrow.$cancel()" class="btn btn-default">
-					            <i class="fa fa-close"></i>
-					          </button>
-					        </form>
-								<button ng-show="!projectrow.$visible" class="btn btn-sm btn-default" data-ng-click="projectrow.$show()"><i class="fa fa-edit"> </i></button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<td><a data-ng-click="addProject()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
-					</tr>
-				</tfoot>
-			</table>
+<table class="table table-striped" data-st-table="projectsTable" data-st-safe-src="projects">
+	<thead>
+		<tr>
+			<th st-sort="client" data-ng-hide="client">Client</th>
+			<th st-sort="name">Project</th>
+			<th st-sort="due">Due</th>
+			<th st-sort="budget">Budget</th>
+			<th></th>
+		</tr>
+		<tr>
+			<th>
+				<select st-search="client.id" class="form-control">
+					<option value>All</option>
+					<option ng-repeat="client in clients" value="{{client.id}}">{{ client.company_name }}</option>
+				</select>
+			</th>
+			<th><input st-search="name" class="form-control" placeholder="search ..." type="text"/></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="done-{{project.done}}" ng-repeat="project in projectsTable">
+			<td data-ng-hide="client"><a href="#/clients/{{project.client.id}}" e-form="projectrow" data-e-name="client" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id">{{project.client.company_name}}</a></td>
+			<td><a e-form="projectrow" data-e-name="name" editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a></td>
+			<td><span e-form="projectrow" data-e-name="dueDate" editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}</span></td>
+			<td><a e-form="projectrow" data-e-name="budget" editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a></td>
+			<td style="white-space: nowrap">
+				<div class="btn-group" role="group">
+				<!-- form -->
+				<form editable-form name="projectrow" data-onaftersave="saveProject($data, project.id)" ng-show="projectrow.$visible" class="form-buttons form-inline" shown="inserted == project">
+				  <button type="submit" ng-disabled="projectrow.$waiting" class="btn btn-primary">
+					<i class="fa fa-save"></i>
+				  </button>
+				  <button type="button" ng-disabled="projectrow.$waiting" ng-click="projectrow.$cancel()" class="btn btn-default">
+					<i class="fa fa-close"></i>
+				  </button>
+				</form>
+					<button ng-show="!projectrow.$visible" class="btn btn-sm btn-default" data-ng-click="projectrow.$show()"><i class="fa fa-edit"> </i></button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr ng-show="projects.length > 10">
+			<td colspan="3" class="text-center">
+				<div st-pagination="" data-st-items-by-page="itemsByPage" data-st-displayed-pages="7"></div>
+			</td>
+			<td colspan="2" class="text-center">
+				<label><input type="radio" data-ng-model="itemsByPage" value="10"> 10</label>
+				<label><input type="radio" data-ng-model="itemsByPage" value="25"> 25</label>
+				<label><input type="radio" data-ng-model="itemsByPage" value="50"> 50</label>
+			</td>
+		</tr>
+		<tr>
+			<td><a data-ng-click="addProject()" class="btn btn-sm btn-primary"><i class="fa fa-plus"> </i> New</a></td>
+		</tr>
+	</tfoot>
+</table>
