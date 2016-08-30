@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,6 +12,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Darkbluesun\GoldfishBundle\Entity\Task;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
+use Darkbluesun\GoldfishBundle\Form\TaskType;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 /**
  * Task controller.
@@ -36,7 +41,7 @@ class TaskController extends Controller
 
     /**
      * Gets a Task.
-     *
+     * @Security("is_granted('view', task)")
      * @Route("/{id}", name="tasks_get")
      * @Method("GET")
      */
@@ -64,12 +69,17 @@ class TaskController extends Controller
         $task = $em->merge($task);
         $em->flush();
 
+        $aclProvider = $this->get('security.acl.provider');
+        $acl = $aclProvider->createAcl(ObjectIdentity::fromDomainObject($task));
+        $acl->insertObjectAce(UserSecurityIdentity::fromAccount($this->getUser()), MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+
         return $this->getAction($task);
     }
 
     /**
      * Updates an existing Task.
-     *
+     * @Security("is_granted('EDIT', task)")
      * @Route("/{id}", name="tasks_update")
      * @Method("POST")
      */
@@ -87,7 +97,7 @@ class TaskController extends Controller
 
     /**
      * Deletes a Task.
-     *
+     * @Security("is_granted('DELETE', task)")
      * @Route("/{id}", name="tasks_delete")
      * @Method("DELETE")
      */
@@ -101,7 +111,7 @@ class TaskController extends Controller
 
     /**
      * Lists all Comments belonging to this thing.
-     *
+     * @Security("is_granted('VIEW', task)")
      * @Route("/{id}/comments", name="task_comment_list")
      * @Method("GET")
      */
@@ -116,7 +126,7 @@ class TaskController extends Controller
 
     /**
      * List all time entries
-     *
+     * @Security("is_granted('VIEW', task)")
      * @Route("/{id}/timesheet/", name="task_timesheet")
      * @Method("GET")
      */
@@ -130,7 +140,7 @@ class TaskController extends Controller
 
     /**
      * Time add
-     *
+     * @Security("is_granted('EDIT', task)")
      * @Route("/{id}/addtime", name="task_add_time")
      * @Method("POST")
      */

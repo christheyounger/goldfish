@@ -3,6 +3,7 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -10,6 +11,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Darkbluesun\GoldfishBundle\Entity\Project;
+use Darkbluesun\GoldfishBundle\Entity\Task;
+use Darkbluesun\GoldfishBundle\Form\ProjectType;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 /**
  * Project controller.
@@ -36,7 +42,7 @@ class ProjectController extends Controller
 
     /**
      * Get a Project
-     *
+     * @Security("is_granted('VIEW', project)")
      * @Route("/{id}", name="project_get")
      * @Method("GET")
      */
@@ -59,12 +65,18 @@ class ProjectController extends Controller
         $project = $em->merge($project);
         $project->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
         $em->flush();
+
+        $aclProvider = $this->get('security.acl.provider');
+        $acl = $aclProvider->createAcl(ObjectIdentity::fromDomainObject($project));
+        $acl->insertObjectAce(UserSecurityIdentity::fromAccount($this->getUser()), MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+
         return $this->getAction($project);
     }
 
     /**
      * Updates an existing Project entity.
-     *
+     * @Security("is_granted('EDIT', project)")
      * @Route("/{id}", name="project_update")
      * @Method("POST")
      */
@@ -81,7 +93,7 @@ class ProjectController extends Controller
 
     /**
      * Deletes a Project.
-     *
+     * @Security("is_granted('DELETE', project)")
      * @Route("/{id}", name="project_delete")
      * @Method("DELETE")
      */
