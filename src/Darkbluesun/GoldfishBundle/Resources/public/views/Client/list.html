@@ -32,7 +32,7 @@
 						<td style="white-space: nowrap">
 						<div class="btn-group" role="group">
 				        <!-- form -->
-				        <form editable-form name="rowform" data-onbeforesave="saveClient(client)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
+				        <form editable-form name="rowform" data-onaftersave="saveClient(client)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
 				          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
 				            <i class="fa fa-save"></i>
 				          </button>

@@ -42,7 +42,7 @@
 						<td style="white-space: nowrap">
 							<div class="btn-group" role="group">
 					        <!-- form -->
-					        <form editable-form name="taskrow" onbeforesave="saveTask($data, task.id)" ng-show="taskrow.$visible" class="form-buttons form-inline" shown="inserted == task">
+					        <form editable-form name="taskrow" data-onaftersave="saveTask($data, task.id)" ng-show="taskrow.$visible" class="form-buttons form-inline" shown="inserted == task">
 					          <button type="submit" ng-disabled="taskrow.$waiting" class="btn btn-primary">
 					            <i class="fa fa-save"></i>
 					          </button>
