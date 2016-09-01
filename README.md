@@ -6,6 +6,23 @@ Goldfish is a project manager that attempts to combine the features of several w
 
 It isn't really inteded for use, rather as a project for me to cut my teeth on new technologies, but if you like it, great!
 
+In addition to Symfony 2, Goldfish uses:
+* JMS Serializer
+* Mailgun
+* FOS Userbundle
+* Symfony ACL
+* Bower
+* Gulp (combine, minify)
+* Angular (inc Route, Resource)
+* Bootstrap
+* Font-awesome
+* Angular x-editable
+* jQuery & jQuery UI
+* Angular-UI-Bootstrap
+* Lodash
+* Moment.js
+* Smart Tables
+
 1) Installing
 -------------
 
