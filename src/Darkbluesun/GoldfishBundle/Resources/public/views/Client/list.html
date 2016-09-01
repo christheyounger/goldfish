@@ -19,30 +19,31 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="done-{{project.done}}" ng-repeat="client in clientsTable">
-						<td><a data-e-required editable-text="client.company_name" e-form="rowform" href="#/clients/{{client.id}}">{{client.company_name}}</a></td>
-						<td><span data-e-required editable-text="client.contact_name" e-form="rowform" e-name="contact_name">{{client.contact_name}}</span></td>
-						<td><a data-e-required editable-text="client.phone" e-form="rowform" href="tel:{{client.phone}}">{{client.phone}}</a></td>
-						<td><a data-e-required editable-email="client.email" e-form="rowform" href="mailto:{{client.email}}">{{client.email}}</a></td>
-						<td><span editable-textarea="client.address" e-form="rowform">{{client.address}}</span></td>
+					<tr class="done-{{project.done}}" data-ng-repeat="client in clientsTable">
+						<td><a data-e-required data-editable-text="client.company_name" data-e-form="rowform" href="#/clients/{{client.id}}">{{client.company_name}}</a></td>
+						<td><span data-e-required data-editable-text="client.contact_name" data-e-form="rowform" data-e-name="contact_name">{{client.contact_name}}</span></td>
+						<td><a data-e-required data-editable-text="client.phone" data-e-form="rowform" href="tel:{{client.phone}}">{{client.phone}}</a></td>
+						<td><a data-e-required data-editable-email="client.email" data-e-form="rowform" href="mailto:{{client.email}}">{{client.email}}</a></td>
+						<td><span data-editable-textarea="client.address" data-e-form="rowform">{{client.address}}</span></td>
 						<td style="white-space: nowrap">
 						<div class="btn-group" role="group">
 				        <!-- form -->
-				        <form editable-form name="rowform" data-onaftersave="saveClient(client)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == client">
-				          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+				        <form data-editable-form name="rowform" data-onaftersave="saveClient(client)" data-ng-show="rowform.$visible"
+							  class="form-buttons form-inline" data-shown="inserted == client">
+				          <button type="submit" data-ng-disabled="rowform.$waiting" class="btn btn-primary">
 				            <i class="fa fa-save"></i>
 				          </button>
-				          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+				          <button type="button" data-ng-disabled="rowform.$waiting" data-ng-click="rowform.$cancel()" class="btn btn-default">
 				            <i class="fa fa-close"></i>
 				          </button>
 				        </form>
-							<button ng-show="!rowform.$visible" class="btn btn-sm btn-default" data-ng-click="rowform.$show()"><i class="fa fa-edit"> </i></button>
+							<button data-ng-show="!rowform.$visible" class="btn btn-sm btn-default" data-ng-click="rowform.$show()"><i class="fa fa-edit"> </i></button>
 							</div>
 						</td>
 					</tr>
 				</tbody>
 				<tfoot>
-					<tr ng-show="clients.length > 10">
+					<tr data-ng-show="clients.length > 10">
 						<td colspan="3" class="text-center">
 							<div st-pagination="" data-st-items-by-page="itemsByPage" data-st-displayed-pages="7"></div>
 						</td>

@@ -11,7 +11,7 @@
 			<th>
 				<select st-search="client.id" class="form-control">
 					<option value>All</option>
-					<option ng-repeat="client in clients" value="{{client.id}}">{{ client.company_name }}</option>
+					<option data-ng-repeat="client in clients" value="{{client.id}}">{{ client.company_name }}</option>
 				</select>
 			</th>
 			<th><input st-search="name" class="form-control" placeholder="search ..." type="text"/></th>
@@ -19,29 +19,43 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr class="done-{{project.done}}" ng-repeat="project in projectsTable">
-			<td data-ng-hide="client"><a href="#/clients/{{project.client.id}}" e-form="projectrow" data-e-name="client" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id">{{project.client.company_name}}</a></td>
-			<td><a e-form="projectrow" data-e-name="name" editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a></td>
-			<td><span e-form="projectrow" data-e-name="dueDate" editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}</span></td>
-			<td><a e-form="projectrow" data-e-name="budget" editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a></td>
+		<tr class="done-{{project.done}}" data-ng-repeat="project in projectsTable">
+			<td data-ng-hide="client">
+				<a href="#/clients/{{project.client.id}}" data-e-form="projectrow" data-e-name="client" data-editable-select="project.client"
+				   data-e-ng-options="client as client.company_name for client in clients track by client.id">
+					{{project.client.company_name}}
+				</a>
+			</td>
+			<td>
+				<a data-e-form="projectrow" data-e-name="name" data-editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a>
+			</td>
+			<td>
+				<span data-e-form="projectrow" data-e-name="dueDate" data-editable-bsdate="project.dueDate" data-e-datepicker-popup="dd-MMMM-yyyy">
+					{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}
+				</span>
+			</td>
+			<td>
+				<a data-e-form="projectrow" data-e-name="budget" data-editable-number="project.budget" href="mailto:{{client.email}}">${{project.budget}}</a>
+			</td>
 			<td style="white-space: nowrap">
 				<div class="btn-group" role="group">
 				<!-- form -->
-				<form editable-form name="projectrow" data-onaftersave="saveProject($data, project.id)" ng-show="projectrow.$visible" class="form-buttons form-inline" shown="inserted == project">
-				  <button type="submit" ng-disabled="projectrow.$waiting" class="btn btn-primary">
+				<form data-editable-form name="projectrow" data-onaftersave="saveProject($data, project.id)" data-ng-show="projectrow.$visible"
+					  class="form-buttons form-inline" data-shown="inserted == project">
+				  <button type="submit" data-ng-disabled="projectrow.$waiting" class="btn btn-primary">
 					<i class="fa fa-save"></i>
 				  </button>
-				  <button type="button" ng-disabled="projectrow.$waiting" ng-click="projectrow.$cancel()" class="btn btn-default">
+				  <button type="button" data-ng-disabled="projectrow.$waiting" data-ng-click="projectrow.$cancel()" class="btn btn-default">
 					<i class="fa fa-close"></i>
 				  </button>
 				</form>
-					<button ng-show="!projectrow.$visible" class="btn btn-sm btn-default" data-ng-click="projectrow.$show()"><i class="fa fa-edit"> </i></button>
+					<button data-ng-show="!projectrow.$visible" class="btn btn-sm btn-default" data-ng-click="projectrow.$show()"><i class="fa fa-edit"> </i></button>
 				</div>
 			</td>
 		</tr>
 	</tbody>
 	<tfoot>
-		<tr ng-show="projects.length > 10">
+		<tr data-ng-show="projects.length > 10">
 			<td colspan="3" class="text-center">
 				<div st-pagination="" data-st-items-by-page="itemsByPage" data-st-displayed-pages="7"></div>
 			</td>
