@@ -38,14 +38,14 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 	    	$scope.client.$save();
 	    }
 		$scope.addProject = function() {
-			$scope.projects.push($scope.inserted = new Projects({editing:true}));
+			$scope.projects.push($scope.inserted = new Projects());
 		}
 		$scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id, client: $scope.client}));
 			return project.$save();
 		}
 		$scope.addTask = function() {
-			$scope.tasks.push($scope.inserted = new Tasks({editing:true}));
+			$scope.tasks.push($scope.inserted = new Tasks());
 		}
 		$scope.saveTask = function(data, id) {
 			var task = new Tasks(_.extend(data, {id: id, client: $scope.client}));
@@ -73,7 +73,7 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 			return project.$save();
 		}
 		$scope.addProject = function() {
-			$scope.projects.push(new Projects({editing:true}));
+			$scope.projects.push($scope.inserted = new Projects());
 		}
 	}]);
 
@@ -114,7 +114,7 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 			return task.$save();
 		}
 		$scope.addTask = function() {
-			$scope.tasks.push(new Tasks({editing:true}));
+			$scope.tasks.push($scope.inserted = new Tasks());
 		}
 	}]);
 
