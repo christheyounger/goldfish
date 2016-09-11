@@ -12,15 +12,17 @@ goldfishControllers.controller('HomeCtrl', ['$scope','Tasks',
 goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 	function($scope,Clients) {
 		$scope.clients = Clients.query();
-		$scope.orderProp = 'companyName';
 		$scope.saveClient = function(client) {
-
+			if (!client.company_name) return "Please enter a name";
 			return client.$save();
-		}
+		};
+		$scope.close = function(client, form) {
+			if (!client.id) _.remove($scope.clients, client);
+			return form.$cancel();
+		};
 		$scope.addClient = function() {
-			$scope.inserted = new Clients();
-			$scope.clients.push($scope.inserted);
-		}
+			$scope.clients.push($scope.inserted = new Clients());
+		};
 	}]);
 
 goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Clients', 'Projects', 'Tasks', 'Users',
@@ -72,6 +74,10 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 			if (!project.budget) return "Please specify a budget";
 			if (!project.name) return "Please enter a name for the project";
 			return project.$save();
+		}
+		$scope.closeProject = function(project, form) {
+			form.$cancel();
+			if (!project.id) _.remove($scope.projects, project);
 		}
 		$scope.addProject = function() {
 			$scope.projects.push($scope.inserted = new Projects());
