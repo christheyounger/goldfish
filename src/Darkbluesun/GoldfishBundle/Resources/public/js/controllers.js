@@ -69,6 +69,8 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 		});
 		$scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id}));
+			if (!project.budget) return "Please specify a budget";
+			if (!project.name) return "Please enter a name for the project";
 			return project.$save();
 		}
 		$scope.addProject = function() {
@@ -81,6 +83,8 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Proj
 	    $scope.project = Projects.get({id:$routeParams.projectID});
 	    $scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id}));
+			if (!project.budget) return "Please specify a budget";
+			if (!project.name) return "Please enter a name for the project";
 			return project.$save();
 	    }
 		$scope.loadClients = function() {
