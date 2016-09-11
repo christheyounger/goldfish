@@ -2,15 +2,16 @@
 	<thead>
 		<tr>
 			<th st-sort="done">Status</th>
+			<th st-sort="name">Task</th>
 			<th st-sort="client.company_name" data-ng-hide="client">Client</th>
 			<th st-sort="project.name" data-ng-hide="client">Project</th>
-			<th st-sort="name">Task</th>
 			<th st-sort="due">Due</th>
 			<th st-sort="assignee.first_name">Assignee</th>
 			<th></th>
 		</tr>
 		<tr>
 			<th></th>
+			<th><input st-search="name" class="form-control" placeholder="search ..." type="text"/></th>
 			<th>
 				<select st-search="client.id" class="form-control">
 					<option value>All</option>
@@ -23,7 +24,6 @@
 					<option data-ng-repeat="project in projects" value="{{project.id}}">{{ project.name }}</option>
 				</select>
 			</th>
-			<th><input st-search="name" class="form-control" placeholder="search ..." type="text"/></th>
 			<th></th>
 			<th>
 				<select st-search="assignee.id" class="form-control">
@@ -36,48 +36,33 @@
 	<tbody>
 		<tr class="done-{{task.done}}" data-ng-repeat="task in tasksTable">
 			<td><input type="checkbox" data-ng-click="saveTask(task, task.id)" data-ng-model="task.done"></td>
-			<td data-ng-if="!client">
-				<a data-e-form="taskrow" data-e-name="client" onshow="loadClients()" data-editable-select="task.client"
-				   data-e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{task.client.id}}">
-					{{task.client.company_name}}
+			<td>
+				<a data-editable-text="task.name" data-onaftersave="saveTask(task)" href="#/tasks/{{task.id}}" data-e-required="required" data-shown="inserted === task">
+					{{task.name || 'Task name'}}
 				</a>
 			</td>
 			<td data-ng-if="!client">
-				<a data-e-form="taskrow" data-e-name="project" onshow="loadProjects()" data-editable-select="task.project"
-				   data-e-ng-options="project as project.name for project in projects track by project.id" href="#/projects/{{task.project.id}}">
-					{{task.project.name}}
+				<a data-editable-select="task.client" buttons="no" onshow="loadClients()" data-onaftersave="saveTask(task)"
+				   data-e-ng-options="client as client.company_name for client in clients track by client.id">
+					{{task.client.company_name || 'Client'}}
+				</a>
+			</td>
+			<td data-ng-if="!client">
+				<a data-editable-select="task.project" data-onaftersave="saveTask(task)" onshow="loadProjects()" buttons="no"
+				   data-e-ng-options="project as project.name for project in projects track by project.id">
+					{{task.project.name || 'project'}}
 				</a>
 			</td>
 			<td>
-				<a data-e-form="taskrow" data-e-name="name" data-editable-text="task.name" href="#/tasks/{{task.id}}">
-					{{task.name}}
-				</a>
-			</td>
-			<td>
-				<span data-e-form="taskrow" data-e-name="dueDate" data-editable-date="task.dueDate" data-e-required>
-					{{ (task.dueDate | date:"dd/MM/yyyy") || 'empty' }}
+				<span data-editable-date="task.dueDate" data-onaftersave="saveTask(task)">
+					{{ (task.dueDate | date:"dd/MM/yyyy") || 'date' }}
 				</span>
 			</td>
 			<td>
-				<span data-e-form="taskrow" data-e-name="assignee" onshow="loadUsers()" data-editable-select="task.assignee"
+				<span data-editable-select="task.assignee" data-onaftersave="saveTask(task)" onshow="loadUsers()" buttons="no"
 					  data-e-ng-options="user as user.first_name for user in users track by user.id">
-					{{task.assignee.first_name}}
+					{{task.assignee.first_name || 'user'}}
 				</span>
-			</td>
-			<td style="white-space: nowrap">
-				<div class="btn-group" role="group">
-				<!-- form -->
-				<form data-editable-form name="taskrow" data-onaftersave="saveTask($data, task.id)" data-ng-show="taskrow.$visible"
-					  class="form-buttons form-inline" data-shown="inserted == task">
-				  <button type="submit" data-ng-disabled="taskrow.$waiting" class="btn btn-primary">
-					<i class="fa fa-save"></i>
-				  </button>
-				  <button type="button" data-ng-disabled="taskrow.$waiting" data-ng-click="taskrow.$cancel()" class="btn btn-default">
-					<i class="fa fa-close"></i>
-				  </button>
-				</form>
-					<button data-ng-show="!taskrow.$visible" class="btn btn-sm btn-default" data-ng-click="taskrow.$show()"><i class="fa fa-edit"> </i></button>
-				</div>
 			</td>
 		</tr>
 	</tbody>

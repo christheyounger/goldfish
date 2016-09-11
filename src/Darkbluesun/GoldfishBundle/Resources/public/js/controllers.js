@@ -109,8 +109,8 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 			$scope.users = Users.query();
 		}
 		$scope.orderProp = 'done';
-		$scope.saveTask = function(data, id) {
-			var task = new Tasks(_.extend(data, {id: id}));
+		$scope.saveTask = function(task) {
+			if (!task.name) return "task needs a name first";
 			return task.$save();
 		}
 		$scope.addTask = function() {
