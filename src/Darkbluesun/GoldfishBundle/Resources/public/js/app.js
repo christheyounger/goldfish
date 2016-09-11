@@ -4,6 +4,7 @@ var goldfishApp = angular.module('goldfishApp', [
   'goldfishControllers',
   'ngResource',
   'xeditable',
+  'smart-table',
   'ui.bootstrap'
 ]);
 

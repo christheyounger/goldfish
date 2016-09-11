@@ -3,16 +3,18 @@
 namespace Darkbluesun\GoldfishBundle\Controller;
 
 use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Darkbluesun\GoldfishBundle\Entity\Workspace;
 use Darkbluesun\GoldfishBundle\Entity\Client;
 use Darkbluesun\GoldfishBundle\Entity\ClientComment;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
+use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
+use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
 /**
  * Client controller.
@@ -26,9 +28,8 @@ class ClientController extends Controller
      *
      * @Route("/", name="clients")
      * @Method("GET")
-     * @Template()
      */
-    public function indexAction()
+    public function getcAction()
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $workspace = $user->getWorkspace();
@@ -52,7 +53,7 @@ class ClientController extends Controller
 
     /**
      * Gets an existing Client entity.
-     *
+     * @Security("is_granted('VIEW', client)")
      * @Route("/{id}", name="clients_get")
      * @Method("GET")
      */
@@ -65,7 +66,6 @@ class ClientController extends Controller
      *
      * @Route("", name="clients_create")
      * @Method("POST")
-     * @Template("DarkbluesunGoldfishBundle:Client:new.html.twig")
      */
     public function createAction(Request $request)
     {
@@ -76,15 +76,20 @@ class ClientController extends Controller
         $client->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
         $em->persist($client);
         $em->flush();
+
+        $aclProvider = $this->get('security.acl.provider');
+        $acl = $aclProvider->createAcl(ObjectIdentity::fromDomainObject($client));
+        $acl->insertObjectAce(UserSecurityIdentity::fromAccount($this->getUser()), MaskBuilder::MASK_OWNER);
+        $aclProvider->updateAcl($acl);
+
         return $this->getAction($client);
     }
 
     /**
-     * Edits an existing Client entity.
-     *
+     * Updates an existing Client entity.
+     * @Security("is_granted('EDIT', client)")
      * @Route("/{id}", name="clients_update")
      * @Method("POST")
-     * @Template("DarkbluesunGoldfishBundle:Client:edit.html.twig")
      */
     public function updateAction(Request $request, Client $client)
     {
@@ -118,7 +123,7 @@ class ClientController extends Controller
 
     /**
      * Deletes a Client entity.
-     *
+     * @Security("is_granted('DELETE', client)")
      * @Route("/{id}", name="clients_delete")
      * @Method("DELETE")
      */

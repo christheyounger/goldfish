@@ -39,6 +39,8 @@ security:
             #    realm: "Secured Demo Area"
             remember_me:
                 key: %secret%
+    acl:
+        connection: default
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
