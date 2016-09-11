@@ -28,7 +28,7 @@
 			<th>
 				<select st-search="assignee.id" class="form-control">
 					<option value>All</option>
-					<option data-ng-repeat="user in users" value="{{user.id}}">{{ user.name }}</option>
+					<option data-ng-repeat="user in users" value="{{user.id}}">{{ user.first_name }}</option>
 				</select>
 			</th>
 		</tr>
@@ -44,7 +44,7 @@
 			<td data-ng-if="!client">
 				<a data-editable-select="task.client" buttons="no" onshow="loadClients()" data-onaftersave="saveTask(task)"
 				   data-e-ng-options="client as client.company_name for client in clients track by client.id">
-					{{task.client.company_name || 'Client'}}
+					{{task.client.company_name || 'client'}}
 				</a>
 			</td>
 			<td data-ng-if="!client">

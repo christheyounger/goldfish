@@ -65,9 +65,8 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 			$scope.projects = _.map(result, function(project) {
 				project.dueDate = new Date(project.due_date); return project;
 			});
+			$scope.clients = _.uniq(_.pluck(result, 'client'));
 		});
-		$scope.clients = Clients.query();
-		$scope.orderProp = 'done';
 		$scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id}));
 			return project.$save();
@@ -98,6 +97,9 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 			$scope.tasks = _.map(result, function(task) {
 				task.dueDate = new Date(task.due_date); return task;
 			});
+			$scope.projects = _.uniq(_.pluck(result, 'project'));
+			$scope.clients = _.uniq(_.pluck(result, 'client'));
+			$scope.users = _.uniq(_.pluck(result, 'assignee'));
 		});
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
@@ -108,7 +110,6 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 		$scope.loadUsers = function() {
 			$scope.users = Users.query();
 		}
-		$scope.orderProp = 'done';
 		$scope.saveTask = function(task) {
 			if (!task.name) return "task needs a name first";
 			return task.$save();
