@@ -1,35 +1,23 @@
 <?php
 
-namespace Darkbluesun\GoldfishBundle\Controller;
+namespace Darkbluesun\GoldfishBundle\Controller\API;
 
+use FOS\RestBundle\Routing\ClassResourceInterface;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Darkbluesun\GoldfishBundle\Entity\Task;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
-/**
- * Task controller.
- *
- * @Route("/api/tasks")
- */
-class TaskController extends Controller
+class TaskController extends Controller implements ClassResourceInterface
 {
-    /**
-     * Lists all Task entities.
-     *
-     * @Route("/", name="tasks_list")
-     * @Method("GET")
-     */
-    public function getcAction()
+    public function cgetAction()
     {
         return new Response(
             $this->get('serializer')->serialize(
@@ -39,10 +27,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Gets a Task.
      * @Security("is_granted('VIEW', task)")
-     * @Route("/{id}", name="tasks_get")
-     * @Method("GET")
      */
     public function getAction(Task $task)
     {
@@ -53,12 +38,6 @@ class TaskController extends Controller
             ));
     }
 
-    /**
-     * Creates a new Task.
-     *
-     * @Route("", name="tasks_create")
-     * @Method("POST")
-     */
     public function postAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -77,12 +56,9 @@ class TaskController extends Controller
     }
 
     /**
-     * Updates an existing Task.
      * @Security("is_granted('EDIT', task)")
-     * @Route("/{id}", name="tasks_update")
-     * @Method("POST")
      */
-    public function updateAction(Request $request, Task $task)
+    public function putAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
         $created = $task->getCreatedAt();
@@ -95,10 +71,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Deletes a Task.
      * @Security("is_granted('DELETE', task)")
-     * @Route("/{id}", name="tasks_delete")
-     * @Method("DELETE")
      */
     public function deleteAction(Request $request, Task $task)
     {
@@ -109,10 +82,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Lists all Comments belonging to this thing.
      * @Security("is_granted('VIEW', task)")
-     * @Route("/{id}/comments", name="task_comment_list")
-     * @Method("GET")
      */
     public function getCommentsAction(Task $task)
     {
@@ -124,10 +94,7 @@ class TaskController extends Controller
     }
 
     /**
-     * List all time entries
      * @Security("is_granted('VIEW', task)")
-     * @Route("/{id}/timesheet/", name="task_timesheet")
-     * @Method("GET")
      */
     public function getTimesheetAction(Task $task) {
         return new Response(
@@ -138,10 +105,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Time add
      * @Security("is_granted('EDIT', task)")
-     * @Route("/{id}/addtime", name="task_add_time")
-     * @Method("POST")
      */
     public function postTimeAction(Request $request, Task $task) {
         $em = $this->getDoctrine()->getManager();
