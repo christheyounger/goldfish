@@ -21,6 +21,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "jms/serializer-bundle": "^1.1",
         "cspoo/swiftmailer-mailgun-bundle": "dev-master",
+        "friendsofsymfony/rest-bundle": "^2.1",
         "friendsofsymfony/user-bundle": "~2.0@dev"
     },
     "require-dev": {
