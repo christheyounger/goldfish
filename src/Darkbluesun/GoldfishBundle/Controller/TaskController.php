@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Darkbluesun\GoldfishBundle\Entity\Task;
 use Darkbluesun\GoldfishBundle\Entity\TimeEntry;
-use Darkbluesun\GoldfishBundle\Form\TaskType;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
@@ -41,7 +40,7 @@ class TaskController extends Controller
 
     /**
      * Gets a Task.
-     * @Security("is_granted('view', task)")
+     * @Security("is_granted('VIEW', task)")
      * @Route("/{id}", name="tasks_get")
      * @Method("GET")
      */

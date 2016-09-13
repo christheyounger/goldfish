@@ -11,8 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Darkbluesun\GoldfishBundle\Entity\Project;
-use Darkbluesun\GoldfishBundle\Entity\Task;
-use Darkbluesun\GoldfishBundle\Form\ProjectType;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Security\Acl\Permission\MaskBuilder;
@@ -97,23 +95,11 @@ class ProjectController extends Controller
      * @Route("/{id}", name="project_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Project $project)
+    public function deleteAction(Project $project)
     {
-        $this->requireWorkspace($project);
+        $em = $this->getDoctrine()->getManager();
         $em->remove($project);
         $em->flush();
         return new JsonResponse(['success']);
-    }
-
-    public function requireWorkspace($project) {
-        if (!$this->checkWorkspace($project)) {
-            $this->createAccessDeniedException();
-        }
-    }
-
-    public function checkWorkspace($project) {
-        foreach ($this->getUser()->getWorkspaces() as $w) {
-            if ($w->getProjects()->contains($project)) return true;
-        }
     }
 }

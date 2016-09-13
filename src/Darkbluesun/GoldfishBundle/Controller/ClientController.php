@@ -95,7 +95,7 @@ class ClientController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $created = $client->getCreatedAt();
-        $client = $serializer->deserialize($request->getContent(), Client::class, 'json');
+        $client = $this->get('serializer')->deserialize($request->getContent(), Client::class, 'json');
         $client->setCreatedAt($created)->setUpdatedAt(new \DateTime());
         $em->merge($client);
         $em->flush();
@@ -127,10 +127,10 @@ class ClientController extends Controller
      * @Route("/{id}", name="clients_delete")
      * @Method("DELETE")
      */
-    public function destroyAction(Request $request, Client $id)
+    public function destroyAction(Request $request, Client $client)
     {
         $em = $this->getDoctrine()->getManager();
-        $em->remove($entity);
+        $em->remove($client);
         $em->flush();
         return new Response(null, Response::HTTP_OK);
     }
