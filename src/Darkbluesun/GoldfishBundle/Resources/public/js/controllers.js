@@ -5,7 +5,7 @@ goldfishControllers.controller('HomeCtrl', ['$scope','Tasks',
 		$scope.tasks = Tasks.query();
 		$scope.orderProp = 'done';
 		$scope.saveTask = function(task) {
-			return task.$save();
+			return Tasks.update(task);
 		}
 	}]);
 
@@ -14,7 +14,7 @@ goldfishControllers.controller('ClientListCtrl', ['$scope','Clients',
 		$scope.clients = Clients.query();
 		$scope.saveClient = function(client) {
 			if (!client.company_name) return "Please enter a name";
-			return client.$save();
+			return client.id ? Clients.update(client) : client.$save();
 		};
 		$scope.close = function(client, form) {
 			if (!client.id) _.remove($scope.clients, client);
@@ -37,21 +37,21 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 	    	}), {orderProp : 'dueDate'});
 	    });
 	    $scope.saveClient = function() {
-	    	$scope.client.$save();
+	    	return Clients.update($scope.client);
 	    }
 		$scope.addProject = function() {
 			$scope.projects.push($scope.inserted = new Projects());
 		}
 		$scope.saveProject = function(data, id) {
 			var project = new Projects(_.extend(data, {id: id, client: $scope.client}));
-			return project.$save();
+			return project.id ? Projects.update(project) : project.$save();
 		}
 		$scope.addTask = function() {
 			$scope.tasks.push($scope.inserted = new Tasks());
 		}
 		$scope.saveTask = function(data, id) {
 			var task = new Tasks(_.extend(data, {id: id, client: $scope.client}));
-			return task.$save();
+			return task.id ? Tasks.update(task) : task.$save();
 		}
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();
@@ -73,7 +73,7 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 			var project = new Projects(_.extend(data, {id: id}));
 			if (!project.budget) return "Please specify a budget";
 			if (!project.name) return "Please enter a name for the project";
-			return project.$save();
+			return project.id ? Projects.update(project) : project.$save();
 		}
 		$scope.closeProject = function(project, form) {
 			form.$cancel();
@@ -91,7 +91,7 @@ goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Proj
 			var project = new Projects(_.extend(data, {id: id}));
 			if (!project.budget) return "Please specify a budget";
 			if (!project.name) return "Please enter a name for the project";
-			return project.$save();
+			return Projects.update($project);
 	    }
 		$scope.loadClients = function() {
 			$scope.clients = Clients.query();
@@ -122,7 +122,7 @@ goldfishControllers.controller('TaskListCtrl', ['$scope','Tasks','Projects','Cli
 		}
 		$scope.saveTask = function(task) {
 			if (!task.name) return "task needs a name first";
-			return task.$save();
+			return task.id ? Tasks.update(task) : task.$save();
 		}
 		$scope.addTask = function() {
 			$scope.tasks.push($scope.inserted = new Tasks());
@@ -136,7 +136,7 @@ goldfishControllers.controller('TaskViewCtrl', ['$scope','$http','$routeParams',
 	    });
 		$scope.saveTask = function(data, id) {
 			var task = new Tasks(_.extend(data, {id: id}));
-			return task.$save();
+			return Tasks.update(task);
 		}
 		$scope.loadProjects = function() {	
 			$scope.projects = Projects.query();

@@ -85,6 +85,10 @@ fos_user:
         form:
             type: goldfish_user_profile
 
+fos_rest:
+    routing_loader:
+        default_format: json
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

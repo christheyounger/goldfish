@@ -29,17 +29,21 @@ account_update:
     path:     /account/edit
 
 _goldfish_clients:
-    resource: "@DarkbluesunGoldfishBundle/Controller/ClientController.php"
-    type:     annotation
+    resource: "@DarkbluesunGoldfishBundle/Controller/API/ClientController.php"
+    type:     rest
+    prefix:   /api
 
 _goldfish_projects:
-    resource: "@DarkbluesunGoldfishBundle/Controller/ProjectController.php"
-    type:     annotation
+    resource: "@DarkbluesunGoldfishBundle/Controller/API/ProjectController.php"
+    type:     rest
+    prefix:   /api
 
 _goldfish_tasks:
-    resource: "@DarkbluesunGoldfishBundle/Controller/TaskController.php"
-    type:     annotation
+    resource: "@DarkbluesunGoldfishBundle/Controller/API/TaskController.php"
+    type:     rest
+    prefix:   /api
 
 _goldfish_users:
-    resource: "@DarkbluesunGoldfishBundle/Controller/UserController.php"
-    type:     annotation
+    resource: "@DarkbluesunGoldfishBundle/Controller/API/UserController.php"
+    type:     rest
+    prefix:   /api

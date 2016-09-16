@@ -17,7 +17,7 @@
     "angular-smart-table": "^2.1.8"
   },
   "resolutions": {
-    "angular": "1.4.8",
+    "angular": "~1.4.6",
     "angular-route": "~1.4.6"
   }
 }
