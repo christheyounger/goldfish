@@ -2,27 +2,15 @@
 
 namespace Darkbluesun\GoldfishBundle\Controller\API;
 
-use FOS\RestBundle\Routing\ClassResourceInterface;
-use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Darkbluesun\GoldfishBundle\Entity\Project;
-use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Security\Acl\Permission\MaskBuilder;
 
-class ProjectController extends Controller implements ClassResourceInterface
+class ProjectController extends AbstractController
 {
     public function cgetAction()
     {
-        return new Response(
-            $this->get('serializer')->serialize(
-                $this->getUser()->getWorkspace()->getProjects(), 'json',
-                SerializationContext::create()->setGroups(['project_list'])
-            ));
+        return $this->restResponse($this->getUser()->getWorkspace()->getProjects(), ['project_list']);
     }
 
     /**
@@ -30,22 +18,18 @@ class ProjectController extends Controller implements ClassResourceInterface
      */
     public function getAction(Project $project)
     {
-        return new Response($this->get('serializer')->serialize($project,'json',SerializationContext::create()->setGroups(['project_details'])));
+        return $this->restResponse($project, ['project_details']);
     }
 
     public function postAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
+        $project = $this->serializer->deserialize($request->getContent(), Project::class, 'json');
         $project->setWorkspace($this->getUser()->getWorkspace());
-        $project = $em->merge($project);
+        $project = $this->em->merge($project);
         $project->setCreatedAt(new \DateTime())->setUpdatedAt(new \DateTime());
-        $em->flush();
+        $this->em->flush();
 
-        $aclProvider = $this->get('security.acl.provider');
-        $acl = $aclProvider->createAcl(ObjectIdentity::fromDomainObject($project));
-        $acl->insertObjectAce(UserSecurityIdentity::fromAccount($this->getUser()), MaskBuilder::MASK_OWNER);
-        $aclProvider->updateAcl($acl);
+        $this->newObjectPermission($project);
 
         return $this->getAction($project);
     }
@@ -55,12 +39,11 @@ class ProjectController extends Controller implements ClassResourceInterface
      */
     public function putAction(Request $request, Project $project)
     {
-        $em = $this->getDoctrine()->getManager();
         $created = $project->getCreatedAt();
-        $project = $this->get('serializer')->deserialize($request->getContent(), Project::class, 'json');
-        $project = $em->merge($project);
+        $project = $this->serializer->deserialize($request->getContent(), Project::class, 'json');
+        $project = $this->em->merge($project);
         $project->setCreatedAt($created)->setUpdatedAt(new \DateTime());
-        $em->flush();
+        $this->em->flush();
         return $this->getAction($project);
     }
 
@@ -69,9 +52,7 @@ class ProjectController extends Controller implements ClassResourceInterface
      */
     public function deleteAction(Project $project)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($project);
-        $em->flush();
-        return new JsonResponse(['success']);
+        $this->em->remove($project);
+        $this->em->flush();
     }
 }
