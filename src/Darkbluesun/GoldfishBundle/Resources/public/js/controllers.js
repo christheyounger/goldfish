@@ -87,11 +87,11 @@ goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients'
 goldfishControllers.controller('ProjectViewCtrl', ['$scope','$routeParams','Projects','Clients','Tasks','Users',
 	 function($scope, $routeParams,Projects,Clients,Tasks,Users) {
 	    $scope.project = Projects.get({id:$routeParams.projectID});
-	    $scope.saveProject = function(data, id) {
-			var project = new Projects(_.extend(data, {id: id}));
+	    $scope.saveProject = function() {
+			var project = $scope.project;
 			if (!project.budget) return "Please specify a budget";
 			if (!project.name) return "Please enter a name for the project";
-			return Projects.update($project);
+			return Projects.update(project);
 	    }
 		$scope.loadClients = function() {
 			$scope.clients = Clients.query();

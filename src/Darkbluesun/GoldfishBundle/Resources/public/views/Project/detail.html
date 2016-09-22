@@ -2,11 +2,11 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1" ng-model="project">
 			<form name="projectForm" editable-form onaftersave="saveProject()">
-			<h1 e-form="projectForm" editable-text="project.name">{{project.name}}</h1>
-			<table>
-			<tr><th>Due:</th><td><span editable-date="project.dueDate" e-form="projectForm">{{project.dueDate}}</span></td></tr>
-			<tr><th>Budget:</th><td><span editable-number="project.budget" step="0.25" e-form="projectForm">{{project.budget}}</span></td></tr>
-			<tr><th>Client:</th><td><a e-form="projectForm" onshow="loadClients()" editable-select="project.client" e-ng-options="client as client.companyName for client in clients track by client.id" href="#/clients/{{project.client.id}}">{{project.client.companyName}}</span></td></tr>
+			<h1 e-form="projectForm" editable-text="project.name" data-e-required>{{project.name}}</h1>
+			<table class="table table-striped">
+			<tr><th>Due:</th><td><span editable-date="project.due_date" e-form="projectForm">{{project.due_date | date: "dd-MMM-yy" || 'empty'}}</span></td></tr>
+			<tr><th>Budget:</th><td>$<span editable-number="project.budget" step="0.25" e-form="projectForm">{{project.budget}}</span></td></tr>
+			<tr><th>Client:</th><td><a e-form="projectForm" onshow="loadClients()" editable-select="project.client" e-ng-options="client as client.company_name for client in clients track by client.id" href="#/clients/{{project.client.id}}">{{project.client.company_name || 'none'}}</span></td></tr>
 			</table>
 			<div class="btn-group" role="group">
 			  <button type="submit" ng-show="projectForm.$visible" ng-disabled="projectForm.$waiting" class="btn btn-primary">
