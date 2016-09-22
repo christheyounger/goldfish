@@ -30,8 +30,8 @@
 				<a data-e-form="projectrow" data-e-name="name" data-editable-text="project.name" href="#/projects/{{project.id}}">{{project.name}}</a>
 			</td>
 			<td>
-				<span data-e-form="projectrow" data-e-name="dueDate" data-editable-date="project.dueDate">
-					{{project.dueDate | date: "dd-MMM-yy" || 'empty'}}
+				<span data-e-form="projectrow" data-e-name="due_date" data-editable-date="project.due_date">
+					{{project.due_date | date: "dd-MMM-yy" || 'empty'}}
 				</span>
 			</td>
 			<td>
