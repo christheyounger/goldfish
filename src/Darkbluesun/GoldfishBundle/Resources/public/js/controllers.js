@@ -64,9 +64,7 @@ goldfishControllers.controller('ClientViewCtrl', ['$scope', '$routeParams', 'Cli
 goldfishControllers.controller('ProjectListCtrl', ['$scope','Projects','Clients',
 	function($scope,Projects,Clients) {
 		Projects.query().$promise.then(function(result) {
-			$scope.projects = _.map(result, function(project) {
-				project.dueDate = new Date(project.due_date); return project;
-			});
+			$scope.projects = _.values(result);
 			$scope.clients = _.uniq(_.pluck(result, 'client'));
 		});
 		$scope.saveProject = function(data, id) {

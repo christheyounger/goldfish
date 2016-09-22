@@ -13,6 +13,14 @@ goldfishServices.factory('Projects', function($resource) {
     update: {
       method: 'PUT'
     },
+    query: {
+      transformResponse: function(data) {
+        return _.extend({}, _.map(angular.fromJson(data), function(project) {
+          project.due_date = project.due_date ? new Date(project.due_date) : null;
+          return project;
+        }));
+      }
+    },
     get: {
       transformResponse: function(data) {
         data = angular.fromJson(data);
